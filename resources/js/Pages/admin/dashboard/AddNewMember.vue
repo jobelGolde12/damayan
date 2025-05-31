@@ -1,17 +1,32 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head,Link, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, watch, defineProps } from 'vue';
 
+const props = defineProps({
+    beneficiary: {
+        type: Array,
+        default: () => []
+    }
+})
 const beneficiarytemp = useForm({
     name: '',
     relation: '',
     age: '',
-    birthDate: '',
+    birth_date: '',
 })
 const beneficiary = ref([]);
+watch(
+ () => props.beneficiary,
+ (newBene) => {
+    beneficiary.value = newBene;
+    console.log("beneficiary => " , beneficiary.value);
+    console.log("props => " , JSON.stringify(props.beneficiary));
+ },
+ {immediate: true}
+)
 const form =  useForm({
-      first_name: '',
+         first_name: '',
          last_name: '',
          address: '',
          contact_number: '',
@@ -21,19 +36,26 @@ const form =  useForm({
          age: '',
          middle_name: '',
          status: '',
-         occupation: ''
+         occupation: '',
+         address: '',
+         gender: ''
+
 })
 const submit = () => {
-
+    form.post(route('addMemberPost'), {
+        onSuccess: () => alert('Member added'),
+        onError: (err) => console.log('An error occured => ', err),
+    })
 }
  const addBeneficiaryFunc = () =>{
-    beneficiary.value.push(beneficiarytemp);
-    // beneficiarytemp.name = '';
-    // beneficiarytemp.relation = '';
-    // beneficiarytemp.relation = '';
-    // beneficiarytemp.birthDate = '';
-    beneficiarytemp.reset();
+    beneficiarytemp.post(route('addBeneficiary'));
  }
+ const deleteBeneficiary = (index, getId) => {
+    beneficiary.value.pop(index);
+    beneficiarytemp.delete(route('deleteBeneficiary', {id: getId}));
+}
+
+
 </script>
 <template>
     <Head title="Add new member" />
@@ -48,76 +70,97 @@ const submit = () => {
                             <input type="text" class="form-control" placeholder="Last name" v-model="form.last_name">
                         </div>
                         <div class="col col-6">
-                            <input type="date" class="form-control" placeholder="Birth date" v-model="form.birthDate">
+                            <label>Birth date</label>
+                            <input type="date" class="form-control" placeholder="Birth date" v-model="form.date_of_birth">
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col col-6">
-                            <input type="text" class="form-control" placeholder="First name" v-model="form.last_first">
+                            <input type="text" class="form-control" placeholder="First name" v-model="form.first_name" required>
                         </div>
                         <div class="col col-6">
-                            <input type="number" class="form-control" placeholder="Age" v-model="form.age">
+                            <label>age</label>
+                            <input type="date" class="form-control" placeholder="Age" v-model="form.age" required>
                         </div>
                     </div>
 
                      <div class="row mb-3">
                         <div class="col col-6">
-                            <input type="text" class="form-control" placeholder="Middle name" v-model="form.middle_name">
+                            <input type="text" class="form-control" placeholder="Middle name" v-model="form.middle_name" required>
                         </div>
                         <div class="col col-6">
-                            <input type="text" class="form-control" placeholder="Gender" v-model="form.gender">
+                            <input type="text" class="form-control" placeholder="Gender" v-model="form.gender" required>
                         </div>
                     </div>
 
                       <div class="row mb-3">
                         <div class="col col-6">
-                            <input type="text" class="form-control" placeholder="Status" v-model="form.status">
+                            <input type="text" class="form-control" placeholder="Status" v-model="form.status" required>
                         </div>
                         <div class="col col-6">
-                            <input type="text" class="form-control" placeholder="Purok" v-model="form.purok">
+                            <input type="number" class="form-control" placeholder="Purok" v-model="form.purok" required>
                         </div>
                     </div>
 
                      <div class="row mb-3">
                         <div class="col col-6">
-                            <input type="text" class="form-control" placeholder="Occupation" v-model="form.occupation">
+                            <input type="text" class="form-control" placeholder="Occupation" v-model="form.occupation" required>
                         </div>
                         <div class="col col-6">
-                            <input type="text" class="form-control" placeholder="Contact no." v-model="form.contact_number">
+                            <input type="number" class="form-control" placeholder="Contact no." v-model="form.contact_number" required>
                         </div>
                     </div>
 
-                    <div class="container text-center mt-5 fs-4" v-if="beneficiary.length < 1">No beneficiary added</div>
-                    <table class="table table-responsive" v-else>
+                     <div class="row mb-3">
+                        <div class="col col-6">
+                            <label >Registration date</label>
+                            <input type="date" class="form-control" placeholder="Registration date" v-model="form.registration_date" required>
+                        </div>
+                        <div class="col col-6">
+                            <input type="text" class="form-control" placeholder="Address" v-model="form.address" required>
+                        </div>
+                    </div>
+                    
+
+                    <div class="container text-center mt-5 fs-4" v-if="beneficiary !=  undefined && beneficiary.length < 1">No beneficiary added</div>
+                    <div v-else>
+                    <h5 class="text-dark fw-light pt-2">Beneficiary</h5>
+                         <table class="table table-responsive">
                         <thead class="thead">
                             <tr>
                                 <th>Name</th>
                                 <th>Relation</th>
                                 <th>Age</th>
                                 <th>Bithdate</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody class="tbody">
-                            <tr class="tr" v-for="data in beneficiary">
+                            <tr class="tr" v-for="(data, index) in beneficiary" :key="data.id">
                                 <td class="td">{{ data?.name }}</td>
                                 <td class="td">{{ data?.relation }}</td>
                                 <td class="td">{{ data?.age }}</td>
                                 <td class="td">{{ data?.birthDate }}</td>
+                                <th>
+                                    <button class="btn btn-danger" @click="deleteBeneficiary(index, data.id)">
+                                        Delete
+                                    </button>
+                                </th>
                             </tr>
                         </tbody>
                     </table>
+                    </div>
 
                     <div class="container-fluid d-flex flex-row justify-content-between align-items-center">
                         <div>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Add Beneficiary
                             </button>
                         </div>
 
                         <div class="d-flex flex-row gap-2 align-items-center">
-                            <button class="btn btn-danger">Edit</button>
                             <button class="btn btn-success">Save</button>
                         </div>
                     </div>
@@ -142,7 +185,8 @@ const submit = () => {
             <input type="text" placeholder="Name" class="form-control mb-2" v-model="beneficiarytemp.name" required>
             <input type="text" placeholder="Relation" class="form-control mb-2" v-model="beneficiarytemp.relation" required>
             <input type="number" placeholder="Age" class="form-control mb-2" v-model="beneficiarytemp.age" required>
-            <input type="date" placeholder="Bithdate" class="form-control mb-2" v-model="beneficiarytemp.birthDate" required>
+            <label>Date of birth</label>
+            <input type="date" placeholder="Bithdate" class="form-control mb-2" v-model="beneficiarytemp.birth_date" required>
 
              <div class="container d-flex justify-content-end gap-2 mt-1">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
