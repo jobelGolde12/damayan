@@ -6,7 +6,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-
+import { toggleLoginButton } from '@/piniaStore/ToggleLoginButtonDisable';
 defineProps({
     canResetPassword: {
         type: Boolean,
@@ -15,6 +15,8 @@ defineProps({
         type: String,
     },
 });
+
+const useToggleButton = toggleLoginButton();
 
 const form = useForm({
     email: '',
@@ -69,7 +71,7 @@ const submit = () => {
                 <div class="d-grid mb-3">
                     <PrimaryButton
                         class="btn btn-dark py-2"
-                        :class="{ 'disabled': form.processing }"
+                        :class="{ 'disabled': form.processing || useToggleButton.attemptError == true}"
                         :disabled="form.processing"
                     >
                         Sign in

@@ -29,7 +29,7 @@ const showingNavigationDropdown = ref(false);
           </Link>
 
         </li><li class="nav-item mb-2 ps-3">
-          <Link href="/contribution" class="nav-link text-dark d-flex align-items-center">
+          <Link :href="route('addNewMember')" class="nav-link text-dark d-flex align-items-center">
             <i class="bi bi-person-plus me-2"></i> Add New
           </Link>
         </li>

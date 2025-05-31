@@ -10,11 +10,14 @@ const toggleButton =toggleLoginButton();
 const countdown = ref(null)
 let interval = null
 let attemptsError = ref(false);
+let getMessage = ref('');
 watch(
   () => props.message,
   (newVal) => {
-    if (newVal === 'Too many login attempts.') {
+        console.log("message => " , newVal)
+    if (newVal.includes("Too many login attempts.")) {
         attemptsError.value = true;
+        getMessage.value = newVal;
       startCountdown()
     } else {
       stopCountdown()
@@ -53,11 +56,11 @@ console.log("toggle button => " , toggleButton.attemptError)
 
 <template>
   <div v-show="message">
-    <p v-if="attemptsError == true && message == 'Too many login attempts.'" class="text-sm text-red-600">
-     {{ message }} Please try again in {{ countdown }} seconds.
+    <p v-if="attemptsError == true && getMessage.includes('Too many login attempts.')" class="text-sm text-red-600">
+     Too many login attempts. Please try again in {{ countdown }} seconds.
     </p>
 
-    <p v-else-if="message !== 'Too many login attempts.'" class="text-sm text-red-600">
+    <p v-else-if="!getMessage.includes('Too many login attempts.')" class="text-sm text-red-600">
       {{ message }}
     </p>
   </div>
