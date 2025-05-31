@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\memberModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -15,6 +16,9 @@ class DashboardController extends Controller
       return Inertia::render('admin/dashboard/Home');
     }
     public function registeredMember(){
-      return Inertia::render('admin/dashboard/RegisteredMember');
+      $members = memberModel::all();
+      return Inertia::render('admin/dashboard/RegisteredMember', [
+        'members' => $members
+      ]);
     }
 }

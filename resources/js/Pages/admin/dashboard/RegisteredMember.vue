@@ -1,7 +1,14 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, defineProps } from 'vue'
 import { router } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
+
+const props = defineProps({
+  members: {
+    type: Array,
+    default: () => []
+  }
+})
 const members = ref([
   { id: 1, name: 'Juvy V. Gopeo', gender: 'Female', age: 40, contact: '09001122330', street: 1, status: true },
   { id: 2, name: 'Virgie G. Malinao', gender: 'Female', age: 40, contact: '09001122330', street: 1, status: true },
@@ -14,12 +21,21 @@ const members = ref([
   { id: 9, name: 'Lorilyn P. Gimoro', gender: 'Female', age: 40, contact: '09001122330', street: 4, status: true },
   { id: 10, name: 'Emireta Gimoro', gender: 'Female', age: 40, contact: '09001122330', street: 4, status: true },
 ])
-
+let getMembers = ref([]);
+watch(
+  () => props.members,
+  (newMember) => {
+    getMembers.value = newMember;
+  },
+  {immediate: true}
+)
 const deleteMember = (id) => {
   if (confirm('Are you sure you want to delete this member?')) {
     members.value = members.value.filter(member => member.id !== id)
   }
 }
+
+
 </script>
 
 <template>

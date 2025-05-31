@@ -54,7 +54,10 @@ const submit = () => {
     beneficiary.value.pop(index);
     beneficiarytemp.delete(route('deleteBeneficiary', {id: getId}));
 }
-
+const formatDate = (dateString) => {
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  return new Date(dateString).toLocaleDateString(undefined, options);
+};
 
 </script>
 <template>
@@ -126,7 +129,7 @@ const submit = () => {
                     <div class="container text-center mt-5 fs-4" v-if="beneficiary !=  undefined && beneficiary.length < 1">No beneficiary added</div>
                     <div v-else>
                     <h5 class="text-dark fw-light pt-2">Beneficiary</h5>
-                         <table class="table table-responsive">
+                         <table class="table table-responsive bg-light">
                         <thead class="thead">
                             <tr>
                                 <th>Name</th>
@@ -142,7 +145,7 @@ const submit = () => {
                                 <td class="td">{{ data?.name }}</td>
                                 <td class="td">{{ data?.relation }}</td>
                                 <td class="td">{{ data?.age }}</td>
-                                <td class="td">{{ data?.birthDate }}</td>
+                                <td class="td">{{ formatDate(data?.birth_date) }}</td>
                                 <th>
                                     <button class="btn btn-danger" @click="deleteBeneficiary(index, data.id)">
                                         Delete

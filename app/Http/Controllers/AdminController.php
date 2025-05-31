@@ -47,11 +47,10 @@ class AdminController extends Controller
             'occupation' => $request->occupation
         ]);
 
-        return response()->json(['message: ' => 'Member updated successfully...'], 201);
+        return Inertia::render('admin/dashboard/RegisteredMember');
     }
 
     public function addBeneficiary(Request $request){
-        // dd(['request' => $request->all()]);
         $request->validate([
             'name' => 'required|string|max:255',
             'relation' => 'required|string|max:255',
