@@ -16,47 +16,45 @@ const showingNavigationDropdown = ref(false);
       </div>
 
       <!-- Navigation -->
-      <ul class="nav flex-column">
-        <li class="nav-item mb-2">
+      <div class="nav flex-column">
+        <div class="nav-item mb-2">
           <Link href="/dashboard" class="nav-link text-dark d-flex align-items-center">
             <i class="bi bi-house-door me-2"></i> Dashboard
           </Link>
-        </li>
-        <li class="nav-item mb-2 fw-bold text-dark">MEMBERS</li>
-        <li class="nav-item mb-2 ps-3">
+        </div>
+
+        <div class="nav-item mb-2">
           <Link :href="route('members.registered')" class="nav-link text-dark d-flex align-items-center">
-            <i class="bi bi-people me-2"></i> All Members
+            <i class="bi bi-people me-2"></i> Members
           </Link>
+        </div>
 
-        </li><li class="nav-item mb-2 ps-3">
-          <Link :href="route('addNewMember')" class="nav-link text-dark d-flex align-items-center">
-            <i class="bi bi-person-plus me-2"></i> Add New
-          </Link>
-        </li>
-
-        <li class="nav-item mb-2 ps-3">
+        <div class="nav-item mb-2">
           <Link href="/contribution" class="nav-link text-dark d-flex align-items-center">
             <i class="bi bi-cash-coin me-2"></i> Contribution
           </Link>
-        </li>
-        <li class="nav-item mb-2 ps-3">
+        </div>
+
+        <div class="nav-item mb-2">
           <Link href="/officials" class="nav-link text-dark d-flex align-items-center">
             <i class="bi bi-people-fill me-2"></i> Officials
           </Link>
-        </li>
-        <li class="nav-item mb-2 ps-3">
+        </div>
+
+        <div class="nav-item mb-2">
           <Link href="/archived" class="nav-link text-dark d-flex align-items-center">
             <i class="bi bi-archive me-2"></i> Archived
           </Link>
-        </li>
+        </div>
 
-        <li class="nav-item mb-2 fw-bold text-dark">SETTINGS</li>
-        <li class="nav-item mb-2 ps-3">
+        <div class="nav-item mb-2 fw-bold text-dark">SETTINGS</div>
+
+        <div class="nav-item mb-2">
           <Link href="/sms" class="nav-link text-dark d-flex align-items-center">
             <i class="bi bi-bell-fill me-2"></i> SMS
           </Link>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
 
     <div class="flex-grow-1 bg-light" style="width: 80%;">
@@ -75,17 +73,17 @@ const showingNavigationDropdown = ref(false);
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
 }
-.sidebar{
-    background: #D4F3F9;
-    color: #333;
+.sidebar {
+  background: #D4F3F9;
+  color: #333;
 }
-.logo{
-    position: relative;
-    width: 70%;
-    height: 150px;
-    margin: auto;
+.logo {
+  position: relative;
+  width: 70%;
+  height: 150px;
+  margin: auto;
 }
-.main-container{
+.main-container {
   width: 100%;
   height: 100vh;
   overflow: hidden;

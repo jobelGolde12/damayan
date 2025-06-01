@@ -1,7 +1,8 @@
 <script setup>
-import { ref, defineProps } from 'vue'
-import { router } from '@inertiajs/vue3'
+import { ref, defineProps, watch } from 'vue'
+import { router, Head, Link } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
+
 
 const props = defineProps({
   members: {
@@ -9,18 +10,6 @@ const props = defineProps({
     default: () => []
   }
 })
-const members = ref([
-  { id: 1, name: 'Juvy V. Gopeo', gender: 'Female', age: 40, contact: '09001122330', street: 1, status: true },
-  { id: 2, name: 'Virgie G. Malinao', gender: 'Female', age: 40, contact: '09001122330', street: 1, status: true },
-  { id: 3, name: 'Mary Jane V. Golde', gender: 'Female', age: 40, contact: '09001122330', street: 1, status: true },
-  { id: 4, name: 'Caren G. Delariarte', gender: 'Female', age: 40, contact: '09001122330', street: 2, status: true },
-  { id: 5, name: 'Roosbelt C. Gimoro', gender: 'Male', age: 40, contact: '09001122330', street: 2, status: true },
-  { id: 6, name: 'Melva C. Delariarte', gender: 'Female', age: 40, contact: '09001122330', street: 2, status: true },
-  { id: 7, name: 'Melanie G. Gimoro', gender: 'Female', age: 40, contact: '09001122330', street: 3, status: true },
-  { id: 8, name: 'Jiji V. Gimoro', gender: 'Female', age: 40, contact: '09001122330', street: 3, status: true },
-  { id: 9, name: 'Lorilyn P. Gimoro', gender: 'Female', age: 40, contact: '09001122330', street: 4, status: true },
-  { id: 10, name: 'Emireta Gimoro', gender: 'Female', age: 40, contact: '09001122330', street: 4, status: true },
-])
 let getMembers = ref([]);
 watch(
   () => props.members,
@@ -39,6 +28,7 @@ const deleteMember = (id) => {
 </script>
 
 <template>
+  <Head title="Registered members" />
     <AdminLayout>
         <div class="main-section bg-light">
     <div class="d-flex align-items-center mb-3 header container-fluid py-2">
@@ -48,7 +38,17 @@ const deleteMember = (id) => {
       <h4 class="mb-0 fw-bold">PROTECT DAMAYAN SYSTEM</h4>
     </div>
 
-    <h5 class=" mb-3 ms-3 fw-light">Registered Members</h5>
+
+     <div class="container-fluid d-flex flex-row justify-content-between align-items-center mb-2">
+            <div>
+              <h5 class=" mb-3 ms-3 fw-light">Registered Members</h5>
+            </div>
+            <div>
+                 <Link :href="route('addNewMember')" class="btn btn-primary d-flex align-items-center">
+                  <i class="bi bi-person-plus me-2 fs-5"></i> Add Member
+                </Link>
+            </div>
+     </div>
 
     <div class="table-responsive">
       <table class="table table-bordered align-middle text-center">
@@ -65,13 +65,13 @@ const deleteMember = (id) => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(member, index) in members" :key="index">
+          <tr v-for="(member, index) in getMembers" :key="index">
             <td>{{ index + 1 }}</td>
-            <td>{{ member.name }}</td>
-            <td>{{ member.gender }}</td>
+            <td>{{ member?.first_name }} {{ member?.middle_name }} {{ member?.last_name }}</td>
+            <td>{{ member.gender || 'N/A' }}</td>
             <td>{{ member.age }}</td>
-            <td>{{ member.contact }}</td>
-            <td>{{ member.street }}</td>
+            <td>{{ member.contact_number }}</td>
+            <td>{{ member.purok }}</td>
             <td>
               <div class="form-check form-switch d-inline-flex justify-content-center">
                 <input class="form-check-input" type="checkbox" v-model="member.status" />

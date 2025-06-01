@@ -18,20 +18,19 @@ class AdminController extends Controller
         ]);
     }
     public function addMemberPost(Request $request){
-
+        // dd(["data => " => $request->all()]);
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
-            'contact_number' => 'required|max:255',
+            'contact_number' => 'required|string|max:255',
             'date_of_birth' => 'required|date|max:255',
             'registration_date' => 'required|date|max:255',
             'purok' => 'required|max:255',
-            'age' => 'required|date|max:255',
+            'age' => 'required|integer',
             'middle_name' => 'required|string|max:255',
             'status' => 'required|string|max:255',
             'occupation' => 'required|string|max:255'
-
         ]);
         memberModel::create([
             'first_name' => $request->first_name,
@@ -47,7 +46,7 @@ class AdminController extends Controller
             'occupation' => $request->occupation
         ]);
 
-        return Inertia::render('admin/dashboard/RegisteredMember');
+        return response()->json(['message: ' => 'member create']);
     }
 
     public function addBeneficiary(Request $request){

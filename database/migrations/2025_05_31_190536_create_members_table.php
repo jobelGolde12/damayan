@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->date('registration_date');
             $table->string('purok');
-            $table->date('age');
+            $table->int('age');
             $table->string('middle_name');
             $table->string('status');
             $table->string('occupation');
