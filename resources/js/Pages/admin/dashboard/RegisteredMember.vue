@@ -2,7 +2,7 @@
 import { ref, defineProps, watch } from 'vue'
 import { router, Head, Link } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-
+import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue'
 
 const props = defineProps({
   members: {
@@ -31,12 +31,7 @@ const deleteMember = (id) => {
   <Head title="Registered members" />
     <AdminLayout>
         <div class="main-section bg-light">
-    <div class="d-flex align-items-center mb-3 header container-fluid py-2">
-      <button class=" me-2">
-        <i class="bi bi-list fs-2 "></i>
-      </button>
-      <h4 class="mb-0 fw-bold">PROTECT DAMAYAN SYSTEM</h4>
-    </div>
+          <HeaderComponent />
 
 
      <div class="container-fluid d-flex flex-row justify-content-between align-items-center mb-2">
@@ -78,12 +73,12 @@ const deleteMember = (id) => {
               </div>
             </td>
             <td>
-              <inertia-link :href="`/members/${member.id}`" class="btn btn-sm btn-outline-dark me-1">
+              <Link :href="route('viewMemberInfo', {id: member?.id})" class="btn btn-sm btn-outline-dark me-1">
                 <i class="bi bi-eye"></i>
-              </inertia-link>
-              <inertia-link :href="`/members/${member.id}/edit`" class="btn btn-sm btn-outline-dark me-1">
+              </Link>
+              <Link :href="`/members/${member.id}/edit`" class="btn btn-sm btn-outline-dark me-1">
                 <i class="bi bi-pencil"></i>
-              </inertia-link>
+              </Link>
               <button class="btn btn-sm btn-outline-dark" @click="deleteMember(member.id)">
                 <i class="bi bi-trash"></i>
               </button>
@@ -107,8 +102,5 @@ const deleteMember = (id) => {
 .table th,
 .table td {
   vertical-align: middle;
-}
-.header{
-    background: #D4F3F9;
 }
 </style>

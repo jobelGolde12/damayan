@@ -129,25 +129,25 @@ const formatDate = (dateString) => {
                                 />
                             </div>
                             <div class="col col-6">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="Gender"
-                                    v-model="form.gender"
-                                    required
-                                />
+                                <label class="label">Gender</label>
+                                <select name="gender" class="form-control" v-model="form.gender" required>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col col-6">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="Status"
-                                    v-model="form.status"
-                                    required
-                                />
+                                <label class="label">Status</label>
+                                <select name="gender" class="form-control" v-model="form.status" required>
+                                    <option value="Single">Single</option>
+                                    <option value="Married">Married</option>
+                                    <option value="Widowed">Widowed</option>
+                                    <option value="Divorced">Separated</option>
+                                    <option value="Live-in">Live-in</option>
+                                    <option value="Annulled">Annulled</option>
+                                </select>
                             </div>
                             <div class="col col-6">
                                 <input

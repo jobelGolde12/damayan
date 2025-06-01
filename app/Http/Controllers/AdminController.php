@@ -29,8 +29,9 @@ class AdminController extends Controller
             'purok' => 'required|max:255',
             'age' => 'required|integer',
             'middle_name' => 'required|string|max:255',
-            'status' => 'required|string|max:255',
-            'occupation' => 'required|string|max:255'
+            'status' => 'required|in:Single,Married,Widowed,Divorced,Separated,Live-in,Annulled',
+            'occupation' => 'required|string|max:255',
+            'gender' => 'required|in:Male,Female',
         ]);
         memberModel::create([
             'first_name' => $request->first_name,
@@ -43,7 +44,8 @@ class AdminController extends Controller
             'age' => $request->age,
             'middle_name' => $request->middle_name,
             'status' => $request->status,
-            'occupation' => $request->occupation
+            'occupation' => $request->occupation,
+            'gender' => $request->gender,
         ]);
 
         return response()->json(['message: ' => 'member create']);
