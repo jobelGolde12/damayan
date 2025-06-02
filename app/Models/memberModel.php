@@ -20,4 +20,8 @@ class memberModel extends Model
         'status',
         'occupation'
     ];
+    public function beneficiaries()
+{
+    return $this->hasMany(BeneficiaryModel::class, 'user_id');
+}
 }

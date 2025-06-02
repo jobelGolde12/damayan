@@ -1,45 +1,35 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
-import { ref, watch, defineProps } from "vue";
+import { ref, defineProps } from "vue";
 
-const props = defineProps({
-    beneficiary: {
-        type: Array,
-        default: () => [],
-    },
-});
-const beneficiarytemp = useForm({
+// Form for adding a single beneficiary (modal input)
+const beneficiarytemp = ref({
     name: "",
     relation: "",
     age: "",
     birth_date: "",
 });
+
 const beneficiary = ref([]);
-watch(
-    () => props.beneficiary,
-    (newBene) => {
-        beneficiary.value = newBene;
-        console.log("beneficiary => ", beneficiary.value);
-        console.log("props => ", JSON.stringify(props.beneficiary));
-    },
-    { immediate: true }
-);
+
+// Main member form
 const form = useForm({
     first_name: "",
     last_name: "",
     address: "",
     contact_number: "",
     date_of_birth: "",
-    registration_date: "",
+    // registration_date: "",
     purok: "",
     age: "",
     middle_name: "",
     status: "",
     occupation: "",
-    address: "",
     gender: "",
+    beneficiaries: [], 
 });
+
 const submit = () => {
     form.clearErrors();
 
@@ -49,24 +39,29 @@ const submit = () => {
         return;
     }
 
+    form.beneficiaries = beneficiary.value;
+
     form.post(route("addMemberPost"), {
-        onSuccess: () => alert("Member added"),
+        onSuccess: () => alert("Member added successfully."),
         onError: (err) => console.log("An error occurred => ", err),
     });
 };
 
 const addBeneficiaryFunc = () => {
-    beneficiarytemp.post(route("addBeneficiary"));
+    beneficiary.value.push({ ...beneficiarytemp.value });
+    beneficiarytemp.value = { name: "", relation: "", age: "", birth_date: "" };
 };
-const deleteBeneficiary = (index, getId) => {
-    beneficiary.value.pop(index);
-    beneficiarytemp.delete(route("deleteBeneficiary", { id: getId }));
+
+const deleteBeneficiary = (index) => {
+    beneficiary.value.splice(index, 1);
 };
+
 const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
 };
 </script>
+
 <template>
     <Head title="Add new member" />
     <AdminLayout>
@@ -188,7 +183,7 @@ const formatDate = (dateString) => {
                         </div>
 
                         <div class="row mb-3">
-                            <div class="col col-6">
+                            <!-- <div class="col col-6">
                                 <label>Registration date</label>
                                 <input
                                     type="date"
@@ -197,7 +192,7 @@ const formatDate = (dateString) => {
                                     v-model="form.registration_date"
                                     required
                                 />
-                            </div>
+                            </div> -->
                             <div class="col col-6">
                                 <input
                                     type="text"

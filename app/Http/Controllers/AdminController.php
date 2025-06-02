@@ -18,28 +18,31 @@ class AdminController extends Controller
         ]);
     }
     public function addMemberPost(Request $request){
-        // dd(["data => " => $request->all()]);
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'contact_number' => 'required|string|max:255',
             'date_of_birth' => 'required|date|max:255',
-            'registration_date' => 'required|date|max:255',
             'purok' => 'required|max:255',
             'age' => 'required|integer',
             'middle_name' => 'required|string|max:255',
             'status' => 'required|in:Single,Married,Widowed,Divorced,Separated,Live-in,Annulled',
             'occupation' => 'required|string|max:255',
             'gender' => 'required|in:Male,Female',
+            'beneficiaries' => 'nullable|array',
+            'beneficiaries.*.name' => 'required|string|max:255',
+            'beneficiaries.*.relation' => 'required|string|max:100',
+            'beneficiaries.*.age' => 'required|integer|min:0',
+            'beneficiaries.*.birth_date' => 'required|date',
         ]);
-        memberModel::create([
+       $member = memberModel::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'address' => $request->address,
             'contact_number' => $request->contact_number,
             'date_of_birth' => $request->date_of_birth,
-            'registration_date' => $request->registration_date,
+            'registration_date' => now(),
             'purok' => $request->purok,
             'age' => $request->age,
             'middle_name' => $request->middle_name,
@@ -48,6 +51,17 @@ class AdminController extends Controller
             'gender' => $request->gender,
         ]);
 
+        if ($request->has('beneficiaries')) {
+        foreach ($request->beneficiaries as $beneficiary) {
+            BeneficiaryModel::create([
+                'user_id' => $member->id,    
+                'name' => $beneficiary['name'],
+                'relation' => $beneficiary['relation'],
+                'age' => $beneficiary['age'],
+                'birth_date' => $beneficiary['birth_date'],
+            ]);
+        }
+    }
         return response()->json(['message: ' => 'member create']);
     }
 

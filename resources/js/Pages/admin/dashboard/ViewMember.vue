@@ -9,26 +9,14 @@ const props = defineProps({
         type: Object,
         default: () => ({})
     },
-    beneficiary: {
-        type: Array,
-        default: () => []
-    }
 });
 let getMember = ref({});
-let getBeneficiary = ref([]);
 watch(
     () => props.member,
     (newdata) => {
         getMember.value = newdata;
     },
     {immediate: true}
-)
-watch( 
-() => props.beneficiary,
-(newData) => {
-    getBeneficiary.value = newData;
-},
-{immediate: true}
 )
 </script>
 
@@ -84,7 +72,7 @@ watch(
     </table>
   </div>
         <!-- Beneficiary component  -->
-        <BeneficiaryComponent :bene="getBeneficiary"/>
+        <BeneficiaryComponent :bene="getMember.beneficiaries"/>
         </AdminLayout>
     </div>
 </template>

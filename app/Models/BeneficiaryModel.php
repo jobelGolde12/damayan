@@ -14,4 +14,8 @@ class BeneficiaryModel extends Model
         'age',
         'birth_date'
     ];
+    public function member()
+{
+    return $this->belongsTo(MemberModel::class, 'user_id');
+}
 }

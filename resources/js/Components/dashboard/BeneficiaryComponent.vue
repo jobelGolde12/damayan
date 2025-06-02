@@ -11,12 +11,15 @@ let getBeneficiary = ref([]);
 watch( 
 () => props.bene,
 (newData) => {
-    getBeneficiary.value = newData;
-    console.log("bene: ", getBeneficiary.value)
-    console.log("props: ", JSON.stringify(props.bene))
+    getBeneficiary.value = newData; 
 },
 {immediate: true}
 )
+
+const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+};
 </script>
 
 <template>
@@ -29,20 +32,11 @@ watch(
         <td colspan="8" class="text-center fw-bold">BENEFICIARY</td>
       </tr>
 
-      <!-- First Beneficiary Row -->
-      <tr>
-        <td colspan="2"><strong>ROMALDO C. GOLPEO</strong></td>
-        <td colspan="2">SPOUSE</td>
-        <td colspan="2">52 YEARS OLD</td>
-        <td colspan="2">1973-01-09</td>
-      </tr>
-
-      <!-- Second Beneficiary Row -->
-      <tr>
-        <td colspan="2"><strong>JOBELLE V. GOLPEO</strong></td>
-        <td colspan="2">DAUGHTER</td>
-        <td colspan="2">21 YEARS OLD</td>
-        <td colspan="2">2003-06-30</td>
+      <tr v-for="(data, index) in getBeneficiary" :key="index">
+        <td colspan="2"><strong>{{ data.name }}</strong></td>
+        <td colspan="2">{{ data.relation }}</td>
+        <td colspan="2">{{ data.age }} YEARS OLD</td>
+        <td colspan="2">{{ formatDate(data.birth_date) }}</td>
       </tr>
     </tbody>
   </table>
