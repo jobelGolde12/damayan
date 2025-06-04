@@ -33,7 +33,7 @@ const formatDate = (dateString) => {
       </tr>
 
       <tr v-for="(data, index) in getBeneficiary" :key="index">
-        <td colspan="2"><strong>{{ data.name }}</strong></td>
+        <td colspan="2">{{ data.name }}</td>
         <td colspan="2">{{ data.relation }}</td>
         <td colspan="2">{{ data.age }} YEARS OLD</td>
         <td colspan="2">{{ formatDate(data.birth_date) }}</td>

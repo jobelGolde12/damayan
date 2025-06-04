@@ -20,4 +20,14 @@ class MembersController extends Controller
             'member' => $mem,
         ]);
     }
+    public function editMember($id){
+        $mem = memberModel::with('beneficiaries')->find($id);
+        if(!$mem){
+            return response()->json(['error: ' => 'cannot find user'], 404);
+        }
+
+        return Inertia::render('admin/dashboard/EditMember', [
+            'member' => $mem,
+        ]);
+    }
 }

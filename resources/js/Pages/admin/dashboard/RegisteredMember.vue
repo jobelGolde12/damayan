@@ -76,7 +76,7 @@ const deleteMember = (id) => {
               <Link :href="route('viewMemberInfo', {id: member?.id})" class="btn btn-sm btn-outline-dark me-1">
                 <i class="bi bi-eye"></i>
               </Link>
-              <Link :href="`/members/${member.id}/edit`" class="btn btn-sm btn-outline-dark me-1">
+              <Link :href="route('editMember', {id: member?.id})" class="btn btn-sm btn-outline-dark me-1">
                 <i class="bi bi-pencil"></i>
               </Link>
               <button class="btn btn-sm btn-outline-dark" @click="deleteMember(member.id)">

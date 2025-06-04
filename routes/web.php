@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ContributionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MembersController;
@@ -31,4 +32,10 @@ Route::post('/add-new-member-post', [AdminController::class, 'addMemberPost'])->
 Route::post('/add-beneficiary', [AdminController::class, 'addBeneficiary'])->name('addBeneficiary');
 Route::delete('/delete-beneficiary/{id}', [AdminController::class, 'deleteBeneficiary'])->name('deleteBeneficiary');
 Route::get('/view-member-info/{id}', [MembersController::class, 'viewMemberInfo'])->name('viewMemberInfo');
+Route::get('/edit-member-route/{id}', [MembersController::class, 'editMember'])->name('editMember');
+
+//contribution
+Route::prefix('contribution')->name('contributions.')->middleware('auth')->group(function () {
+    Route::get('/view-contributions', [ContributionController::class, 'index'])->name('index');
+});
 require __DIR__.'/auth.php';
