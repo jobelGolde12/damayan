@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
 
 // admin 
 Route::get('/add-new-member', [AdminController::class, 'addNewMember'])->name('addNewMember');
+Route::delete('/delete-member/{id}', [MembersController::class, 'destroy'])->name('deleteMember');
 Route::post('/add-new-member-post', [AdminController::class, 'addMemberPost'])->name('addMemberPost');
 Route::post('/add-beneficiary', [AdminController::class, 'addBeneficiary'])->name('addBeneficiary');
 Route::delete('/delete-beneficiary/{id}', [AdminController::class, 'deleteBeneficiary'])->name('deleteBeneficiary');

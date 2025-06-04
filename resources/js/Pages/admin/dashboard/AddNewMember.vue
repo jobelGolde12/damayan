@@ -71,11 +71,11 @@ const formatDate = (dateString) => {
             >
                 <div class="container mt-5">
                     <form @submit.prevent="submit" class="form">
-                        <div class="row mb-3">
+                        <div class="row mb-3 d-flex align-items-center">
                             <div class="col col-6">
                                 <input
                                     type="text"
-                                    class="form-control"
+                                    class="form-control mt-3"
                                     placeholder="Last name"
                                     v-model="form.last_name"
                                 />
@@ -102,7 +102,7 @@ const formatDate = (dateString) => {
                                 />
                             </div>
                             <div class="col col-6">
-                                <label>age</label>
+                                <!-- <label>age</label> -->
                                 <input
                                     type="number"
                                     class="form-control"
@@ -124,8 +124,8 @@ const formatDate = (dateString) => {
                                 />
                             </div>
                             <div class="col col-6">
-                                <label class="label">Gender</label>
                                 <select name="gender" class="form-control" v-model="form.gender" required>
+                                    <option value="" disabled>Gender</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                 </select>
@@ -134,8 +134,8 @@ const formatDate = (dateString) => {
 
                         <div class="row mb-3">
                             <div class="col col-6">
-                                <label class="label">Status</label>
                                 <select name="gender" class="form-control" v-model="form.status" required>
+                                    <option value="" disabled>Status</option>
                                     <option value="Single">Single</option>
                                     <option value="Married">Married</option>
                                     <option value="Widowed">Widowed</option>

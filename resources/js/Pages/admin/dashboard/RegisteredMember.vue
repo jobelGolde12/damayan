@@ -18,13 +18,16 @@ watch(
   },
   {immediate: true}
 )
-const deleteMember = (id) => {
-  if (confirm('Are you sure you want to delete this member?')) {
-    members.value = members.value.filter(member => member.id !== id)
-  }
-}
 
-
+ const trashMember = (id) => {
+      if (confirm('Are you sure you want to trash this member?')) {
+        router.delete(route('deleteMember', {id: id}), {
+          onSuccess: () => {
+            console.log('Member trashed')
+          },
+        })
+      }
+    }
 </script>
 
 <template>
@@ -79,7 +82,7 @@ const deleteMember = (id) => {
               <Link :href="route('editMember', {id: member?.id})" class="btn btn-sm btn-outline-dark me-1">
                 <i class="bi bi-pencil"></i>
               </Link>
-              <button class="btn btn-sm btn-outline-dark" @click="deleteMember(member.id)">
+              <button class="btn btn-sm btn-outline-dark" @click="trashMember(member.id)">
                 <i class="bi bi-trash"></i>
               </button>
             </td>

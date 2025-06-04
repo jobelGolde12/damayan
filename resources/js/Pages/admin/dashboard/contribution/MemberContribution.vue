@@ -26,7 +26,14 @@ const members = [
 
              <div class="container">
     <div class="bg-light  p-2">
-      <h6 class="mt-4">Payment Contribution</h6>
+    <div class="container-fluid d-flex flex-row justify-content-between align-items-center px-0 mb-2">
+        <div>
+          <h6 class="mt-4">Payment Contribution</h6>
+        </div>
+        <div>
+            <Link :href="route('login')" class="btn btn-success">Add Contribution</Link>
+        </div>
+    </div>
       <div class="d-flex justify-content-between text-muted small">
         <span>ALL MEMBERS</span>
         <div>

@@ -30,4 +30,12 @@ class MembersController extends Controller
             'member' => $mem,
         ]);
     }
+    public function destroy($id)
+    {
+        $member = memberModel::findOrFail($id);
+        $member->delete(); 
+
+        return redirect()->back()->with('success', 'Member trashed successfully.');
+    }
+
 }
