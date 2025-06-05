@@ -101,11 +101,11 @@ const formatDate = (dateString) => {
             >
                 <div class="container mt-3">
                     <form @submit.prevent="submit" class="form">
-                        <div class="row mb-3">
+                        <div class="row mb-3 d-flex flex-row align-items-center">
                             <div class="col col-6">
                                 <input
                                     type="text"
-                                    class="form-control"
+                                    class="form-control mt-3"
                                     placeholder="Last name"
                                     v-model="form.last_name"
                                 />
@@ -164,14 +164,10 @@ const formatDate = (dateString) => {
 
                         <div class="row mb-3">
                             <div class="col col-6">
-                                <label class="label">Status</label>
-                                <select name="gender" class="form-control" v-model="form.status" required>
-                                    <option value="Single">Single</option>
-                                    <option value="Married">Married</option>
-                                    <option value="Widowed">Widowed</option>
-                                    <option value="Divorced">Separated</option>
-                                    <option value="Live-in">Live-in</option>
-                                    <option value="Annulled">Annulled</option>
+                                <select class="form-control" v-model="form.status" required>
+                                    <option value="" disabled>Status</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
                                 </select>
                             </div>
                             <div class="col col-6">

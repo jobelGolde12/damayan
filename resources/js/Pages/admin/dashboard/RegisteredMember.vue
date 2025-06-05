@@ -28,6 +28,19 @@ watch(
         })
       }
     }
+
+const toggleMemberStatus = (member) => {
+  const newStatus = member.status === 'active' ? 'inactive' : 'active'
+
+  router.put(route('toggleMemberStatus', { id: member.id }), {
+    status: newStatus
+  }, {
+    onSuccess: () => {
+      member.status = newStatus
+      console.log(`Member ${member.id} status changed to ${newStatus}`)
+    }
+  })
+}
 </script>
 
 <template>
@@ -72,7 +85,10 @@ watch(
             <td>{{ member.purok }}</td>
             <td>
               <div class="form-check form-switch d-inline-flex justify-content-center">
-                <input class="form-check-input" type="checkbox" v-model="member.status" />
+                <input class="form-check-input" type="checkbox"
+              :checked="member.status === 'active'"
+              @click="toggleMemberStatus(member)" />
+
               </div>
             </td>
             <td>

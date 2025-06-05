@@ -34,7 +34,7 @@ Route::post('/add-beneficiary', [AdminController::class, 'addBeneficiary'])->nam
 Route::delete('/delete-beneficiary/{id}', [AdminController::class, 'deleteBeneficiary'])->name('deleteBeneficiary');
 Route::get('/view-member-info/{id}', [MembersController::class, 'viewMemberInfo'])->name('viewMemberInfo');
 Route::get('/edit-member-route/{id}', [MembersController::class, 'editMember'])->name('editMember');
-
+Route::put('/members/{id}/toggle-status', [MembersController::class, 'toggleStatus'])->name('toggleMemberStatus');
 //contribution
 Route::prefix('contribution')->name('contributions.')->middleware('auth')->group(function () {
     Route::get('/view-contributions', [ContributionController::class, 'index'])->name('index');

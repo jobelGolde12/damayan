@@ -38,4 +38,18 @@ class MembersController extends Controller
         return redirect()->back()->with('success', 'Member trashed successfully.');
     }
 
+    public function toggleStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:active,inactive',
+        ]);
+
+        $member = memberModel::findOrFail($id);
+        $member->status = $request->status;
+        $member->save();
+
+        return redirect()->back()->with([
+            'message' => 'Member status updated successfully.',
+        ]);
+    }
 }

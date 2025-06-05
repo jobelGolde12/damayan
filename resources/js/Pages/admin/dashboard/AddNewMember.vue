@@ -136,12 +136,8 @@ const formatDate = (dateString) => {
                             <div class="col col-6">
                                 <select name="gender" class="form-control" v-model="form.status" required>
                                     <option value="" disabled>Status</option>
-                                    <option value="Single">Single</option>
-                                    <option value="Married">Married</option>
-                                    <option value="Widowed">Widowed</option>
-                                    <option value="Divorced">Separated</option>
-                                    <option value="Live-in">Live-in</option>
-                                    <option value="Annulled">Annulled</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
                                 </select>
                             </div>
                             <div class="col col-6">
