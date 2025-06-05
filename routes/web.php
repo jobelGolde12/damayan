@@ -38,5 +38,7 @@ Route::put('/members/{id}/toggle-status', [MembersController::class, 'toggleStat
 //contribution
 Route::prefix('contribution')->name('contributions.')->middleware('auth')->group(function () {
     Route::get('/view-contributions', [ContributionController::class, 'index'])->name('index');
+    Route::get('/add-contributions-route', [ContributionController::class, 'add'])->name('add');
+    Route::post('/add-contributions-post', [ContributionController::class, 'store'])->name('store');
 });
 require __DIR__.'/auth.php';

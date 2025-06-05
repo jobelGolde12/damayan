@@ -9,7 +9,7 @@ class ContributionModel extends Model
     protected $table = 'contributions';
     protected $fillable = [
         'member_id',
-        'ammount',
+        'amount',
         'payment_date',
         'updated_by',
     ];
