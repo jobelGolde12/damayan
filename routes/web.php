@@ -5,6 +5,8 @@ use App\Http\Controllers\ContributionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MembersController;
+use App\Http\Controllers\OfficialController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -41,5 +43,15 @@ Route::prefix('contribution')->name('contributions.')->middleware('auth')->group
     Route::get('/add-contributions-route', [ContributionController::class, 'add'])->name('add');
     Route::post('/add-contributions-post', [ContributionController::class, 'store'])->name('store');
     Route::get('/toggle-purok/{purok}', [ContributionController::class, 'toggleContributionPurok'])->name('togglePurok');
+});
+
+//reports
+Route::prefix('reports')->name('reports.')->middleware('auth')->group(function (){
+    Route::get('/view-reports', [ReportController::class, 'index'])->name('index');
+});
+
+// Official
+Route::prefix('officials')->name('officials.')->middleware('auth')->group(function (){
+    Route::get('/view-officials', [OfficialController::class, 'index'])->name('index');
 });
 require __DIR__.'/auth.php';

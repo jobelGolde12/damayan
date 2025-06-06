@@ -5,7 +5,7 @@ import { defineProps, watch, ref } from 'vue';
 import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
 import Purok from '@/Components/dashboard/contribution/Purok.vue';
 const props = defineProps({
-  contributions: {
+  member: {
     type: Array,
     default: () => []
   },
@@ -14,12 +14,13 @@ const props = defineProps({
     default: () => ''
   }
 })
-let getContributions = ref([]);
+let getMember = ref([]);
 let getSelectedPurok = ref('');
 watch(
-  () => props.contributions,
+  () => props.member,
   (newData) => {
-    getContributions.value = newData;
+    getMember.value = newData;
+    // console.log("member: " , getMember.value)
   },
   {immediate: true}
 )
@@ -34,6 +35,10 @@ const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
 };
+function formatAmount(value) {
+  if (value == null) return 'N/A';
+  return parseFloat(value); 
+}
 
 </script>
 <template>
@@ -53,13 +58,13 @@ const formatDate = (dateString) => {
         </div>
     </div>
       <div class="d-flex justify-content-between text-muted small">
-        <span>ALL MEMBERS</span>
+        <span class="text-success">ALL MEMBERS</span>
         <div>
           <Purok :activePurok="getSelectedPurok"/>
         </div>
       </div>
 
-      <div class="table-responsive mt-3" v-if="getContributions.length > 0">
+      <div class="table-responsive mt-3" v-if="getMember.length > 0">
         <table class="table table-bordered table-hover align-middle text-center">
           <thead class="table-light">
             <tr>
@@ -73,19 +78,19 @@ const formatDate = (dateString) => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(contri, index) in getContributions" :key="index">
-              <td>{{ contri?.member_contribution.id }}</td>
-              <td class="text-start">{{ contri?.member_contribution.first_name }} {{ contri?.member_contribution.middle_name }} {{ contri?.member_contribution.last_name }}</td>
-              <td>{{ contri?.amount || 'N/A' }}</td>
+            <tr v-for="(mem, index) in getMember" :key="index">
+              <td>{{ mem?.id }}</td>
+              <td class="text-start">{{ mem?.first_name }} {{ mem?.middle_name }} {{ mem?.last_name }}</td>
+              <td>{{ formatAmount(mem?.contributions[0]?.amount) }}</td>
               <td>
-                <span v-if="contri?.created_at">{{ formatDate(contri?.created_at) }}</span>
-                <span v-else class="text-muted">Pending</span>
+                <span v-if="mem?.contributions[0]?.payment_date">{{ formatDate(mem?.contributions[0]?.payment_date) }}</span>
+                <span v-else class="text-muted">...</span>
               </td>
-              <td>{{ contri?.collector || 'N/A' }}</td>
-              <td>{{ contri?.purok || 'N/A'}}</td>
+              <td>{{ mem?.contributions[0]?.collector || 'N/A' }}</td>
+              <td>{{ mem?.contributions[0]?.purok || 'N/A'}}</td>
               <td>
-                <span v-if="contri?.status === 'paid'" class="badge bg-success">Paid</span>
-                <span v-else class="badge bg-secondary">Pending</span>
+                <span v-if="mem?.contributions[0]?.status === 'paid'" class="badge bg-success">Paid</span>
+                <span v-else class="">...</span>
               </td>
             </tr>
           </tbody>
