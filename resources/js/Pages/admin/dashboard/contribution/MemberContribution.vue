@@ -1,22 +1,30 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
+import { defineProps, watch, ref } from 'vue';
 import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
-const puroks = ['PUROK 1', 'PUROK 2', 'PUROK 3', 'PUROK 4']
 
-const members = [
-  { name: "Juvy V. Gopeo", amount: 100, date: "March 20, 2025", collector: "Milanie", purok: 2, status: "Paid" },
-  { name: "Virgie G. Malinao", amount: 100, date: "March 20, 2025", collector: "Milanie", purok: 2, status: "Paid" },
-  { name: "Mary Jane V. Golde", amount: 100, date: "March 20, 2025", collector: "Milanie", purok: 2, status: "Paid" },
-  { name: "Caren G. Delariarte", amount: 100, date: "March 20, 2025", collector: "Milanie", purok: 2, status: "Paid" },
-  { name: "Roosbelt C. Gimoro", amount: 100, date: "March 20, 2025", collector: "Milanie", purok: 2, status: "Paid" },
-  { name: "Melva C. Delariarte", amount: 100, date: "March 20, 2025", collector: "Milanie", purok: 2, status: "Paid" },
-  { name: "Milanie G. Gimoro", amount: 100, date: "March 20, 2025", collector: "Milanie", purok: 2, status: "Paid" },
-  { name: "Jiji V. Gimoro", amount: 100, date: "March 20, 2025", collector: "Milanie", purok: 2, status: "Paid" },
-  { name: "Lorilyn P. Gimoro", amount: 100, date: null, collector: "Milanie", purok: 2, status: "Pending" },
-  { name: "Emireta Gimoro", amount: 100, date: null, collector: "Milanie", purok: 2, status: "Pending" },
-  { name: "Emireta Gimoro", amount: 100, date: null, collector: "Milanie", purok: 2, status: "Pending" },
-]
+const props = defineProps({
+  contributions: {
+    type: Array,
+    default: () => []
+  }
+})
+let getContributions = ref([]);
+watch(
+  () => props.contributions,
+  (newData) => {
+    getContributions.value = newData;
+    console.log("members: " , getContributions.value)
+  },
+  {immediate: true}
+)
+const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+};
+
+const puroks = ['PUROK 1', 'PUROK 2', 'PUROK 3', 'PUROK 4']
 </script>
 <template>
     <Head title="Member contribution"/>
@@ -58,18 +66,18 @@ const members = [
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(member, index) in members" :key="index">
+            <tr v-for="(contri, index) in getContributions" :key="index">
               <td><i class="bi bi-person"></i></td>
-              <td class="text-start">{{ member.name }}</td>
-              <td>{{ member.amount }}</td>
+              <td class="text-start">{{ contri?.member_contribution.first_name }} {{ contri?.member_contribution.middle_name }} {{ contri?.member_contribution.last_name }}</td>
+              <td>{{ contri?.amount || 'N/A' }}</td>
               <td>
-                <span v-if="member.date">{{ member.date }}</span>
+                <span v-if="contri?.created_at">{{ formatDate(contri?.created_at) }}</span>
                 <span v-else class="text-muted">Pending</span>
               </td>
-              <td>{{ member.collector }}</td>
-              <td>{{ member.purok }}</td>
+              <td>{{ contri?.collector || 'N/A' }}</td>
+              <td>{{ contri?.purok || 'N/A'}}</td>
               <td>
-                <span v-if="member.status === 'Paid'" class="badge bg-success">Paid</span>
+                <span v-if="contri?.status === 'Paid'" class="badge bg-success">Paid</span>
                 <span v-else class="badge bg-secondary">Pending</span>
               </td>
             </tr>

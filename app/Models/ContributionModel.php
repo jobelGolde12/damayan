@@ -12,5 +12,12 @@ class ContributionModel extends Model
         'amount',
         'payment_date',
         'updated_by',
+        'collector_id',
+        'purok',
+        'status',
     ];
+
+    public function memberContribution(){
+        return $this->belongsTo(memberModel::class, 'member_id');
+    }
 }

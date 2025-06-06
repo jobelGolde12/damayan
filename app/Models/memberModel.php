@@ -27,4 +27,7 @@ class memberModel extends Model
 {
     return $this->hasMany(BeneficiaryModel::class, 'user_id');
 }
+public function contributions(){
+    return $this->hasMany(ContributionModel::class, 'member_id');
+}
 }

@@ -6,12 +6,16 @@ use App\Models\ContributionModel;
 use App\Models\memberModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class ContributionController extends Controller
 {
     public function index(){
-        return Inertia::render('admin/dashboard/contribution/MemberContribution');
+        $contri = ContributionModel::with('memberContribution')->get();
+        return Inertia::render('admin/dashboard/contribution/MemberContribution', [
+            'contributions' => $contri
+        ]);
     }
 
     public function add(){
@@ -27,6 +31,9 @@ class ContributionController extends Controller
         'member_id' => 'required|exists:members,id',
         'amount' => 'required|numeric|min:0',
         'payment_date' => 'required|date',
+        'collector_id' => 'required',
+        'purok' => 'required',
+        'status' => 'required',
     ]);
 
     ContributionModel::create([
