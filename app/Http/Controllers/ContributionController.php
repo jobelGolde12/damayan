@@ -31,17 +31,19 @@ class ContributionController extends Controller
         'member_id' => 'required|exists:members,id',
         'amount' => 'required|numeric|min:0',
         'payment_date' => 'required|date',
-        'collector_id' => 'required',
+        'collector' => 'required|string|max:255',
         'purok' => 'required',
         'status' => 'required',
     ]);
-
     ContributionModel::create([
         'member_id' => $request->member_id,
         'amount' => $request->amount,
         'payment_date' => $request->payment_date,
         'updated_by' => Auth::id(),
-    ]);
+        'collector' => $request->collector,
+        'purok' => $request->purok,
+        'status' => $request->status,
+    ]); 
 
     return redirect()->back()->with('success', 'Contribution created successfully.');
 }

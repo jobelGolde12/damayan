@@ -12,7 +12,7 @@ class ContributionModel extends Model
         'amount',
         'payment_date',
         'updated_by',
-        'collector_id',
+        'collector',
         'purok',
         'status',
     ];

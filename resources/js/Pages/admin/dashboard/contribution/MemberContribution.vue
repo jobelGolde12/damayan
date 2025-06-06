@@ -77,7 +77,7 @@ const puroks = ['PUROK 1', 'PUROK 2', 'PUROK 3', 'PUROK 4']
               <td>{{ contri?.collector || 'N/A' }}</td>
               <td>{{ contri?.purok || 'N/A'}}</td>
               <td>
-                <span v-if="contri?.status === 'Paid'" class="badge bg-success">Paid</span>
+                <span v-if="contri?.status === 'paid'" class="badge bg-success">Paid</span>
                 <span v-else class="badge bg-secondary">Pending</span>
               </td>
             </tr>
