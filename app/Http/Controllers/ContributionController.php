@@ -12,9 +12,20 @@ use Inertia\Inertia;
 class ContributionController extends Controller
 {
     public function index(){
-        $contri = ContributionModel::with('memberContribution')->get();
+        $contri = ContributionModel::where('purok', 'purok1')->with('memberContribution')->get();
+        $selectedPurok = 'purok1';
         return Inertia::render('admin/dashboard/contribution/MemberContribution', [
-            'contributions' => $contri
+            'contributions' => $contri,
+            'selectedPurok' => $selectedPurok,
+        ]);
+    }
+
+    public function toggleContributionPurok($purok){
+        $contri = ContributionModel::where('purok', $purok)->with('memberContribution')->get();
+        $selectedPurok = $purok;
+        return Inertia::render('admin/dashboard/contribution/MemberContribution', [
+            'contributions' => $contri,
+            'selectedPurok' => $selectedPurok,
         ]);
     }
 

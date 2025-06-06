@@ -3,19 +3,30 @@ import { Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { defineProps, watch, ref } from 'vue';
 import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
-
+import Purok from '@/Components/dashboard/contribution/Purok.vue';
 const props = defineProps({
   contributions: {
     type: Array,
     default: () => []
+  },
+  selectedPurok: {
+    type: String,
+    default: () => ''
   }
 })
 let getContributions = ref([]);
+let getSelectedPurok = ref('');
 watch(
   () => props.contributions,
   (newData) => {
     getContributions.value = newData;
-    console.log("members: " , getContributions.value)
+  },
+  {immediate: true}
+)
+watch(
+  () => props.selectedPurok,
+  (newData) => {
+    getSelectedPurok.value = newData;
   },
   {immediate: true}
 )
@@ -24,7 +35,6 @@ const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-const puroks = ['PUROK 1', 'PUROK 2', 'PUROK 3', 'PUROK 4']
 </script>
 <template>
     <Head title="Member contribution"/>
@@ -45,14 +55,11 @@ const puroks = ['PUROK 1', 'PUROK 2', 'PUROK 3', 'PUROK 4']
       <div class="d-flex justify-content-between text-muted small">
         <span>ALL MEMBERS</span>
         <div>
-          <span v-for="purok in puroks" :key="purok" class="mx-2"
-                :class="{ 'fw-bold text-success': purok === 'PUROK 2' }">
-            {{ purok }}
-          </span>
+          <Purok :activePurok="getSelectedPurok"/>
         </div>
       </div>
 
-      <div class="table-responsive mt-3">
+      <div class="table-responsive mt-3" v-if="getContributions.length > 0">
         <table class="table table-bordered table-hover align-middle text-center">
           <thead class="table-light">
             <tr>
@@ -67,7 +74,7 @@ const puroks = ['PUROK 1', 'PUROK 2', 'PUROK 3', 'PUROK 4']
           </thead>
           <tbody>
             <tr v-for="(contri, index) in getContributions" :key="index">
-              <td><i class="bi bi-person"></i></td>
+              <td>{{ contri?.member_contribution.id }}</td>
               <td class="text-start">{{ contri?.member_contribution.first_name }} {{ contri?.member_contribution.middle_name }} {{ contri?.member_contribution.last_name }}</td>
               <td>{{ contri?.amount || 'N/A' }}</td>
               <td>
@@ -84,8 +91,21 @@ const puroks = ['PUROK 1', 'PUROK 2', 'PUROK 3', 'PUROK 4']
           </tbody>
         </table>
       </div>
+
+      <div class="container mt-4 text-center" v-else>
+        <img src="../../../../../images/not_found.svg" alt="No Data" class="not-found-image image-rounded">
+        <h5 class="fw-light">No contribution found in <span class="text-success"> {{ getSelectedPurok || 'N/A' }}</span>.</h5>
+      </div>
     </div>
   </div>
         </AdminLayout>
     </div>
 </template>
+
+<style scoped>
+.not-found-image{
+  width: 200px;
+  margin: auto;
+  margin-bottom: 2rem;
+}
+</style>
