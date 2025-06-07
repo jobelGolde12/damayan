@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\ContributionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
@@ -58,5 +59,12 @@ Route::prefix('officials')->name('officials.')->middleware('auth')->group(functi
     Route::post('/add-official', [OfficialController::class, 'create'])->name('add');
     Route::get('/add-official-route', [OfficialController::class, 'addOfficialRoute'])->name('addOfficialRoute');
     Route::delete('/delete-official/{id}', [OfficialController::class, 'delete'])->name('delete');
+});
+
+// Archive
+Route::prefix('archive')->name('archive.')->middleware('auth')->group(function () {
+    Route::get('/view-archive', [ArchiveController::class, 'index'])->name('index');
+    Route::get('/view-info/{id}', [ArchiveController::class, 'view'])->name('view');
+    Route::delete('/delete-permanently/{id}', [ArchiveController::class, 'deletePermanently'])->name('deleteMember');
 });
 require __DIR__.'/auth.php';

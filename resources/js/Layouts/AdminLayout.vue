@@ -48,7 +48,7 @@ const showingNavigationDropdown = ref(false);
         </div>
 
         <div class="nav-item mb-2">
-          <Link href="/archived" class="nav-link text-dark d-flex align-items-center">
+          <Link :href="route('archive.index')" class="nav-link text-dark d-flex align-items-center">
             <i class="bi bi-archive me-2"></i> Archived
           </Link>
         </div>
