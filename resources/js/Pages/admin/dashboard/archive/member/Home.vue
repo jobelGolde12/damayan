@@ -40,12 +40,19 @@ watch(
 
 
      <div class="container-fluid d-flex flex-row justify-content-between align-items-center mb-2">
-            <div>
-              <h5 class=" mb-3 ms-3 fw-semibold">Archived</h5>
-            </div>
+           <div class="container-fluid d-flex flex-row justify-content-between px-0 align-items-center">
+                <div>
+                     <div>
+                       <h5 class="fw-semibold">Archived</h5>
+                    </div>
+                </div>
+                <div>
+                    <Link :href="route('officialArchive.viewOfficials')" class="btn btn-success">Officials</Link>
+                </div>
+           </div>
      </div>
 
-    <div class="table-responsive" v-if="getMembers">
+    <div class="table-responsive" v-if="getMembers.length">
       <table class="table table-bordered align-middle text-center">
         <thead class="table-light">
           <tr>
@@ -91,7 +98,7 @@ watch(
     </div>
 
     <div class="container text-center mt-3">
-        <h5 class="text-dark fw-light">No Archive Data.</h5>
+        <h5 class="text-dark fw-light">No Member's Archive Data.</h5>
     </div>
   </div>
     </AdminLayout>

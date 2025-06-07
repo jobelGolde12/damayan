@@ -6,6 +6,7 @@ use App\Http\Controllers\ContributionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MembersController;
+use App\Http\Controllers\OfficialArchive;
 use App\Http\Controllers\OfficialController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Foundation\Application;
@@ -61,10 +62,17 @@ Route::prefix('officials')->name('officials.')->middleware('auth')->group(functi
     Route::delete('/delete-official/{id}', [OfficialController::class, 'delete'])->name('delete');
 });
 
-// Archive
+// Member Archive
 Route::prefix('archive')->name('archive.')->middleware('auth')->group(function () {
     Route::get('/view-archive', [ArchiveController::class, 'index'])->name('index');
     Route::get('/view-info/{id}', [ArchiveController::class, 'view'])->name('view');
     Route::delete('/delete-permanently/{id}', [ArchiveController::class, 'deletePermanently'])->name('deleteMember');
+});
+//!!! Hiwalay ang Member tas Official archive kay since magka-iba 
+//ang data tas table san duwa
+//Official archive
+Route::prefix('officialArchive')->name('officialArchive.')->middleware('auth')->group(function () {
+    Route::get('/view-official-archive', [OfficialArchive::class, 'index'])->name('viewOfficials');
+    Route::delete('/delete-official-permanently/{id}', [OfficialArchive::class, 'deletePermanently'])->name('deleteOfficial');
 });
 require __DIR__.'/auth.php';
