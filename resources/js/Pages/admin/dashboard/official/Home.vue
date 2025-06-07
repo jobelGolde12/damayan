@@ -1,6 +1,6 @@
 
 <script setup>
-import { router } from '@inertiajs/vue3'
+import { router, Head } from '@inertiajs/vue3'
 import { defineProps, ref, watch } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue'
@@ -23,26 +23,32 @@ const toggleStatus = (official) => {
 }
 
 const editOfficial = (official) => {
-  router.get(`/officials/${official.id}/edit`)
+  router.get(route('officials.edit', {id: official}))
 }
 
 const deleteOfficial = (id) => {
   if (confirm('Are you sure you want to delete this official?')) {
-    router.delete(`/officials/${id}`)
+    router.delete(route('officials.delete', {id: id}))
   }
 }
 
 const addOfficial = () => {
-  router.get('/officials/create')
+  router.get(route('officials.addOfficialRoute'))
 }
+const formatDate = (dateString) => {
+  const options = { year: "numeric" };
+  return new Date(dateString).toLocaleDateString(undefined, options);
+};
+
 </script>
 
 <template>
+  <Head title="View officials" />
     <div>
         <AdminLayout>
             <HeaderComponent />
             <div class="container mt-4">
-    <h3 class="mb-4">Protect Damayan Officials</h3>
+    <h4 class="mb-4">Protect Damayan Officials</h4>
     <table class="table table-bordered table-striped" v-if="getOfficials.length > 0">
       <thead class="table-primary">
         <tr>
@@ -59,11 +65,11 @@ const addOfficial = () => {
           <td>{{ official.id }}</td>
           <td>{{ official.name }}</td>
           <td>{{ official.position }}</td>
-          <td>{{ official.term_start }} - {{ official.term_end }}</td>
+          <td>{{ formatDate(official.term_start) }} - {{ formatDate(official.term_end) }}</td>
           <td>
-            <div class="form-check form-switch">
+            <div class="form-check form-switch d-flex justify-content-center">
               <input
-                class="form-check-input"
+                class="form-check-input bg-success"
                 type="checkbox"
                 :checked="official.status"
                 @change="toggleStatus(official)"
@@ -71,11 +77,11 @@ const addOfficial = () => {
             </div>
           </td>
           <td>
-            <button class="btn btn-sm btn-warning me-2" @click="editOfficial(official)">
-              ✏️
+            <button class="btn btn-sm btn-outline-light me-2" @click="editOfficial(official.id)">
+              <i class="bi bi-pencil"></i>
             </button>
-            <button class="btn btn-sm btn-danger" @click="deleteOfficial(official.id)">
-              🗑️
+            <button class="btn btn-sm btn-outline-light" @click="deleteOfficial(official.id)">
+              <i class="bi bi-trash"></i>
             </button>
           </td>
         </tr>
@@ -103,5 +109,12 @@ const addOfficial = () => {
     width: 200px;
     height: 200px;
     margin: auto;
+}
+.bi{
+  font-size: 1rem;
+  color: #333;
+}
+.bi:hover{
+  color: #517e65;
 }
 </style>

@@ -43,7 +43,7 @@ const showingNavigationDropdown = ref(false);
 
         <div class="nav-item mb-2">
           <Link :href="route('officials.index')" class="nav-link text-dark d-flex align-items-center">
-            <i class="bi bi-people-fill me-2"></i> Officials
+            <i class="bi bi-people me-2"></i> Officials
           </Link>
         </div>
 

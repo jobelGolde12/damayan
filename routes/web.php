@@ -53,5 +53,10 @@ Route::prefix('reports')->name('reports.')->middleware('auth')->group(function (
 // Official
 Route::prefix('officials')->name('officials.')->middleware('auth')->group(function (){
     Route::get('/view-officials', [OfficialController::class, 'index'])->name('index');
+    Route::get('/edit-officials-route/{id}', [OfficialController::class, 'edit'])->name('edit');
+    Route::put('/edit-officials-put/{id}', [OfficialController::class, 'editData'])->name('editData');
+    Route::post('/add-official', [OfficialController::class, 'create'])->name('add');
+    Route::get('/add-official-route', [OfficialController::class, 'addOfficialRoute'])->name('addOfficialRoute');
+    Route::delete('/delete-official/{id}', [OfficialController::class, 'delete'])->name('delete');
 });
 require __DIR__.'/auth.php';
