@@ -13,15 +13,15 @@ import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
             <hr>
         <div class="container-fluid d-flex flex-column">
             <div class="list">
-                <Link :ref="route('dashboard')" class="link text-decoration-none fs-5">User Role and Management</Link>
+                <Link :href="route('role.index')" class="link text-decoration-none fs-5">User Role and Management</Link>
             </div>
             <hr>
             <div class="list">
-                <Link :ref="route('dashboard')" class="link text-decoration-none fs-5">Activity Logs</Link>
+                <Link :href="route('role.index')" class="link text-decoration-none fs-5">Activity Logs</Link>
             </div>
             <hr>
             <div class="list">
-                <Link :ref="route('dashboard')" class="link text-decoration-none fs-5">SMS Notification</Link>
+                <Link :href="route('dashboard')" class="link text-decoration-none fs-5">SMS Notification</Link>
             </div>
             <hr>
         </div>

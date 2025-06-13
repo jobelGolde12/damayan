@@ -9,6 +9,7 @@ use App\Http\Controllers\MembersController;
 use App\Http\Controllers\OfficialArchive;
 use App\Http\Controllers\OfficialController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -79,12 +80,11 @@ Route::prefix('officialArchive')->name('officialArchive.')->middleware('auth')->
 
 //settings
 Route::prefix('settings')->name('settings.')->middleware('auth')->group(function () {
-    Route::get('/view-settings', [SettingsController::class, 'index'])->name('viewSettings');});
+    Route::get('/view-settings', [SettingsController::class, 'index'])->name('viewSettings');
+});
+
 //Role management
 Route::prefix('role')->name('role.')->middleware('auth')->group(function () {
-    Route::get('/view-roles', [MembersController::class, 'viewRoles'])->name('viewRoles');
-    Route::get('/add-role-route', [MembersController::class, 'addRoleRoute'])->name('addRoleRoute');
-    Route::post('/add-role-post', [MembersController::class, 'addRolePost'])->name('addRolePost');
-    Route::delete('/delete-role/{id}', [MembersController::class, 'deleteRole'])->name('deleteRole');
+    Route::get('/view-roles', [RoleController::class, 'index'])->name('index');
 });
 require __DIR__.'/auth.php';
