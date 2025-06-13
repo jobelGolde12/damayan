@@ -53,13 +53,18 @@ const showingNavigationDropdown = ref(false);
           </Link>
         </div>
 
-        <div class="nav-item mb-2 fw-bold text-dark">SETTINGS</div>
-
         <div class="nav-item mb-2">
           <Link href="/sms" class="nav-link text-dark d-flex align-items-center">
-            <i class="bi bi-bell-fill me-2"></i> SMS
+            <i class="bi bi-bell me-2"></i> SMS
           </Link>
         </div>
+
+          <div class="nav-item mb-2">
+          <Link :href="route('settings.viewSettings')" class="nav-link text-dark d-flex align-items-center">
+            <i class="bi bi-gear me-2"></i> Settings
+          </Link>
+        </div>
+
       </div>
     </div>
 
@@ -80,7 +85,7 @@ const showingNavigationDropdown = ref(false);
   border-radius: 4px;
 }
 .sidebar {
-  background: #D4F3F9;
+  background: #7FEAFE;
   color: #333;
 }
 .logo {

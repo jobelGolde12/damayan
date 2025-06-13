@@ -3,7 +3,7 @@ import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import * as echarts from 'echarts';
 import { onMounted } from 'vue';
-
+import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
 onMounted(() => {
     // Bar Chart
     const barChart = echarts.init(document.getElementById('barChart'));
@@ -121,7 +121,9 @@ pieChart.setOption({
     <Head title="Dashboard" />
 
     <AdminLayout>
-        <div class="container-fluid home-container">
+        <Head title="Dashboard" />
+        <div class="container-fluid mx-0 px-0 home-container">
+            <HeaderComponent />
             <h2 class="fw-normal fs-5 my-4">Analytics Dashboard</h2>
 
             <div class="row g-4">
