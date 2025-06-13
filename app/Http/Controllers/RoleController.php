@@ -44,4 +44,27 @@ class RoleController extends Controller
 
         return redirect()->back()->with('success', 'User updated successfully.');
     }
+
+    public function add(){
+        return Inertia::render('admin/roleManagementPage/Add');
+    }
+    public function addUser(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'role' => 'required|',
+            'password' => 'required|string|min:6',
+        ]);
+
+        User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'role' => $validated['role'],
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return redirect()->back()->with('success', 'User added successfully.');
+    }
+
 }

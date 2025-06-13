@@ -88,5 +88,7 @@ Route::prefix('role')->name('role.')->middleware('auth')->group(function () {
     Route::get('/view-roles', [RoleController::class, 'index'])->name('index');
     Route::get('/users/{user}/edit', [RoleController::class, 'edit'])->name('edit');
     Route::put('/users/{user}', [RoleController::class, 'update'])->name('update');
+    Route::get('/add-user-route', [RoleController::class, 'add'])->name('add');
+    Route::post('/add-user-post', [RoleController::class, 'addUser'])->name('addUser');
 });
 require __DIR__.'/auth.php';

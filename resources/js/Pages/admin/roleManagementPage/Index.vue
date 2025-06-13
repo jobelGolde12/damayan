@@ -92,9 +92,9 @@ const editFunc = () => {
                                 </tbody>
                             </table>
                         </div>
-                        <button class="btn btn-primary float-end mt-2">
+                        <Link :href="route('role.add')" class="btn btn-primary float-end mt-2">
                             Add User
-                        </button>
+                        </Link>
                     </div>
                 </div>
 
