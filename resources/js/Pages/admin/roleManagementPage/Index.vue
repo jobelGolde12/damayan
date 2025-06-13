@@ -40,7 +40,19 @@ const action1Func = (userId) => {
     userIdClicked.value = userId;
 };
 const editFunc = () => {
-    router.get(route('role.edit', {user: userIdClicked.value}));
+    router.get(route('role.edit', {id: userIdClicked.value}));
+};
+const deleteFunc = () => {
+    if(confirm("Are you sure you want to delete this user?")) {
+        router.delete(route('role.deleteUser', {user: userIdClicked.value}), {
+            onSuccess: () => {
+                alert("User deleted successfully.");
+            },
+            onError: (e) => {
+                console.error("Failed to delete user.", e);
+            }
+        });
+    }
 };
 </script>
 <template>
@@ -181,6 +193,7 @@ const editFunc = () => {
                           <div class="col">
                             <button type="button" class="btn btn-warning w-100"
                             data-bs-dismiss="modal"
+                            @click="deleteFunc()"
                             >
                               Delete
                             </button>

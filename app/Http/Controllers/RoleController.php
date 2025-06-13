@@ -67,4 +67,13 @@ class RoleController extends Controller
         return redirect()->back()->with('success', 'User added successfully.');
     }
 
+    public function destroy(User $user)
+    {
+        if (!$user) {
+            return response()->json(['error' => 'You cannot delete your own account.']);
+        }
+        $user->delete();
+        return redirect()->back()->with('success', 'User deleted successfully.');
+    }
+
 }

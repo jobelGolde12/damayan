@@ -90,5 +90,6 @@ Route::prefix('role')->name('role.')->middleware('auth')->group(function () {
     Route::put('/users/{user}', [RoleController::class, 'update'])->name('update');
     Route::get('/add-user-route', [RoleController::class, 'add'])->name('add');
     Route::post('/add-user-post', [RoleController::class, 'addUser'])->name('addUser');
+    Route::delete('/delete-user/{user}', [RoleController::class, 'destroy'])->name('deleteUser');
 });
 require __DIR__.'/auth.php';
