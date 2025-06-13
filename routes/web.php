@@ -86,5 +86,7 @@ Route::prefix('settings')->name('settings.')->middleware('auth')->group(function
 //Role management
 Route::prefix('role')->name('role.')->middleware('auth')->group(function () {
     Route::get('/view-roles', [RoleController::class, 'index'])->name('index');
+    Route::get('/users/{user}/edit', [RoleController::class, 'edit'])->name('edit');
+    Route::put('/users/{user}', [RoleController::class, 'update'])->name('update');
 });
 require __DIR__.'/auth.php';
