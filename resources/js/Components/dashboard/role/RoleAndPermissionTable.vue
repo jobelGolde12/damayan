@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import { defineProps } from "vue";
-
+import { router } from "@inertiajs/vue3";
 const props = defineProps({
     users: {
         type: Array,
@@ -16,6 +16,7 @@ const vicePresidentCount = ref(0);
 const purokLeaderCount = ref(0);
 const treasurerCount = ref(0);
 const colectorCount = ref(0);
+const selectedRole = ref(null);
 watch(
     () => props.users,
     (newUsers) => {
@@ -42,7 +43,6 @@ watch(
         colectorCount.value = getUsers.value.filter(
             (user) => user.role === "colector"
         ).length;
-        console.log("Users updated2:", getUsers.value);
     },
     { immediate: true }
 );
@@ -98,6 +98,14 @@ const roles = [
         icon: "bi bi-people",
     },
 ];
+const viewFunc = () => {
+    if (!selectedRole.value) {
+        alert("No role selected. Please select a role to view.");
+        return;
+    }
+    router.get(route('role.viewSpecificRole', {role: selectedRole.value}));
+    selectedRole.value = null;  
+};
 </script>
 <template>
     <div>
@@ -134,6 +142,9 @@ const roles = [
                                             >
                                                 <i
                                                     class="bi bi-three-dots-vertical"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#action"
+                                                    @click="selectedRole = role.name.toLocaleLowerCase()"
                                                 ></i>
                                             </button>
                                         </td>
@@ -143,5 +154,44 @@ const roles = [
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal for actions  -->
+                 <div
+            class="modal fade"
+            id="action"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">
+                            Action
+                        </h1>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                        ></button>
+                    </div>
+                   <div class="modal-footer">
+                      <div class="container-fluid">
+                          <div class="col">
+                            <button
+                              type="button"
+                              class="btn btn-primary w-100"
+                              data-bs-dismiss="modal"
+                              @click="viewFunc()"
+                            >
+                              View All
+                            </button>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>

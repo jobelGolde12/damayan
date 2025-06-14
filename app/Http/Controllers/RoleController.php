@@ -76,4 +76,12 @@ class RoleController extends Controller
         return redirect()->back()->with('success', 'User deleted successfully.');
     }
 
+    public function viewSpecificRole($role)
+    {
+        $users = User::where('role', $role)->get();
+        return Inertia::render('admin/roleManagementPage/ViewSpecificRole', [
+            'users' => $users,
+            'role' => $role,
+        ]);
+    }
 }

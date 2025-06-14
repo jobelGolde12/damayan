@@ -91,5 +91,6 @@ Route::prefix('role')->name('role.')->middleware('auth')->group(function () {
     Route::get('/add-user-route', [RoleController::class, 'add'])->name('add');
     Route::post('/add-user-post', [RoleController::class, 'addUser'])->name('addUser');
     Route::delete('/delete-user/{user}', [RoleController::class, 'destroy'])->name('deleteUser');
+    Route::get('view-specific-role/{role}', [RoleController::class, 'viewSpecificRole'])->name('viewSpecificRole');
 });
 require __DIR__.'/auth.php';

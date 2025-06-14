@@ -150,7 +150,6 @@ const deleteFunc = () => {
                         </div>
                       </div>
                     </div>
-
                 </div>
             </div>
         </div>
