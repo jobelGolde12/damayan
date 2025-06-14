@@ -21,7 +21,6 @@ watch(
     () => props.users,
     (newUsers) => {
         getUsers.value = newUsers;
-        console.log(getUsers.value);
         //Kuhaon ang count san bawat role
         adminCount.value = getUsers.value.filter(
             (user) => user.role === "admin"
@@ -103,12 +102,6 @@ const viewFunc = () => {
     if (!selectedRole.value) {
         alert("No role selected. Please select a role to view.");
         return;
-    }
-    if(selectedRole.value === "vise president") {
-        selectedRole.value = "vise_president";
-    }
-    if(selectedRole.value === "purok leader") {
-        selectedRole.value = "purok_leader";
     }
     router.get(route('role.viewSpecificRole', {role: selectedRole.value}));
     selectedRole.value = null;  

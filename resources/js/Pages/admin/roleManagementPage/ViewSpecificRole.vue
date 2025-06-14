@@ -19,6 +19,7 @@ watch(
   () => props.users,
   (newUsers) => {
     getUsers.value = newUsers;
+    console.log("View specific value" , getUsers.value);
   },
   { immediate: true }
 );
