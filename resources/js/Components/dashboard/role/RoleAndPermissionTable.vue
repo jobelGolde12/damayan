@@ -21,27 +21,28 @@ watch(
     () => props.users,
     (newUsers) => {
         getUsers.value = newUsers;
-        //Kuhaon ang count ng bawat role
+        console.log(getUsers.value);
+        //Kuhaon ang count san bawat role
         adminCount.value = getUsers.value.filter(
             (user) => user.role === "admin"
         ).length;
         secretaryCount.value = getUsers.value.filter(
-            (user) => user.role === "secretary"
+            (user) => user.position === "secretary"
         ).length;
         presidentCount.value = getUsers.value.filter(
-            (user) => user.role === "president"
+            (user) => user.position === "president"
         ).length;
         vicePresidentCount.value = getUsers.value.filter(
-            (user) => user.role === "vise_president"
+            (user) => user.position === "vise_president"
         ).length;
         purokLeaderCount.value = getUsers.value.filter(
-            (user) => user.role === "purok_leader"
+            (user) => user.position === "purok_leader"
         ).length;
         treasurerCount.value = getUsers.value.filter(
-            (user) => user.role === "treasurer"
+            (user) => user.position === "treasurer"
         ).length;
         colectorCount.value = getUsers.value.filter(
-            (user) => user.role === "colector"
+            (user) => user.position === "colector"
         ).length;
     },
     { immediate: true }
@@ -102,6 +103,12 @@ const viewFunc = () => {
     if (!selectedRole.value) {
         alert("No role selected. Please select a role to view.");
         return;
+    }
+    if(selectedRole.value === "vise president") {
+        selectedRole.value = "vise_president";
+    }
+    if(selectedRole.value === "purok leader") {
+        selectedRole.value = "purok_leader";
     }
     router.get(route('role.viewSpecificRole', {role: selectedRole.value}));
     selectedRole.value = null;  

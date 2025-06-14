@@ -5,6 +5,7 @@ import {Head, Link} from '@inertiajs/vue3'
 import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue'
 const form = useForm({
   name: '',
+  email: '',
   position: '',
   term_start: '',
   term_end: '',
@@ -35,6 +36,12 @@ function submit() {
             <input v-model="form.name" type="text" id="name" class="form-control" :class="{ 'is-invalid': form.errors.name }" required>
             <div v-if="form.errors.name" class="invalid-feedback">{{ form.errors.name }}</div>
           </div>
+
+           <div class="mb-3">
+            <label for="name" class="form-label fw-semibold">Email</label>
+            <input v-model="form.email" type="email" id="email" class="form-control"  required>
+          </div>
+
 
           <div class="mb-3">
             <label for="position" class="form-label fw-semibold">Position</label>

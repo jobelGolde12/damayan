@@ -9,13 +9,26 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+    admins: {
+        type: Array,
+        default: () => [],
+    },
 });
 let getUsers = ref([]);
+let getAdmins = ref([]);
 let userIdClicked = ref(null);
+watch(
+    () => props.admins,
+    (newAdmins) => {
+        getAdmins.value = newAdmins;
+    },
+    { immediate: true }
+);
 watch(
     () => props.users,
     (newUsers) => {
         getUsers.value = newUsers;
+        getUsers.value.push(...getAdmins.value);
     },
     { immediate: true }
 );
@@ -70,8 +83,8 @@ const deleteFunc = () => {
                                     >
                                         <td>{{ user.id }}</td>
                                         <td>{{ user.name }}</td>
-                                        <td>{{ user.email }}</td>
-                                        <td>{{ user.role }}</td>
+                                        <td>{{ user.email || 'N/A' }}</td>
+                                        <td>{{ user?.role || user?.position }}</td>
                                         <td>
                                             <button
                                                 class="btn btn-sm btn-light"

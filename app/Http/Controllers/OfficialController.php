@@ -20,6 +20,7 @@ class OfficialController extends Controller
     public function create(Request $request){
         $request->validate([
             'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:officials,email',
             'position' => 'required|string|max:255',
             'term_start' => 'required|date',
             'term_end' => 'required|date',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OfficialModel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,9 +12,11 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $admins = User::all();   
+        $users = OfficialModel::all();
         return Inertia::render('admin/roleManagementPage/Index', [
             'users' => $users,
+            'admins' => $admins,
         ]);
     }
     public function edit(User $user)

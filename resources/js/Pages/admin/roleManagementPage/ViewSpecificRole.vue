@@ -55,6 +55,19 @@ const formatDate = (dateString) => {
             </tr>
           </tbody>
         </table>
+        <div class="container ps-0">
+          <Link :href="route('role.index')" class="btn btn-primary">
+            Back
+          </Link>
+        </div>
+      </div>
+      <div class="container d-flex flex-column align-items-center gap-4" v-else>
+        <div>
+          <img src="../../../../images/not_found.svg" alt="Not found image" class="img-fluid" style="width: 360px"/>
+        </div>
+        <div>
+          <h5 class="fw-lighter">No data.</h5>
+        </div>
       </div>
     </div>
   </AdminLayout>
