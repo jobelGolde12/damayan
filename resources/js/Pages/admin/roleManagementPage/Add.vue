@@ -99,7 +99,7 @@ const submit = () => {
           </div>
 
           <div class="d-flex justify-content-end gap-2 mt-4">
-            <Link :href="route('role.index')" class="btn btn-secondary">Cancel</Link>
+            <Link :href="route('role.index')" class="btn btn-secondary">Back</Link>
             <button type="submit" class="btn btn-primary" :disabled="form.processing">
               Submit
             </button>

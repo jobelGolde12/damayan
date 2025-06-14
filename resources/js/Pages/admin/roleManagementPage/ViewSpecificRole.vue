@@ -22,6 +22,10 @@ watch(
   },
   { immediate: true }
 );
+const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+};
 </script>
 
 <template>
@@ -46,7 +50,7 @@ watch(
               <td>{{ user.id }}</td>
               <td>{{ user.name }}</td>
               <td>{{ user.email }}</td>
-              <td>{{ user.email_verified_at || 'Unverified' }}</td>
+              <td>{{ formatDate(user.email_verified_at) || 'Unverified' }}</td>
               <td>{{ user.role }}</td>
             </tr>
           </tbody>
