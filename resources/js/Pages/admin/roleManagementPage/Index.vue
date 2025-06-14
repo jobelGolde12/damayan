@@ -3,7 +3,7 @@ import { Head, Link, router } from "@inertiajs/vue3";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import HeaderComponent from "@/Components/dashboard/HeaderComponent.vue";
 import { defineProps, ref, watch } from "vue";
-
+import RoleAndPermissionTable from "@/Components/dashboard/role/RoleAndPermissionTable.vue";
 const props = defineProps({
     users: {
         type: Array,
@@ -20,22 +20,6 @@ watch(
     { immediate: true }
 );
 
-const roles = [
-    {
-        name: "Admin",
-        description: "Full access",
-        users: "2 users",
-        access: "Full modules",
-        icon: "bi bi-person",
-    },
-    {
-        name: "Collector",
-        description: "Jurisdiction-based",
-        users: "4 users",
-        access: "Status updates",
-        icon: "bi bi-people",
-    },
-];
 const action1Func = (userId) => {
     userIdClicked.value = userId;
 };
@@ -109,49 +93,7 @@ const deleteFunc = () => {
                         </Link>
                     </div>
                 </div>
-
-                <!-- Roles and Permissions Table -->
-                <div class="card mt-4">
-                    <div class="card-body">
-                        <h6 class="fw-semibold">Roles and Permissions</h6>
-                        <div class="table-responsive">
-                            <table class="table table-bordered align-middle">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Role</th>
-                                        <th>Description</th>
-                                        <th>Users</th>
-                                        <th>Access</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr
-                                        v-for="(role, index) in roles"
-                                        :key="index"
-                                    >
-                                        <td>
-                                            <i :class="role.icon"></i>
-                                            {{ role.name }}
-                                        </td>
-                                        <td>{{ role.description }}</td>
-                                        <td>{{ role.users }}</td>
-                                        <td>{{ role.access }}</td>
-                                        <td>
-                                            <button
-                                                class="btn btn-sm btn-light"
-                                            >
-                                                <i
-                                                    class="bi bi-three-dots-vertical"
-                                                ></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                    <RoleAndPermissionTable :users="getUsers"/>
                 <div class="bottom-role-container container"></div>
             </div>
         </AdminLayout>
