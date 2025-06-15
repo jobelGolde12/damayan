@@ -13,7 +13,12 @@ class DashboardController extends Controller
       if (!Auth::check()) {
         return redirect()->route('login');
       }
-      return Inertia::render('admin/dashboard/Home');
+      if(Auth::user()->role === 'admin') {
+        return Inertia::render('admin/dashboard/Home');
+      }else if(Auth::user()->role === 'collector') {
+        return Inertia::render('collector/dashboard/Home');
+      }
+      
     }
     public function registeredMember(){
       $members = memberModel::all();

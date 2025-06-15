@@ -12,11 +12,20 @@ const showingNavigationDropdown = ref(false);
       <!-- Logo -->
       <div class="text-center mb-4">
         <img src="../../images/logo.png" alt="Logo" class="img-fluid rounded-circle mb-2 logo">
-        <h5 class="fw-bold text-dark damayan-text">PROTECT DAMAYAN SYSTEM</h5>
+        <h5 class="fw-bold text-dark">PROTECT DAMAYAN SYSTEM</h5>
       </div>
 
       <!-- Navigation -->
       <div class="nav flex-column">
+
+        <div class="nav-item mb-2">
+          <hr class="hr">
+          <Link href="/dashboard" class="nav-link text-dark d-flex align-items-center py-0">
+            <i class="bi bi-person-circle me-2"></i> User
+          </Link>
+          <hr class="hr">
+        </div>
+
         <div class="nav-item mb-2">
           <Link href="/dashboard" class="nav-link text-dark d-flex align-items-center">
             <i class="bi bi-house-door me-2"></i> Dashboard
@@ -25,7 +34,7 @@ const showingNavigationDropdown = ref(false);
 
         <div class="nav-item mb-2">
           <Link :href="route('members.registered')" class="nav-link text-dark d-flex align-items-center">
-            <i class="bi bi-people me-2"></i> Members
+            <i class="bi bi-people me-2"></i> All Members
           </Link>
         </div>
 
@@ -94,16 +103,21 @@ const showingNavigationDropdown = ref(false);
   background: #7FEAFE;
   color: #333;
 }
+.main-container {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden !important;
+}
+.hr{
+  height: 3px;
+  background: #333;
+  margin: 10px 0;
+}
 .logo {
   position: relative;
   width: 60%;
   height: 120px;
   margin: auto;
-}
-.main-container {
-  width: 100%;
-  height: 100vh;
-  overflow: hidden !important;
 }
 .damayan-text {
   font-size: medium;

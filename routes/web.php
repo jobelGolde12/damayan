@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\CollectorController;
 use App\Http\Controllers\ContributionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
@@ -92,5 +93,13 @@ Route::prefix('role')->name('role.')->middleware('auth')->group(function () {
     Route::post('/add-user-post', [RoleController::class, 'addUser'])->name('addUser');
     Route::delete('/delete-user/{user}', [RoleController::class, 'destroy'])->name('deleteUser');
     Route::get('view-specific-role/{role}', [RoleController::class, 'viewSpecificRole'])->name('viewSpecificRole');
+});
+
+//Collector
+Route::prefix('collector')->name('collector.')->middleware('auth')->group(function () {
+    Route::get('/collector-dashboard', [CollectorController::class, 'index'])->name('collectorDashboard');
+    // Route::get('/view-collector-contributions', [\App\Http\Controllers\CollectorController::class, 'viewContributions'])->name('viewContributions');
+    // Route::get('/add-collector-contribution', [\App\Http\Controllers\CollectorController::class, 'addContribution'])->name('addContribution');
+    // Route::post('/add-collector-contribution-post', [\App\Http\Controllers\CollectorController::class, 'storeContribution'])->name('storeContribution');
 });
 require __DIR__.'/auth.php';
