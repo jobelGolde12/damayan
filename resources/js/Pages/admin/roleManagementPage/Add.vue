@@ -80,6 +80,7 @@ const submit = () => {
               <option value="treasurer">treasurer</option>
               <option value="purok-leader">Purok Leader</option>
               <option value="member">Member</option>
+              <option value="collector">Collector</option>
 
             </select>
             <div class="invalid-feedback">{{ form.errors.role }}</div>
