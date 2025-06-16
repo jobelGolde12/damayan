@@ -12,6 +12,7 @@ use App\Http\Controllers\MembersController;
 use App\Http\Controllers\OfficialArchive;
 use App\Http\Controllers\OfficialController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ReportForCollector;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Foundation\Application;
@@ -101,9 +102,10 @@ Route::prefix('role')->name('role.')->middleware('auth')->group(function () {
 Route::prefix('collector')->name('collector.')->middleware('auth')->group(function () {
     Route::get('/collector-dashboard', [CollectorController::class, 'index'])->name('collectorDashboard');
     Route::get('view-members-as-collector', [MemberControllerForCollector::class, 'index'])->name('viewMembersAsCollector');
+    Route::get('view-report-as-collector', [ReportForCollector::class, 'index'])->name('viewReportAsCollector');
 });
 Route::prefix('collector-contribution')->name('collectorContribution.')->middleware('auth')->group(function (){
     Route::get('/view-contribution-as-collector', [ContributionControllerForCollector::class, 'index'])->name('index');
     Route::get('/toggle-purok-as-collector/{purok}', [ContributionControllerForCollector::class, 'toggleContributionPurok'])->name('togglePurok');
-});
+}); 
 require __DIR__.'/auth.php';
