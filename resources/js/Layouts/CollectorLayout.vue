@@ -1,8 +1,11 @@
 <script setup>
 import { ref } from 'vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+const logoFunc = () => {
+  router.push(route('dashboard'));
+};
 </script>
 
 <template>
@@ -10,7 +13,7 @@ const showingNavigationDropdown = ref(false);
     <!-- Sidebar -->
     <div class="sidebar text-white p-3 d-flex flex-column" style="width: 20%; min-width: 250px;">
       <!-- Logo -->
-      <div class="text-center mb-4">
+      <div class="text-center mb-4 logo-container" @click="logoFunc">
         <img src="../../images/logo.png" alt="Logo" class="img-fluid rounded-circle mb-2 logo">
         <h5 class="fw-bold text-dark">PROTECT DAMAYAN SYSTEM</h5>
       </div>
@@ -33,13 +36,13 @@ const showingNavigationDropdown = ref(false);
         </div>
 
         <div class="nav-item mb-2">
-          <Link :href="route('members.registered')" class="nav-link text-dark d-flex align-items-center">
+          <Link :href="route('collector.viewMembersAsCollector')" class="nav-link text-dark d-flex align-items-center">
             <i class="bi bi-people me-2"></i> All Members
           </Link>
         </div>
 
         <div class="nav-item mb-2">
-          <Link :href="route('contributions.index')" class="nav-link text-dark d-flex align-items-center">
+          <Link :href="route('collectorContribution.index')" class="nav-link text-dark d-flex align-items-center">
             <i class="bi bi-cash-coin me-2"></i> Contribution
           </Link>
         </div>
@@ -121,5 +124,8 @@ const showingNavigationDropdown = ref(false);
 }
 .damayan-text {
   font-size: medium;
+}
+.logo-container {
+  cursor: pointer;
 }
 </style>

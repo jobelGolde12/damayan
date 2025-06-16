@@ -4,8 +4,10 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\CollectorController;
 use App\Http\Controllers\ContributionController;
+use App\Http\Controllers\ContributionControllerForCollector;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MemberControllerForCollector;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\OfficialArchive;
 use App\Http\Controllers\OfficialController;
@@ -98,8 +100,13 @@ Route::prefix('role')->name('role.')->middleware('auth')->group(function () {
 //Collector
 Route::prefix('collector')->name('collector.')->middleware('auth')->group(function () {
     Route::get('/collector-dashboard', [CollectorController::class, 'index'])->name('collectorDashboard');
+    Route::get('view-members-as-collector', [MemberControllerForCollector::class, 'index'])->name('viewMembersAsCollector');
     // Route::get('/view-collector-contributions', [\App\Http\Controllers\CollectorController::class, 'viewContributions'])->name('viewContributions');
     // Route::get('/add-collector-contribution', [\App\Http\Controllers\CollectorController::class, 'addContribution'])->name('addContribution');
     // Route::post('/add-collector-contribution-post', [\App\Http\Controllers\CollectorController::class, 'storeContribution'])->name('storeContribution');
+});
+Route::prefix('collector-contribution')->name('collectorContribution.')->middleware('auth')->group(function (){
+    Route::get('/view-contribution-as-collector', [ContributionControllerForCollector::class, 'index'])->name('index');
+    Route::get('/toggle-purok-as-collector/{purok}', [ContributionControllerForCollector::class, 'toggleContributionPurok'])->name('togglePurok');
 });
 require __DIR__.'/auth.php';

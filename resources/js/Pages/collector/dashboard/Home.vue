@@ -118,7 +118,7 @@ pieChart.setOption({
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="Collector dashboard" />
 
     <CollectorLayout>
         <Head title="Dashboard" />

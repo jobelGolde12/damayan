@@ -3,6 +3,9 @@ import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+const logoFunc = () => {
+  router.push(route('dashboard'));
+};
 </script>
 
 <template>
@@ -10,7 +13,7 @@ const showingNavigationDropdown = ref(false);
     <!-- Sidebar -->
     <div class="sidebar text-white p-3 d-flex flex-column" style="width: 20%; min-width: 250px;">
       <!-- Logo -->
-      <div class="text-center mb-4">
+      <div class="text-center mb-4 logo-container" @click="logoFunc">
         <img src="../../images/logo.png" alt="Logo" class="img-fluid rounded-circle mb-2 logo">
         <h5 class="fw-bold text-dark damayan-text">PROTECT DAMAYAN SYSTEM</h5>
       </div>
@@ -107,5 +110,8 @@ const showingNavigationDropdown = ref(false);
 }
 .damayan-text {
   font-size: medium;
+}
+.logo-container {
+  cursor: pointer;
 }
 </style>
