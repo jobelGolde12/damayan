@@ -47,12 +47,7 @@ const logoFunc = () => {
           </Link>
         </div>
 
-         <div class="nav-item mb-2">
-          <Link :href="route('reports.index')" class="nav-link text-dark d-flex align-items-center">
-            <i class="bi bi-file-earmark-text me-2"></i> Reports
-          </Link>
-        </div>
-
+         
         <div class="nav-item mb-2">
           <Link :href="route('officials.index')" class="nav-link text-dark d-flex align-items-center">
             <i class="bi bi-people me-2"></i> Officials
@@ -60,26 +55,14 @@ const logoFunc = () => {
         </div>
 
         <div class="nav-item mb-2">
-          <Link :href="route('archive.index')" class="nav-link text-dark d-flex align-items-center">
-            <i class="bi bi-archive me-2"></i> Archived
-          </Link>
-        </div>
-
-        <div class="nav-item mb-2">
-          <Link href="/sms" class="nav-link text-dark d-flex align-items-center">
-            <i class="bi bi-bell me-2"></i> SMS
-          </Link>
-        </div>
-
-          <div class="nav-item mb-2">
-          <Link :href="route('settings.viewSettings')" class="nav-link text-dark d-flex align-items-center">
-            <i class="bi bi-gear me-2"></i> Settings
+          <Link :href="route('reports.index')" class="nav-link text-dark d-flex align-items-center">
+            <i class="bi bi-file-earmark-text me-2"></i> Reports
           </Link>
         </div>
 
         <div class="nav-item mb-2">
           <Link :href="route('logout')" method="post" class="nav-link text-dark d-flex align-items-center">
-            <i class="bi bi-gear me-2"></i> Logout
+            <i class="bi bi-box-arrow-left me-2"></i> Logout
           </Link>
         </div>
 

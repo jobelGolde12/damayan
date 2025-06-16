@@ -4,15 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\OfficialModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class OfficialController extends Controller
 {
     public function index(){
         $officials = OfficialModel::all();
-        return Inertia::render('admin/dashboard/official/Home', [
+        if(Auth::user()->role == 'admin'){
+            return Inertia::render('admin/dashboard/official/Home', [
             'officials' => $officials,
-        ]);
+            ]);
+        }else if(Auth::user()->role == 'collector'){
+            return Inertia::render('collector/dashboard/official/Home', [
+            'officials' => $officials,
+            ]);
+        }
     }
     public function addOfficialRoute(){
         return Inertia::render('admin/dashboard/official/Add');
