@@ -62,9 +62,7 @@ function formatAmount(value) {
             <tr>
               <th>ID</th>
               <th>NAME</th>
-              <th>AMOUNT</th>
-              <th>DATE</th>
-              <th>COLLECTOR</th>
+              <th>CONTACT NO.</th>
               <th>PUROK</th>
               <th>STATUS</th>
             </tr>
@@ -73,16 +71,12 @@ function formatAmount(value) {
             <tr v-for="(mem, index) in getMember" :key="index">
               <td>{{ mem?.id }}</td>
               <td class="text-start">{{ mem?.first_name }} {{ mem?.middle_name }} {{ mem?.last_name }}</td>
-              <td>{{ formatAmount(mem?.contributions[0]?.amount) || 'undefined' }}</td>
+              <td>{{ mem?.contact_number || 'undefined' }}</td>
               <td>
-                <span v-if="mem?.contributions[0]?.payment_date">{{ formatDate(mem?.contributions[0]?.payment_date) }}</span>
-                <span v-else class="text-muted">...</span>
+                {{ mem?.purok || 'N/A' }}
               </td>
-              <td>{{ mem?.contributions[0]?.collector || 'N/A' }}</td>
-              <td>{{ mem?.contributions[0]?.purok || 'N/A'}}</td>
               <td>
-                <span v-if="mem?.contributions[0]?.status === 'paid'" class="badge bg-success">Paid</span>
-                <span v-else class="">...</span>
+                <button class="status-button">Paid</button>
               </td>
             </tr>
           </tbody>
@@ -104,5 +98,13 @@ function formatAmount(value) {
   width: 200px;
   margin: auto;
   margin-bottom: 2rem;
+}
+.status-button {
+  background-color: #0CF32F;
+  color: #333;
+  border: none;
+  padding: 0.3rem .7rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
 }
 </style>

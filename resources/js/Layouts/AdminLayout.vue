@@ -70,7 +70,7 @@ const logoFunc = () => {
 
         <div class="nav-item mb-2">
           <Link :href="route('logout')" method="post" class="nav-link text-dark d-flex align-items-center">
-            <i class="bi bi-gear me-2"></i> Logout
+            <i class="bi bi-box-arrow-left me-2"></i> Logout
           </Link>
         </div>
 
