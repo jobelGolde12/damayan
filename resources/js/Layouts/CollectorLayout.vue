@@ -55,7 +55,7 @@ const logoFunc = () => {
         </div>
 
         <div class="nav-item mb-2">
-          <Link :href="route('reports.index')" class="nav-link text-dark d-flex align-items-center">
+          <Link :href="route('collector.viewReportAsCollector')" class="nav-link text-dark d-flex align-items-center">
             <i class="bi bi-file-earmark-text me-2"></i> Reports
           </Link>
         </div>

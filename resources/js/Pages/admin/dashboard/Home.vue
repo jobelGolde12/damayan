@@ -124,7 +124,7 @@ pieChart.setOption({
         <Head title="Dashboard" />
         <div class="container-fluid mx-0 px-0 home-container">
             <HeaderComponent />
-            <h2 class="fw-normal fs-5 my-4">Analytics Dashboard</h2>
+            <h2 class="fw-normal fs-5 my-4 ms-3">Analytics Dashboard</h2>
 
             <div class="row g-4">
                 <!-- Left Column with Bar Chart -->
