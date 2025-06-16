@@ -42,7 +42,7 @@ const logoFunc = () => {
         </div>
 
         <div class="nav-item mb-2">
-          <Link :href="route('contributions.index')" class="nav-link text-dark d-flex align-items-center">
+          <Link :href="route('collectorContribution.index')" class="nav-link text-dark d-flex align-items-center">
             <i class="bi bi-cash-coin me-2"></i> Contribution
           </Link>
         </div>
