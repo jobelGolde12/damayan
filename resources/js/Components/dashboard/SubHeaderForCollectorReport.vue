@@ -45,7 +45,7 @@ watch(() => props.unpaidMembers, (newUnpaid) => {
 </script>
 <template>
     <div>
-        <div class="container-fluid header-container px-5 mt-3">
+        <div class="container-fluid header-container mt-3">
             <table class="table">
                 <thead class="thead">
                     <tr style="border-top: 1px solid #000; border-bottom: 1px solid #000;">

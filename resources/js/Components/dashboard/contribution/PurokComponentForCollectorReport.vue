@@ -1,0 +1,62 @@
+<script setup>
+import { defineProps, ref, watch } from 'vue'
+import { router } from '@inertiajs/vue3';
+const props = defineProps({
+    activePurok: {
+        type: String,
+        default: () => ''
+    },
+    activeStatus: {
+        type: String,
+        default: () => 'paid'
+    }
+})
+let getActiveStatus = ref('');
+let getActivePurok = ref('');
+watch(
+    () => props.activePurok,
+    (newData) => {
+        getActivePurok.value = newData;
+        console.log("Active Purok: ", getActivePurok.value);
+    },
+    {immediate: true}
+)
+
+watch(
+    () => props.activeStatus, 
+    (newStatus) => {
+    getActiveStatus.value = newStatus;
+}, { immediate: true })
+
+const puroks = ['purok1', 'purok2', 'purok3', 'purok4']
+const togglePurok = (purok) =>{
+    router.get(route('collector.togglePurok', {status: getActiveStatus.value, purok: purok}), {
+        onSuccess: () => console.log("changing purok"),
+        onError: (err) => console.log("An error occured: " , err)
+    })
+}
+</script>
+
+<template>
+    <div class="d-flex flex-row justify-content-between align-items-center px-0">
+          <div>
+             <span v-for="purok in puroks" :key="purok" class="mx-2 purok"
+                :class="{ 'fw-bold active': purok === getActivePurok }"
+                @click="togglePurok(purok)" 
+                >
+            {{ purok }}
+          </span>
+          </div>
+    </div>
+</template>
+<style scoped>
+.purok{
+    cursor: pointer;
+}
+.purok:hover{
+    color: #353232;
+}
+.active {
+    color: #28a745;
+}
+</style>

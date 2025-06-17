@@ -5,15 +5,28 @@ const props = defineProps({
     activeStatus: {
         type: String,
         default: 'paid'
+    },
+    activePurok: {
+        type: String,
+        default: ''
     }   
 });
 let getActiveStatus = ref('paid');
+let getActivePurok = ref('');
 watch(() => props.activeStatus, (newStatus) => {
     getActiveStatus.value = newStatus;
 }, { immediate: true });
+
+watch(() => props.activePurok, (newPurok) => {
+    getActivePurok.value = newPurok;
+}, { immediate: true });
+
 const toggleStatusFunc = (status) => {
     getActiveStatus.value = status;
-    router.get(route('collector.toggleStatus', { status: status }));
+    router.get(route('collector.toggleStatus', { status: status, purok: getActivePurok.value }), {
+        onSuccess: () => console.log("Status changed to: ", status),
+        onError: (err) => console.log("An error occurred: ", err)
+    });
 };
 </script>
 <template>
@@ -30,7 +43,7 @@ const toggleStatusFunc = (status) => {
                 <h5 class="choice" 
                 :class="{'text-success': getActiveStatus != 'paid'}"
                 @click="toggleStatusFunc('not_paid')">
-                UPAID</h5>
+                UNPAID</h5>
             </div>
         </div>
     </div>
