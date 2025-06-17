@@ -1,12 +1,12 @@
 <script setup>
 import CollectorLayout from '@/Layouts/CollectorLayout.vue';
 import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
-import Purok from '@/Components/dashboard/contribution/Purok.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { defineProps, ref, watch } from 'vue';
 import SubHeaderForCollectorReport from '@/Components/dashboard/SubHeaderForCollectorReport.vue';
 import TogglePaidOrUnPaid from '@/Components/dashboard/TogglePaidOrUnPaid.vue';
 import ReportTable from '@/Components/dashboard/ReportTable.vue';
+import PurokComponentForCollectorReport from '@/Components/dashboard/contribution/PurokComponentForCollectorReport.vue';
 
 const props = defineProps({
     contributions: {
@@ -20,6 +20,10 @@ const props = defineProps({
     membersCount: {
         type: Number,
         default: 0
+    },
+    activeStatus: {
+        type: String,
+        default: () => 'paid'
     }
 });
 let getContributions = ref([]);
@@ -28,6 +32,7 @@ let getMembersCount = ref(0);
 let getAmmount = ref(0);
 let getPaidMembers = ref(0);
 let getUnpaidMembers = ref(0);
+let getActiveStatus = ref('paid');
 watch(() => props.contributions, (newContributions) => {
     getContributions.value = newContributions;
     getAmmount.value = newContributions.reduce((total, contribution) => total + contribution.amount, 0);
@@ -41,6 +46,9 @@ watch(() => props.activePurok, (newPurok) => {
 watch(() => props.membersCount, (newCount) => {
     getMembersCount.value = newCount;
 }, { immediate: true });
+watch(() => props.activeStatus, (newStatus) => {
+    getActiveStatus.value = newStatus;
+}, { immediate: true });
 </script>
 
 <template>
@@ -50,12 +58,15 @@ watch(() => props.membersCount, (newCount) => {
             <HeaderComponent />
 
                 <div class="head container">
-                    <h5>Report</h5>
+                    <h5 class="mb-0">Report</h5>
                     <p>Contribution Report</p>
                 </div>
 
                     <div class="purok-container container-fluid d-flex justify-content-end align-items-center">
-                        <Purok :activePurok="getActivePurok" />
+                        <PurokComponentForCollectorReport
+                         :activePurok="getActivePurok"
+                         :activeStatus="getActiveStatus"
+                          />
                     </div>
                     <SubHeaderForCollectorReport
                      :membersCount="getMembersCount"
@@ -65,7 +76,10 @@ watch(() => props.membersCount, (newCount) => {
                       :unpaidMembers="getUnpaidMembers"
                       />
 
-                      <TogglePaidOrUnPaid :activeStatus="contributions[0]?.status || null"/>
+                      <TogglePaidOrUnPaid 
+                      :activeStatus="getActiveStatus"
+                      :activePurok="getActivePurok"
+                      />
                       <ReportTable :contributions="getContributions"/>
         </CollectorLayout>
     </div>
