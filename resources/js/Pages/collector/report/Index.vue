@@ -5,6 +5,7 @@ import Purok from '@/Components/dashboard/contribution/Purok.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { defineProps, ref, watch } from 'vue';
 import SubHeaderForCollectorReport from '@/Components/dashboard/SubHeaderForCollectorReport.vue';
+import TogglePaidOrUnPaid from '@/Components/dashboard/TogglePaidOrUnPaid.vue';
 
 const props = defineProps({
     contributions: {
@@ -24,9 +25,13 @@ let getContributions = ref([]);
 let getActivePurok = ref('');
 let getMembersCount = ref(0);
 let getAmmount = ref(0);
+let getPaidMembers = ref(0);
+let getUnpaidMembers = ref(0);
 watch(() => props.contributions, (newContributions) => {
     getContributions.value = newContributions;
     getAmmount.value = newContributions.reduce((total, contribution) => total + contribution.amount, 0);
+    getPaidMembers.value = newContributions.filter(contribution => contribution.status == 'paid').length;
+    getUnpaidMembers.value = newContributions.filter(contribution => !contribution.status != 'paid').length;
     console.log("Contributions: ", getContributions.value);
 }, { immediate: true });
 watch(() => props.activePurok, (newPurok) => {
@@ -51,7 +56,15 @@ watch(() => props.membersCount, (newCount) => {
                     <div class="purok-container container-fluid d-flex justify-content-end align-items-center">
                         <Purok :activePurok="getActivePurok" />
                     </div>
-                    <SubHeaderForCollectorReport :membersCount="getMembersCount" :amount="Number(getAmmount)"/>
+                    <SubHeaderForCollectorReport
+                     :membersCount="getMembersCount"
+                      :amount="Number(getAmmount)"
+                      :activePurok="getActivePurok"
+                      :paidMembers="getPaidMembers"
+                      :unpaidMembers="getUnpaidMembers"
+                      />
+
+                      <TogglePaidOrUnPaid :activeStatus="contributions[0]?.status || null"/>
         </CollectorLayout>
     </div>
 </template>

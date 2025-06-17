@@ -103,6 +103,7 @@ Route::prefix('collector')->name('collector.')->middleware('auth')->group(functi
     Route::get('/collector-dashboard', [CollectorController::class, 'index'])->name('collectorDashboard');
     Route::get('view-members-as-collector', [MemberControllerForCollector::class, 'index'])->name('viewMembersAsCollector');
     Route::get('view-report-as-collector', [ReportForCollector::class, 'index'])->name('viewReportAsCollector');
+    Route::get('toggle-status-as-collector/{status}', [ReportForCollector::class, 'toggleStatus'])->name('toggleStatus');
 });
 Route::prefix('collector-contribution')->name('collectorContribution.')->middleware('auth')->group(function (){
     Route::get('/view-contribution-as-collector', [ContributionControllerForCollector::class, 'index'])->name('index');
