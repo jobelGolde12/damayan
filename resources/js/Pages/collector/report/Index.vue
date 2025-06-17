@@ -6,6 +6,7 @@ import { Head, Link } from '@inertiajs/vue3';
 import { defineProps, ref, watch } from 'vue';
 import SubHeaderForCollectorReport from '@/Components/dashboard/SubHeaderForCollectorReport.vue';
 import TogglePaidOrUnPaid from '@/Components/dashboard/TogglePaidOrUnPaid.vue';
+import ReportTable from '@/Components/dashboard/ReportTable.vue';
 
 const props = defineProps({
     contributions: {
@@ -65,6 +66,7 @@ watch(() => props.membersCount, (newCount) => {
                       />
 
                       <TogglePaidOrUnPaid :activeStatus="contributions[0]?.status || null"/>
+                      <ReportTable :contributions="getContributions"/>
         </CollectorLayout>
     </div>
 </template>

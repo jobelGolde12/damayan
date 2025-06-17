@@ -22,13 +22,13 @@ const toggleStatusFunc = (status) => {
             <div>
                 <h5 
                 class="choice" 
-                :class="{'active': getActiveStatus == 'paid'}"
+                :class="{'text-success': getActiveStatus == 'paid'}"
                 @click="toggleStatusFunc('paid')">
                 PAID</h5>
             </div>
              <div>
                 <h5 class="choice" 
-                :class="{'active': getActiveStatus != 'paid'}"
+                :class="{'text-success': getActiveStatus != 'paid'}"
                 @click="toggleStatusFunc('not_paid')">
                 UPAID</h5>
             </div>
