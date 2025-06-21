@@ -113,5 +113,6 @@ Route::prefix('collector-contribution')->name('collectorContribution.')->middlew
 Route::prefix('collectorProfile')->name('collectorProfile.')->middleware('auth')->group(function (){
     Route::get('/view-profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/edit-profile-page', [ProfileController::class, 'editRoute'])->name('editRoute');
+    Route::patch('/edit-profile', [ProfileController::class, 'update'])->name('update');
 });
 require __DIR__.'/auth.php';

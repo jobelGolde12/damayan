@@ -22,7 +22,12 @@ const form = useForm({
 
 // Submit handler
 const submit = () => {
-    form.post(route("profile.update", { id: props.user.id }));
+    form.patch(route("profile.update", { id: props.user.id }), 
+{
+    onSuccess: () => alert("Profile updated."),
+    onError: () => alert("Something went wrong while updating profile, please  try again.")
+}
+);
 };
 </script>
 
