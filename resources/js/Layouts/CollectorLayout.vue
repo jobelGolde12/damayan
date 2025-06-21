@@ -23,7 +23,7 @@ const logoFunc = () => {
 
         <div class="nav-item mb-2">
           <hr class="hr">
-          <Link href="/dashboard" class="nav-link text-dark d-flex align-items-center py-0">
+          <Link :href="route('collectorProfile.profile')" class="nav-link text-dark d-flex align-items-center py-0">
             <i class="bi bi-person-circle me-2"></i> User
           </Link>
           <hr class="hr">

@@ -110,4 +110,8 @@ Route::prefix('collector-contribution')->name('collectorContribution.')->middlew
     Route::get('/view-contribution-as-collector', [ContributionControllerForCollector::class, 'index'])->name('index');
     Route::get('/toggle-purok-as-collector/{purok}', [ContributionControllerForCollector::class, 'toggleContributionPurok'])->name('togglePurok');
 }); 
+Route::prefix('collectorProfile')->name('collectorProfile.')->middleware('auth')->group(function (){
+    Route::get('/view-profile', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/edit-profile-page', [ProfileController::class, 'editRoute'])->name('editRoute');
+});
 require __DIR__.'/auth.php';
