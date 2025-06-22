@@ -9,16 +9,16 @@ import {defineProps,  ref, watch } from 'vue';
 
 const props = defineProps({
   currentMonthData: {
-    type: Array,
-    default: () => []
+    type: Object,
+    default: () => ({})
   },
   yearData: {
-    type: Array,
-    default: () => []
+    type: Object,
+    default: () => ({})
   },
   monthlyOverview: {
-    type: Array,
-    default: () => []
+    type: Object,
+    default: () => ({})
   }
 });
 let getCurrentMonthData = ref([]);
@@ -29,15 +29,13 @@ watch(
   () => props.currentMonthData,
   (newData) => {
     getCurrentMonthData.value = newData ? Object.values(newData) : [];
-    console.log("current month: ", getCurrentMonthData.value);
   },
   {immediate: true}
 )
 watch(
-  () => props.getYearData,
+  () => props.yearData,
   (newData) => {
     getYearData.value = newData ? Object.values(newData) : [];
-    console.log(" year: ", getYearData.value);
   },
   {immediate: true}
 )
@@ -45,7 +43,6 @@ watch(
   () => props.monthlyOverview,
   (newData) => {
     getMothlyOverview.value = newData ? Object.values(newData) : [];
-    console.log("month overview: ", getMothlyOverview.value);
   },
   {immediate: true}
 )
@@ -62,19 +59,19 @@ watch(
       <div class="row g-4">
         <!-- Bar Chart -->
         <div class="col-md-8">
-          <CurrentMothCard />
+          <CurrentMothCard :data="getCurrentMonthData"/>
         </div>
 
         <!-- Pie Chart -->
         <div class="col-md-4">
-          <CurrentYearCard />
+          <CurrentYearCard :data="getYearData"/>
         </div>
       </div>
 
       <!-- Monthly Line Chart -->
       <div class="row mt-4">
         <div class="col-12">
-          <MonthlyOverviewCard />
+          <MonthlyOverviewCard :data="getMothlyOverview"/>
         </div>
       </div>
     </div>

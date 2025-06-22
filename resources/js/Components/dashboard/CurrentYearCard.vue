@@ -1,6 +1,22 @@
 <script setup>
 import { onMounted } from 'vue';
 import * as echarts from 'echarts';
+import { defineProps, ref, watch } from 'vue';
+
+const props = defineProps({
+  data: {
+    type: Array,
+    default: () => []
+  }
+})
+let getData = ref([]);
+watch(
+() => props.data,
+(newData) => {
+  getData.value = newData;
+},
+{immediate: true}
+)
 
 onMounted(() => {
   const pieChart = echarts.init(document.getElementById('pieChart'));
@@ -20,9 +36,9 @@ onMounted(() => {
         radius: '70%',
         center: ['50%', '60%'],
         data: [
-          { value: 40000, name: 'Total Fund Collected', itemStyle: { color: '#0000ff' } },
-          { value: 30000, name: 'Total Fund Disbursed', itemStyle: { color: '#00cc00' } },
-          { value: 10000, name: 'Available Balance', itemStyle: { color: '#ffa500' } }
+          { value: getData.value[0] || 0, name: 'Total Fund Collected', itemStyle: { color: '#0000ff' } },
+          { value: getData.value[1] || 0, name: 'Total Fund Disbursed', itemStyle: { color: '#00cc00' } },
+          { value: getData.value[2] || 0, name: 'Available Balance', itemStyle: { color: '#ffa500' } }
         ],
         label: { fontSize: 8 },
         emphasis: {

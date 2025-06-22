@@ -8,6 +8,7 @@ use App\Models\memberModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -62,22 +63,23 @@ class DashboardController extends Controller
 
     /////////////////////////
     //Para sa monthly overview
-    $monthlyData = ContributionModel::selectRaw('MONTH(payment_date) as month, SUM(amount) as total_collected')
-    ->whereYear('payment_date', $currentYear)
-    ->groupByRaw('MONTH(payment_date)')
-    ->get()
-    ->keyBy('month');
+      $monthlyData = ContributionModel::selectRaw('MONTH(payment_date) as month, SUM(amount) as total_collected')
+      ->whereYear('payment_date', $currentYear)
+      ->groupByRaw('MONTH(payment_date)')
+      ->get()
+      ->keyBy('month'); //total contributions collected for each month in the current year
 
-    $monthlyDisbursement = AssistanceDistribution::selectRaw('MONTH(distribution_date) as month, SUM(total_amount) as total_disbursed')
-        ->whereYear('distribution_date', $currentYear)
-        ->groupByRaw('MONTH(distribution_date)')
-        ->get()
-        ->keyBy('month');
-    
-      $monthlyOverview = [
-      'monthlyData' => $monthlyData,
-      'monthlyDisbursement' => $monthlyDisbursement,
-    ];
+      $monthlyDisbursement = AssistanceDistribution::selectRaw('MONTH(distribution_date) as month, SUM(total_amount) as total_disbursed')
+          ->whereYear('distribution_date', $currentYear)
+          ->groupByRaw('MONTH(distribution_date)')
+          ->get()
+          ->keyBy('month');
+      
+        $monthlyOverview = [
+        'monthlyData' => $monthlyData,
+        'monthlyDisbursement' => $monthlyDisbursement,
+      ];
+      Log::info(['month overview: ' => $monthlyOverview]);
     ////////////////////////
 
     // redirect sa specific na dashboard depende sa role 

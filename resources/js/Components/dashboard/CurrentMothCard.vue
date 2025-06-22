@@ -1,7 +1,22 @@
 <script setup>
 import { onMounted } from 'vue';
 import * as echarts from 'echarts';
+import { defineProps, ref, watch } from 'vue';
 
+const props = defineProps({
+  data: {
+    type: Array,
+    default: () => []
+  }
+})
+let getData = ref([]);
+watch(
+() => props.data,
+(newData) => {
+  getData.value = newData;
+},
+{immediate: true}
+)
 onMounted(() => {
   const barChart = echarts.init(document.getElementById('barChart'));
   barChart.setOption({
@@ -13,7 +28,8 @@ onMounted(() => {
       {
         name: 'Amount',
         type: 'bar',
-        data: [12000, 12000, 5000],
+        //         (Total)              Disbursed               Balance
+        data: [getData.value[0] || 0, getData.value[1] || 0, getData.value[2] || 0],
         itemStyle: {
           color: function (params) {
             const colors = ['#0000ff', '#ffa500', '#00cc00'];
