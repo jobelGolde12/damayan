@@ -5,6 +5,50 @@ import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
 import CurrentMothCard from '@/Components/dashboard/CurrentMothCard.vue';
 import CurrentYearCard from '@/Components/dashboard/CurrentYearCard.vue';
 import MonthlyOverviewCard from '@/Components/dashboard/MonthlyOverviewCard.vue';
+import {defineProps,  ref, watch } from 'vue';
+
+const props = defineProps({
+  currentMonthData: {
+    type: Array,
+    default: () => []
+  },
+  yearData: {
+    type: Array,
+    default: () => []
+  },
+  monthlyOverview: {
+    type: Array,
+    default: () => []
+  }
+});
+let getCurrentMonthData = ref([]);
+let getYearData = ref([]);
+let getMothlyOverview = ref([]);
+
+watch(
+  () => props.currentMonthData,
+  (newData) => {
+    getCurrentMonthData.value = newData ? Object.values(newData) : [];
+    console.log("current month: ", getCurrentMonthData.value);
+  },
+  {immediate: true}
+)
+watch(
+  () => props.getYearData,
+  (newData) => {
+    getYearData.value = newData ? Object.values(newData) : [];
+    console.log(" year: ", getYearData.value);
+  },
+  {immediate: true}
+)
+watch(
+  () => props.monthlyOverview,
+  (newData) => {
+    getMothlyOverview.value = newData ? Object.values(newData) : [];
+    console.log("month overview: ", getMothlyOverview.value);
+  },
+  {immediate: true}
+)
 </script>
 
 <template>
