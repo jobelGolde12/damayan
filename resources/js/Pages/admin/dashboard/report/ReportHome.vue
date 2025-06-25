@@ -3,10 +3,9 @@ import AdminLayout from '@/Layouts/AdminLayout.vue';
 import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { defineProps, ref, watch } from 'vue';
-import SubHeaderForCollectorReport from '@/Components/dashboard/SubHeaderForCollectorReport.vue';
-import TogglePaidOrUnPaid from '@/Components/dashboard/TogglePaidOrUnPaid.vue';
+import ContributionReportForAdmin from '@/Components/dashboard/report/ContributionReportForAdmin.vue';
+import RecentContributionForAdmin from '@/Components/dashboard/report/RecentContributionForAdmin.vue';
 import ReportTable from '@/Components/dashboard/ReportTable.vue';
-import PurokComponentForCollectorReport from '@/Components/dashboard/contribution/PurokComponentForCollectorReport.vue';
 
 const props = defineProps({
     contributions: {
@@ -59,27 +58,8 @@ watch(() => props.activeStatus, (newStatus) => {
 
                 <div class="head container">
                     <h5 class="mb-0">Report</h5>
-                    <p>Contribution Report</p>
                 </div>
-
-                    <div class="purok-container container-fluid d-flex justify-content-end align-items-center">
-                        <PurokComponentForCollectorReport
-                         :activePurok="getActivePurok"
-                         :activeStatus="getActiveStatus"
-                          />
-                    </div>
-                    <SubHeaderForCollectorReport
-                     :membersCount="getMembersCount"
-                      :amount="Number(getAmmount)"
-                      :activePurok="getActivePurok"
-                      :paidMembers="getPaidMembers"
-                      :unpaidMembers="getUnpaidMembers"
-                      />
-
-                      <TogglePaidOrUnPaid 
-                      :activeStatus="getActiveStatus"
-                      :activePurok="getActivePurok"
-                      />
+                    <ContributionReportForAdmin />
                       <ReportTable :contributions="getContributions"/>
         </AdminLayout>
     </div>
