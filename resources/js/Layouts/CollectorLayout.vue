@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from 'vue';
 import { Link, router } from '@inertiajs/vue3';
+import { toggleNav } from '@/piniaStore/toggleNav'
+
+const navStore = toggleNav()
 
 const showingNavigationDropdown = ref(false);
 const logoFunc = () => {
