@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue';
+import { nextTick, onMounted } from 'vue';
 import * as echarts from 'echarts';
 import { defineProps, ref, watch } from 'vue';
 
@@ -19,7 +19,8 @@ watch(
 )
 
 onMounted(() => {
-  const pieChart = echarts.init(document.getElementById('pieChart'));
+   nextTick(() => {
+    const pieChart = echarts.init(document.getElementById('pieChart'));
   pieChart.setOption({
     title: {
       text: 'YEAR',
@@ -51,6 +52,7 @@ onMounted(() => {
       }
     ]
   });
+   });
 });
 </script>
 

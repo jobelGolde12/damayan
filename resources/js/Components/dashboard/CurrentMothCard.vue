@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue';
+import { nextTick, onMounted } from 'vue';
 import * as echarts from 'echarts';
 import { defineProps, ref, watch } from 'vue';
 
@@ -18,7 +18,8 @@ watch(
 {immediate: true}
 )
 onMounted(() => {
-  const barChart = echarts.init(document.getElementById('barChart'));
+  nextTick(() => {
+      const barChart = echarts.init(document.getElementById('barChart'));
   barChart.setOption({
     title: { text: 'Current Month', left: 'center' },
     tooltip: {},
@@ -38,6 +39,7 @@ onMounted(() => {
         }
       }
     ]
+  });
   });
 });
 </script>

@@ -74,6 +74,8 @@ watch(
           <MonthlyOverviewCard :data="getMothlyOverview"/>
         </div>
       </div>
+
+      
     </div>
   </CollectorLayout>
 </template>
