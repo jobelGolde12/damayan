@@ -10,6 +10,7 @@ const form = useForm({
   email: '',
   role: '',
   password: '',
+  purok: '',
 });
 
 const submit = () => {
@@ -81,6 +82,24 @@ const submit = () => {
               <option value="purok-leader">Purok Leader</option>
               <option value="member">Member</option>
               <option value="collector">Collector</option>
+
+            </select>
+            <div class="invalid-feedback">{{ form.errors.role }}</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="role" class="form-label">Purok</label>
+            <select
+              id="purok"
+              v-model="form.purok"
+              class="form-select"
+              :class="{ 'is-invalid': form.errors.role }"
+            >
+              <option value="" disabled>Select Purok</option>
+              <option value="1">Purok 1</option>  
+              <option value="2">Purok 2</option>
+              <option value="3">Purok 3</option>
+              <option value="4">Purok 3</option>
 
             </select>
             <div class="invalid-feedback">{{ form.errors.role }}</div>

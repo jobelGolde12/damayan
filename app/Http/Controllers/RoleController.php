@@ -58,6 +58,7 @@ class RoleController extends Controller
             'email' => 'required|email|max:255|unique:users,email',
             'role' => 'required|',
             'password' => 'required|string|min:6',
+            'purok' => 'required|in:purok,1,2,3,4',
         ]);
 
         User::create([
@@ -65,6 +66,7 @@ class RoleController extends Controller
             'email' => $validated['email'],
             'role' => $validated['role'],
             'password' => Hash::make($validated['password']),
+            'purok' => $validated['purok']
         ]);
 
         return redirect()->back()->with('success', 'User added successfully.');
