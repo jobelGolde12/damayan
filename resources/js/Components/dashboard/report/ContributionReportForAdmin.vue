@@ -66,7 +66,7 @@ watch(
             </div>
         </div>
 
-        <div class="container text-muted text-center">
+        <div class="container text-muted text-center" v-else>
             <p>No contribution data.</p>
         </div>
     </div>

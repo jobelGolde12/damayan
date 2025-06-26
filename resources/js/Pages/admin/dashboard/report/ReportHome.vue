@@ -5,7 +5,6 @@ import { Head, Link } from '@inertiajs/vue3';
 import { defineProps, ref, watch } from 'vue';
 import ContributionReportForAdmin from '@/Components/dashboard/report/ContributionReportForAdmin.vue';
 import RecentContributionForAdmin from '@/Components/dashboard/report/RecentContributionForAdmin.vue';
-import ReportTable from '@/Components/dashboard/ReportTable.vue';
 
 const props = defineProps({
     contributions: {
@@ -16,7 +15,6 @@ const props = defineProps({
 let getContributions = ref([]);
 watch(() => props.contributions, (newContributions) => {
     getContributions.value = newContributions;
-    console.log("contributions: ", getContributions.value)
 }, { immediate: true });
 
 </script>
@@ -31,6 +29,7 @@ watch(() => props.contributions, (newContributions) => {
                     <h5 class="mb-0">Report</h5>
                 </div>
                     <ContributionReportForAdmin :contributions="getContributions"/>
+                    <RecentContributionForAdmin :recent="getContributions" />
         </AdminLayout>
     </div>
 </template>

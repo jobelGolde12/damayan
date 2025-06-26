@@ -15,20 +15,24 @@ class ReportController extends Controller
 
         $collectors = User::where('role', 'collector')->select('id', 'name', 'purok')->get();
 
-        $contributions = ContributionModel::select('id', 'collector', 'purok', 'status')->get();
+    // Load all contributions with needed fields
+    $contributions = ContributionModel::select('collector', 'status', 'amount', 'created_at')->get();
 
-        $collectorStats = $collectors->map(function ($collector) use ($contributions) {
-            // Match contributions by collector name
-            $matchedContributions = $contributions->where('collector', $collector->name);
+    $collectorStats = $collectors->map(function ($collector) use ($contributions) {
+        // Filter contributions by matching collector name
+        $matchedContributions = $contributions->where('collector', $collector->name);
 
-            return [
-                'collector' => $collector->name,
-                'purok' => $collector->purok,
-                'members' => $matchedContributions->count(), //  Total members san kada collector
-                'paid' => $matchedContributions->where('status', 'paid')->count(),
-                'not_paid' => $matchedContributions->where('status', 'not_paid')->count(),
-            ];
-        });
+    return [
+        'collector' => $collector->name,
+        'purok' => $collector->purok,
+        'members' => $matchedContributions->count(),
+        'paid' => $matchedContributions->where('status', 'paid')->count(),
+        'not_paid' => $matchedContributions->where('status', 'not_paid')->count(),
+        'total_amount' => $matchedContributions->sum('amount'),
+        'date' => $matchedContributions->max('created_at'),
+    ];
+});
+
 
 
 

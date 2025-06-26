@@ -11,8 +11,14 @@ watch(
     () => props.recent,
     (data) => {
         getRecent.value = data;
+    console.log("data: ", getRecent.value)
     }, {immediate: true}
 )
+
+const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+};
 </script>
 
 <template>
@@ -31,18 +37,17 @@ watch(
         </thead>
         <tbody>
             <tr v-for="(item, index) in recent" :key="index">
-            <td>{{ item.date }}</td>
-            <td>{{ item.amount }}</td>
+            <td>{{ formatDate(item.date) }}</td>
+            <td>{{ item.total_amount }}</td>
             <td>{{ item.members }}</td>
             <td>{{ item.collector }}</td>
             <td>{{ item.purok }}</td>
             </tr>
         </tbody>
         </table>
-
-            <div class="container text-muted text-center">
+  </div>
+                    <div class="container text-muted text-center" v-else>
                 <p>No recent contribution data.</p>
             </div>
-  </div>
   </div>
 </template>
