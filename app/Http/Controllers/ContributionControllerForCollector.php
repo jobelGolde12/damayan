@@ -11,13 +11,10 @@ class ContributionControllerForCollector extends Controller
 {
     public function index()
     {
-         $mem = memberModel::whereHas('contributions', function ($query){
-            $query->where('purok', 'purok1');
-        })->with('contributions')->get();
-        $selectedPurok = 'purok1';
+         $mem = memberModel::with('contributions')->get();
         return Inertia::render('collector/contribution/MemberContribution', [
             'member' => $mem,
-            'selectedPurok' => $selectedPurok,
+            'selectedPurok' => 'all',
         ]);
     }
 

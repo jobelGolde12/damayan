@@ -59,7 +59,7 @@ const isVerified = computed(() => !!props.user.email_verified_at);
                             <!-- Profile Information -->
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
-                                    <strong>Role:</strong> {{ props.user.role }}
+                                    <strong>Role:</strong> {{ props.user.role }} {{ props.user.purok }}
                                 </li>
                                 <li class="list-group-item">
                                     <strong>Member Since:</strong> {{ formattedDate(props.user.created_at) }}

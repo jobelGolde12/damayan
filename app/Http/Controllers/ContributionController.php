@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CollectorModel;
 use App\Models\ContributionModel;
 use App\Models\memberModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -12,10 +14,8 @@ use Inertia\Inertia;
 class ContributionController extends Controller
 {
     public function index(){
-        $mem = memberModel::whereHas('contributions', function ($query){
-            $query->where('purok', 'purok1');
-        })->with('contributions')->get();
-        $selectedPurok = 'purok1';
+        $mem = memberModel::with('contributions')->get();
+        $selectedPurok = 'all';
         return Inertia::render('admin/dashboard/contribution/MemberContribution', [
             'member' => $mem,
             'selectedPurok' => $selectedPurok,
@@ -26,6 +26,13 @@ class ContributionController extends Controller
         $mem = memberModel::whereHas('contributions', function ($query) use ($purok){
             $query->where('purok', $purok);
         })->with('contributions')->get();
+
+          if($mem->empty()){
+            if($purok == 'all'){
+                $mem = memberModel::with('contributions')->get();
+            }
+        }
+        
         $selectedPurok = $purok;
         return Inertia::render('admin/dashboard/contribution/MemberContribution', [
             'member' => $mem,
@@ -35,8 +42,10 @@ class ContributionController extends Controller
 
     public function add(){
         $members = memberModel::select('id', 'first_name', 'last_name', 'middle_name')->get();
+        $collectors = User::where('role', 'collector')->select('id', 'name')->get();
         return Inertia::render('admin/dashboard/contribution/AddContribution', [
-            'members' => $members
+            'members' => $members,
+            'collectors' => $collectors,
         ]);
     }
 

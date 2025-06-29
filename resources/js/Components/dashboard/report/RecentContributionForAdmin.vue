@@ -23,7 +23,7 @@ const formatDate = (dateString) => {
 
 <template>
   <div>
-        <div class="table-responsive" v-if="getRecent.length > 0">
+        <div class="container" v-if="getRecent.length > 0">
         <h5 class="fw-light">Recent Contributions</h5>
         <table class="table table-bordered table-striped">
         <thead class="table-light">

@@ -57,12 +57,7 @@ function formatAmount(value) {
             <Link :href="route('contributions.add')" class="btn btn-success">Add Contribution</Link>
         </div>
     </div>
-      <div class="d-flex justify-content-between text-muted small">
-        <span class="text-success">ALL MEMBERS</span>
-        <div>
           <Purok :activePurok="getSelectedPurok"/>
-        </div>
-      </div>
 
       <div class="table-responsive mt-3" v-if="getMember.length > 0">
         <table class="table table-bordered table-hover align-middle text-center">

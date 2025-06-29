@@ -19,7 +19,6 @@ class DashboardController extends Controller
       }
 
 
-      //Get the charts data
       $month = Carbon::now()->month;
       $year = Carbon::now()->year;
 
@@ -29,9 +28,9 @@ class DashboardController extends Controller
     ->sum('amount');
 
     // Total Disbursed This Month
-    $totalDisbursed = AssistanceDistribution::whereMonth('distribution_date', $month)
-    ->whereYear('distribution_date', $year)
-    ->sum('total_amount');
+    $totalDisbursed = ContributionModel::whereMonth('payment_date', $month)
+    ->whereYear('payment_date', $year)
+    ->sum('amount');
 
     // Balance
     $monthBalance = $totalCollected - $totalDisbursed;
@@ -49,8 +48,8 @@ class DashboardController extends Controller
     $yearCollected = ContributionModel::whereYear('payment_date', $currentYear)
         ->sum('amount');
 
-    $yearDisbursed = AssistanceDistribution::whereYear('distribution_date', $currentYear)
-        ->sum('total_amount');
+    $yearDisbursed = ContributionModel::whereYear('payment_date', $currentYear)
+        ->sum('amount');
 
     $yearBalance = $yearCollected - $yearDisbursed;
 
@@ -79,7 +78,6 @@ class DashboardController extends Controller
         'monthlyData' => $monthlyData,
         'monthlyDisbursement' => $monthlyDisbursement,
       ];
-      Log::info(['month overview: ' => $monthlyOverview]);
     ////////////////////////
 
     // redirect sa specific na dashboard depende sa role 
