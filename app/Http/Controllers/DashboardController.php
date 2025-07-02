@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\AssistanceDistribution;
 use App\Models\ContributionModel;
 use App\Models\memberModel;
+use App\Models\OfficialModel;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,13 +34,19 @@ class DashboardController extends Controller
     ->whereYear('payment_date', $year)
     ->sum('amount');
 
-    // Balance
-    $monthBalance = $totalCollected - $totalDisbursed;
+    // Balance (mag kakaiba ang table pero same cra member san damayan)
+    // why? may conflict kc sa data san members pag abot sa database
+    $membersCount = memberModel::count(); //Get the count of all members
+    $usersCount = User::count(); //Get the count of all users
+    $officialsCount = OfficialModel::count(); //Get the count of all officials
+
+    $monthBalance = $membersCount + $usersCount + $officialsCount; // Eh plus lang intiro na bilang
+    $monthBalance = $monthBalance * 100; //Tsaka eh times sa 100 kay tig 100 ang contribution san members
 
     $currentMonthData = [
       'totalCollected' => $totalCollected,
       'totalDisbursed' => $totalDisbursed,
-      'balance' => $monthBalance
+      'balance' => $monthBalance - $totalCollected, //Lastly eh minus yung Month balance sa total collected.
     ];
 
     ////////////////////////////
@@ -51,12 +59,18 @@ class DashboardController extends Controller
     $yearDisbursed = ContributionModel::whereYear('payment_date', $currentYear)
         ->sum('amount');
 
-    $yearBalance = $yearCollected - $yearDisbursed;
+        // Same logic sa month balance
+        $membersCount = memberModel::count();
+      $usersCount = User::count(); 
+      $officialsCount = OfficialModel::count(); 
+
+      $yearBalance = $membersCount + $usersCount + $officialsCount; 
+      $yearBalance = $yearBalance * 100; 
 
       $yearData = [
       'yearCollected' => $yearCollected,
       'yearDisbursed' => $yearDisbursed,
-      'yearBalance' => $yearBalance
+      'yearBalance' => $yearBalance - $yearCollected
     ];
     ///////////////////////////
 

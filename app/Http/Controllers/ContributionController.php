@@ -53,7 +53,7 @@ class ContributionController extends Controller
 {
     $request->validate([
         'member_id' => 'required|exists:members,id',
-        'amount' => 'required|numeric|min:0',
+        'amount' => 'numeric|min:0',
         'payment_date' => 'required|date',
         'collector' => 'required|string|max:255',
         'purok' => 'required',
