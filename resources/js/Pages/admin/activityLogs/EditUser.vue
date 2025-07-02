@@ -17,7 +17,9 @@ const updateUser = () => {
     onError: () => alert('Something went wrong, please try again.')
   })
 }
-
+const goBack = () => {
+  window.history.back();
+};
 </script>
 
 <template>
@@ -52,9 +54,9 @@ const updateUser = () => {
             <button type="submit" class="btn btn-primary" :disabled="form.processing">
             Update
           </button>
-          <Link :href="route('activityLog.viewUser', {id: props?.user.id})" class="btn btn-secondary" >
+          <div @click="goBack" class="btn btn-secondary" >
             Go back
-          </Link> 
+          </div> 
           </div>
         </form>
       </div>

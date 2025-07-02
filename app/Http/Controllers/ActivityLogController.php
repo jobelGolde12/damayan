@@ -15,6 +15,7 @@ class ActivityLogController extends Controller
         $users = User::all();
         return Inertia::render('admin/activityLogs/Index', [
             'users' => $users,
+            'currentUserId' => Auth::id(),
         ]);
     }
     public function viewUser($id){
