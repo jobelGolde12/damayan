@@ -120,5 +120,7 @@ Route::prefix('collectorProfile')->name('collectorProfile.')->middleware('auth')
 Route::prefix('activityLog')->name('activityLog.')->middleware('auth')->group(function () {
     Route::get('/view-activity-logs', [ActivityLogController::class, 'index'])->name('index');
     Route::get('/view-user/{id}', [ActivityLogController::class, 'viewUser'])->name('viewUser');
+    Route::get('/activity-log/{id}/edit', [ActivityLogController::class, 'edit'])->name('edit');
+    Route::put('/activity-log/{id}', [ActivityLogController::class, 'update'])->name('update');
 });
 require __DIR__.'/auth.php';

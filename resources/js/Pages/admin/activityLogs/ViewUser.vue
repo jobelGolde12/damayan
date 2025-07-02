@@ -1,13 +1,17 @@
 <script setup>
 import { defineProps } from 'vue';
-import { Head, router } from '@inertiajs/vue3';
+import { Head, router, Link } from '@inertiajs/vue3';
 const props = defineProps({
   user: Object,
   isCurrentUserAdmin: Boolean,
+  isSameUser: Boolean,
 });
 
 const deleteUser = () => {
     router.delete(route('role.deleteUser', {id: props?.user.id}))
+}
+const editUser = () => {
+  router.get(route('activityLog.edit', {id: props?.user.id}));
 }
 </script>
 
@@ -16,6 +20,7 @@ const deleteUser = () => {
     <Head title="View user" />
     <div class="container mt-5 d-flex justify-content-center" v-if="props.user">
     <div class="card rounded-4 p-4" style="max-width: 500px; width: 100%;">
+      <Link :href="route('activityLog.index')" class="text-decoration-none d-flex justify-content-end text-dark"><i class="bi bi-x-lg"></i></Link> 
       <div class="text-center mb-4">
         <div class="rounded-circle bg-primary text-white d-inline-flex justify-content-center align-items-center"
              style="width: 80px; height: 80px; font-size: 2rem;">
@@ -33,12 +38,12 @@ const deleteUser = () => {
         </div>
       </div>
       <!-- Kapag admin ang role san current user pwede cya mag delete or update user  -->
-      <div class="mt-4 d-flex justify-content-center" v-if="isCurrentUserAdmin">
-        <button class="btn btn-outline-primary me-2">
-          <i class="bi bi-pencil"></i> Edit
+      <div class="mt-4 d-flex align-items-center" v-if="isCurrentUserAdmin">
+        <button class="btn btn-outline-primary me-2" @click="editUser">
+          <i class="bi bi-pencil"></i> 
         </button>
-        <button class="btn btn-outline-danger" @click="deleteUser">
-          <i class="bi bi-trash" ></i> Delete
+        <button class="btn btn-outline-danger" @click="deleteUser" v-if="props?.isSameUser != true">
+          <i class="bi bi-trash" ></i> 
         </button>
       </div>
     </div>
