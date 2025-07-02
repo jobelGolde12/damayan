@@ -42,10 +42,10 @@ class ContributionController extends Controller
 
     public function add(){
         $members = memberModel::select('id', 'first_name', 'last_name', 'middle_name')->get();
-        $collectors = User::where('role', 'collector')->select('id', 'name')->get();
+        $users = User::select('id', 'name')->get(); 
         return Inertia::render('admin/dashboard/contribution/AddContribution', [
             'members' => $members,
-            'collectors' => $collectors,
+            'users' => $users,
         ]);
     }
 
@@ -55,7 +55,7 @@ class ContributionController extends Controller
         'member_id' => 'required|exists:members,id',
         'amount' => 'numeric|min:0',
         'payment_date' => 'required|date',
-        'collector' => 'required|string|max:255',
+        'collector' => 'nullable|max:255',
         'purok' => 'required',
         'status' => 'required',
     ]);
@@ -64,7 +64,7 @@ class ContributionController extends Controller
         'amount' => $request->amount,
         'payment_date' => $request->payment_date,
         'updated_by' => Auth::id(),
-        'collector' => $request->collector,
+        'collector' => $request->collector ?: "",
         'purok' => $request->purok,
         'status' => $request->status,
     ]); 

@@ -10,7 +10,7 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
-    collectors: {
+    users: {
         type: Array,
         default: () => [],
     },
@@ -19,29 +19,34 @@ const props = defineProps({
 let getMembers = ref([]);
 let getFullName = ref([]);
 const getCollectors = ref([]);
-// Create a full name from first, middle, and last name
+const getUsers = ref([]);
+// Create a full name from first, middle, and last name || pero ang hali sa users full name na
 watch(
-    () => props.members,
-    (newData) => {
-        getMembers.value = newData;
-        getFullName.value = getMembers.value.map((member) => ({
-            id: member.id,
-            fullName: `${member.first_name} ${member.middle_name ?? ""} ${
-                member.last_name
-            }`
-                .replace(/\s+/g, " ")
-                .trim(),
-        }));
-    },
-    { immediate: true }
+  [() => props.members, () => props.users],
+  ([membersData, usersData]) => {
+    // Map members
+    const memberFullNames = (membersData || []).map((member) => ({
+      id: member.id,
+      fullName: `${member.first_name} ${member.middle_name ?? ""} ${member.last_name}`
+        .replace(/\s+/g, " ")
+        .trim(),
+    }));
+
+    // Map users
+    const userFullNames = (usersData || []).map((user) => ({
+      id: user.id,
+      fullName: user.name,
+    }));
+
+    // Combine
+    getFullName.value = [...memberFullNames, ...userFullNames];
+
+    getUsers.value = usersData || [];
+    getCollectors.value = (usersData || []).filter((user) => user.role === 'collector');
+  },
+  { immediate: true }
 );
-watch(
-    () => props.collectors,
-    (data) => {
-        getCollectors.value = data || [];
-    },
-    { immediate: true }
-);
+
 
 const form = useForm({
     member_id: "",

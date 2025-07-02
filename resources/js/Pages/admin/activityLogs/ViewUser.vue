@@ -5,6 +5,8 @@ const props = defineProps({
   user: Object,
   isCurrentUserAdmin: Boolean,
   isSameUser: Boolean,
+  contributionSum: Number,
+  contributionThisMonth: Number,
 });
 
 const deleteUser = () => {
@@ -36,6 +38,15 @@ const editUser = () => {
         <div class="list-group-item d-flex justify-content-between">
           <strong>User ID:</strong> <span>{{ user.id }}</span>
         </div>
+
+        <div class="list-group-item d-flex justify-content-between">
+          <strong>Contribution this month:</strong> <span class="text-success">{{ props.contributionThisMonth || 'none' }}</span>
+        </div>
+
+        <div class="list-group-item d-flex justify-content-between">
+         <strong>All contributions:</strong> <span class="text-success">{{ props.contributionSum || 'none' }}</span>
+        </div>
+
       </div>
       <!-- Kapag admin ang role san current user pwede cya mag delete or update user  -->
       <div class="mt-4 d-flex align-items-center" v-if="isCurrentUserAdmin">

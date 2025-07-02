@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContributionModel;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -16,13 +18,24 @@ class ActivityLogController extends Controller
         ]);
     }
     public function viewUser($id){
-        $user = User::findOrFail($id);
+      $month = Carbon::now()->month; //current month
+      $year = Carbon::now()->year; //current year
+      $user = User::findOrFail($id);
+
+        $contributionThisMonth = ContributionModel::where('member_id', $id)
+        ->whereMonth('payment_date', $month)
+        ->whereYear('payment_date', $year)
+        ->sum('amount');
+
+        $contributionSum = ContributionModel::where('member_id', $id)->sum('amount'); // Sum of all contributions
         $isCurrentUserAdmin = Auth::user()->role == 'admin' ? true : false; //define if current user = admin
         $isSameUser = Auth::id() == $id ? true : false; //define if the current viewing his/her data then d niya pwede eh delete ang kaniya account
         return Inertia::render('admin/activityLogs/ViewUser', [
             'user' => $user,
             'isCurrentUserAdmin' => $isCurrentUserAdmin,
             'isSameUser' => $isSameUser,
+            'contributionThisMonth' => $contributionThisMonth,
+            'contributionSum' => $contributionSum,
         ]);
     }
     public function edit($id)
