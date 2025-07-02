@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\CollectorController;
@@ -114,5 +115,10 @@ Route::prefix('collectorProfile')->name('collectorProfile.')->middleware('auth')
     Route::get('/view-profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/edit-profile-page', [ProfileController::class, 'editRoute'])->name('editRoute');
     Route::patch('/edit-profile', [ProfileController::class, 'update'])->name('update');
+});
+
+Route::prefix('activityLog')->name('activityLog.')->middleware('auth')->group(function () {
+    Route::get('/view-activity-logs', [ActivityLogController::class, 'index'])->name('index');
+    Route::get('/view-user/{id}', [ActivityLogController::class, 'viewUser'])->name('viewUser');
 });
 require __DIR__.'/auth.php';

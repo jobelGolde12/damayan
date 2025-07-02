@@ -17,7 +17,7 @@ import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
             </div>
             <hr>
             <div class="list">
-                <Link :href="route('role.index')" class="link text-decoration-none fs-5">Activity Logs</Link>
+                <Link :href="route('activityLog.index')" class="link text-decoration-none fs-5">Activity Logs</Link>
             </div>
             <hr>
             <div class="list">

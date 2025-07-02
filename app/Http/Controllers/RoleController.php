@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\OfficialModel;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
@@ -72,10 +73,13 @@ class RoleController extends Controller
         return redirect()->back()->with('success', 'User added successfully.');
     }
 
-    public function destroy(User $user)
+    public function destroy($id)
     {
+        $user = User::findOrFail($id);
         if (!$user) {
-            return response()->json(['error' => 'You cannot delete your own account.']);
+            return response()->json(['error' => 'account not found.']);
+        }else if($user->id == Auth::id()){
+            return response()->json(['error' => 'You cannot delete you own account.']);
         }
         $user->delete();
         return redirect()->back()->with('success', 'User deleted successfully.');
