@@ -77,6 +77,7 @@ watch(
       </div>
 
 
+      <div class="add-space-at-bottom "></div>
         </div>
     </AdminLayout>
 </template>
@@ -87,5 +88,15 @@ watch(
     height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
+}
+.add-space-at-bottom{
+  display: none;
+  width: 100%;
+  height: 30%; 
+}
+@media screen and (max-width: 756px){
+  .add-space-at-bottom{
+    display: block;
+  }
 }
 </style>

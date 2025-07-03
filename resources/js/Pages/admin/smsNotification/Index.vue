@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { router, Head, Link } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-
+import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue'
 const deathReport = ref('')
 const scheduleContribution = ref('')
 const reminders = ref('')
@@ -48,6 +48,17 @@ function save(type) {
 
   router.post(`/sms-notification/${type}`, payload)
 }
+
+//Copy the text in the clipboard
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text)
+    alert('Text copied to clipboard!')
+  } catch (err) {
+    console.error('Failed to copy text: ', err)
+    alert('Failed to copy text. Please try again or copy manually.')
+  }
+}
 </script>
 
 
@@ -55,7 +66,8 @@ function save(type) {
   <div>
     <AdminLayout>
       <Head title="Sms notification" />
-      <div class="container py-3">
+      <HeaderComponent />
+      <div class="container">
         <h4 class="mb-4 fw-bold sticky-header text-start ps-2 pt-3">SMS Notification</h4>
 
         <div class="scroll-content">
@@ -127,6 +139,9 @@ function save(type) {
             </div>
             <div class="modal-body">
               {{ suggestionText }}
+               <span class=" text-dark rounded py-1 px-2 copy" @click="copyText(suggestionText)" title="Copy text">
+                <i class="bi bi-copy"></i>
+              </span>
             </div>
             <div class="modal-footer d-flex justify-content-between align-items-center ">
               <div>
@@ -188,5 +203,8 @@ textarea.form-control {
 
 .save-btn:hover {
   background-color: #0ad929;
+}
+.copy{
+  cursor: pointer;
 }
 </style>
