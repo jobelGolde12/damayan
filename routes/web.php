@@ -16,6 +16,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportForCollector;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SmsNotificationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -122,5 +123,9 @@ Route::prefix('activityLog')->name('activityLog.')->middleware('auth')->group(fu
     Route::get('/view-user/{id}', [ActivityLogController::class, 'viewUser'])->name('viewUser');
     Route::get('/activity-log/{id}/edit', [ActivityLogController::class, 'edit'])->name('edit');
     Route::put('/activity-log/{id}', [ActivityLogController::class, 'update'])->name('update');
+});
+
+Route::prefix('smsNotification')->name('smsNotification.')->middleware('auth')->group(function () {
+    Route::get('/sms-notification', [SmsNotificationController::class, 'index'])->name('index');
 });
 require __DIR__.'/auth.php';
