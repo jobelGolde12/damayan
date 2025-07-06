@@ -17,6 +17,7 @@ const getMembers = ref([])
 const deathInput = ref('')
 const lastNightInput = ref('')
 const startOfContribution = ref('')
+const isTextCopied = ref(false)
 
 watch(() => props.deathReport, data => {
   deathReport.value = data
@@ -40,7 +41,6 @@ const form = useForm({
 
 const modalTitle = ref('')
 
-// Compute suggestion live
 const computedSuggestion = computed(() => {
   if (modalTitle.value === 'Death Report Suggestion') {
     return `We regret to inform you that ${deathInput.value?.first_name || '[Name of Dead]'} ${deathInput.value?.last_name || ''} has passed away. Last night will be held on ${lastNightInput.value || '[Date]'}. Collection for burial assistance starts on ${startOfContribution.value || '[Date]'}.'`
@@ -58,10 +58,11 @@ const computedSuggestion = computed(() => {
 })
 
 function showSuggestion(type) {
-  if (type === 'deathReport') modalTitle.value = 'Death Report Suggestion'
-  else if (type === 'scheduleContribution') modalTitle.value = 'Schedule Contribution Suggestion'
-  else if (type === 'reminders') modalTitle.value = 'Reminder Suggestion'
-  else if (type === 'fundUpdates') modalTitle.value = 'Fund Update Suggestion'
+  modalTitle.value = type === 'deathReport' ? 'Death Report Suggestion' :
+                      type === 'scheduleContribution' ? 'Schedule Contribution Suggestion' :
+                      type === 'reminders' ? 'Reminder Suggestion' :
+                      type === 'fundUpdates' ? 'Fund Update Suggestion' : '';
+  isTextCopied.value = false;
 }
 
 function save(type) {
@@ -76,7 +77,10 @@ function save(type) {
 async function copyText(text) {
   try {
     await navigator.clipboard.writeText(text)
-    alert('Text copied to clipboard!')
+    isTextCopied.value = true
+    setTimeout(() => {
+      isTextCopied.value = false;
+    }, 4000);
   } catch (err) {
     console.error('Failed to copy text: ', err)
     alert('Failed to copy text. Please try again or copy manually.')
@@ -94,7 +98,6 @@ async function copyText(text) {
         <h4 class="mb-4 fw-bold sticky-header text-start ps-2 pt-3">SMS Notification</h4>
 
         <div class="scroll-content">
-          <!-- Death Report -->
           <div class="mb-4 position-relative">
             <div class="container-fluid d-flex flex-row justify-content-between align-items-center">
               <label class="form-label">Death Report</label>
@@ -105,7 +108,6 @@ async function copyText(text) {
             <button class="save-btn" @click="save('deathReport')">SAVE</button>
           </div>
 
-          <!-- Schedule Contribution -->
           <div class="mb-4 position-relative">
             <div class="container-fluid d-flex flex-row justify-content-between align-items-center">
               <label class="form-label">Schedule Contribution</label>
@@ -116,7 +118,6 @@ async function copyText(text) {
             <button class="save-btn" @click="save('scheduleContribution')">SAVE</button>
           </div>
 
-          <!-- Reminders -->
           <div class="mb-4 position-relative">
             <div class="container-fluid d-flex flex-row justify-content-between align-items-center">
               <label class="form-label">Reminders</label>
@@ -127,7 +128,6 @@ async function copyText(text) {
             <button class="save-btn" @click="save('reminders')">SAVE</button>
           </div>
 
-          <!-- Fund Updates -->
           <div class="mb-4 position-relative">
             <div class="container-fluid d-flex flex-row justify-content-between align-items-center">
               <label class="form-label">Fund Updates</label>
@@ -142,7 +142,6 @@ async function copyText(text) {
         </div>
       </div>
 
-      <!-- Modal -->
       <div class="modal fade" id="suggestionModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -151,17 +150,26 @@ async function copyText(text) {
               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-              <DeathReportInput 
+              <DeathReportInput
               v-if="modalTitle === 'Death Report Suggestion'"
-                :members="getMembers" 
-                v-model:dead="deathInput" 
+                :members="getMembers"
+                v-model:dead="deathInput"
                 v-model:startOfContribution="startOfContribution"
                 v-model:lastNight="lastNightInput"
               />
 
               <p>{{ computedSuggestion }}</p>
-              <span class="text-dark rounded py-1 px-2 copy" @click="copyText(computedSuggestion)" title="Copy text">
+              <span 
+              class="text-dark rounded copy" 
+              @click="copyText(computedSuggestion)" 
+              title="Copy text"
+              v-if="!isTextCopied"
+              >
                 <i class="bi bi-copy"></i>
+              </span>
+
+              <span v-if="isTextCopied" class="text-dark rounded py-1 px-2" title="Text copied">
+                <i class="bi bi-check-square"></i>
               </span>
             </div>
             <div class="modal-footer d-flex justify-content-between align-items-center">
@@ -216,7 +224,7 @@ textarea.form-control {
   cursor: pointer;
 }
 .extra-space {
-  width: 100%;
+    width: 100%;
   height: 20%;
 }
 </style>

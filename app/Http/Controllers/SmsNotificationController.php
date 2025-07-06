@@ -21,8 +21,19 @@ class SmsNotificationController extends Controller
             'members' => $members,
         ]);
     }
-    public function smsPage(){
-        return Inertia::render('admin/SmsPage');
+    public function smsPage(){ //Pages/admin/SmsPage.vue
+        
+        $deathReport = SmsNotificationSaved::where('type', 'deathReport')->latest()->first();
+        $scheduleContribution = SmsNotificationSaved::where('type', 'scheduleContribution')->latest()->first();
+        $reminders = SmsNotificationSaved::where('type', 'reminders')->latest()->first();
+        $fundUpdates = SmsNotificationSaved::where('type', 'fundUpdates')->latest()->first();
+
+        return Inertia::render('admin/SmsPage', [
+            'deathReport' => $deathReport,
+            'scheduleContribution' => $scheduleContribution,
+            'reminders' => $reminders,
+            'fundUpdates' => $fundUpdates
+        ]);
     }
     public function addDeathReport(Request $request){
          $request->validate([
