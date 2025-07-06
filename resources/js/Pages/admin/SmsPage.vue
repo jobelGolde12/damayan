@@ -1,42 +1,19 @@
 <script setup>
-import { ref, defineProps, watch } from 'vue'
+import { ref } from 'vue'
 import { router, Head, Link } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue'
-
-const props = defineProps({
-  death: {
-    type: Object,
-    default: () => ({})
-  },
-  disbursed: {
-    type: String,
-    default: () => ''
-  }
-})
-
-const deathReport = ref([])
+const deathReport = ref('')
 const scheduleContribution = ref('')
 const reminders = ref('')
 const fundUpdates = ref('')
-const totalDisbursedAmount = ref('') 
 
-watch(
-  () => props.death,
-  (data) => {
-    deathReport.value = data;
-  }, {immediate:  true}
-)
-
-watch(
-  () => props.disbursed,
-  (data) => {
-    totalDisbursedAmount.value = data;
-  }, {immediate:  true}
-)
 // Modal states
 const suggestionText = ref('')
 const modalTitle = ref('')
+
+// Example dynamic value for fund updates
+const totalDisbursedAmount = ref(10500) 
 
 function showSuggestion(type) {
   if (type === 'deathReport') {
@@ -91,7 +68,7 @@ async function copyText(text) {
       <Head title="Sms notification" />
       <HeaderComponent />
       <div class="container">
-        <h4 class="mb-4 fw-bold sticky-header text-start ps-2 pt-3">SMS Notification</h4>
+        <h4 class="mb-4 fw-bold sticky-header text-start ps-2 pt-3">SMS</h4>
 
         <div class="scroll-content">
           <!-- Death Report -->
