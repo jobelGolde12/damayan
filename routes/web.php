@@ -128,5 +128,6 @@ Route::prefix('activityLog')->name('activityLog.')->middleware('auth')->group(fu
 Route::prefix('smsNotification')->name('smsNotification.')->middleware('auth')->group(function () {
     Route::get('/sms-notification', [SmsNotificationController::class, 'index'])->name('index'); // Para sa settings > sms notifications
     Route::get('/sms-page', [SmsNotificationController::class, 'smsPage'])->name('smsPage'); // Para sms na route (yung sa sidenav)
+    Route::post('/add-death-report', [SmsNotificationController::class, 'addDeathReport'])->name('addDeathReport');
 });
 require __DIR__.'/auth.php';
