@@ -1,7 +1,6 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
 import CurrentMothCard from '@/Components/dashboard/CurrentMothCard.vue';
 import CurrentYearCard from '@/Components/dashboard/CurrentYearCard.vue';
 import MonthlyOverviewCard from '@/Components/dashboard/MonthlyOverviewCard.vue';
@@ -54,7 +53,6 @@ watch(
     <AdminLayout>
         <Head title="Dashboard" />
         <div class="container-fluid mx-0 px-0 home-container">
-            <HeaderComponent />
             <h2 class="fw-normal fs-5 my-4 ms-3">Analytics Dashboard</h2>
 
              <div class="row g-4">

@@ -3,7 +3,6 @@
 import { router, Head } from '@inertiajs/vue3'
 import { defineProps, ref, watch } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue'
 
 const props = defineProps({
   officials: Array,
@@ -46,7 +45,6 @@ const formatDate = (dateString) => {
   <Head title="View officials" />
     <div>
         <AdminLayout>
-            <HeaderComponent />
             <div class="container mt-4">
     <h4 class="mb-4">Protect Damayan Officials</h4>
     <table class="table table-bordered table-striped table-responsive" v-if="getOfficials.length > 0">

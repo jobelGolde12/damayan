@@ -1,14 +1,12 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
-import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
 </script>
 
 <template>
     <Head title="Settings" />
     <div>
         <AdminLayout>
-            <HeaderComponent />
             <div class="container text-start fs-4">Settings</div>
             <hr>
         <div class="container-fluid d-flex flex-column">

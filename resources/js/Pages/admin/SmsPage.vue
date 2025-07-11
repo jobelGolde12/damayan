@@ -2,7 +2,6 @@
   import { ref, defineProps, computed } from 'vue'
   import { router, Head, Link } from '@inertiajs/vue3'
   import AdminLayout from '@/Layouts/AdminLayout.vue'
-  import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue'
   import { watch } from 'vue'
 
   const props = defineProps({
@@ -65,7 +64,6 @@
     <div>
       <AdminLayout>
         <Head title="Sms notification" />
-        <HeaderComponent />
         <div class="container">
           <h4 class="mb-4 fw-bold sticky-header text-start ps-2 pt-3">SMS</h4>
 

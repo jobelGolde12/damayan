@@ -2,7 +2,6 @@
 import { ref, defineProps, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import { router, Head, Link } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue'
 
 const props = defineProps({
   members: {
@@ -112,7 +111,6 @@ onUnmounted(() => {
   <Head title="Registered members" />
   <AdminLayout>
     <div class="main-section bg-light">
-      <HeaderComponent />
 
       <div class="container-fluid d-flex flex-row justify-content-between align-items-center mb-2">
         <div>

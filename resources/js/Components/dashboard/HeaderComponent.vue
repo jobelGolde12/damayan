@@ -3,7 +3,6 @@ const toggle = defineModel('toggle')
 
 const toggleSidebar = () => {
   toggle.value = !toggle.value
-  console.log("toggle: ", toggle.value)
 }
 </script>
 

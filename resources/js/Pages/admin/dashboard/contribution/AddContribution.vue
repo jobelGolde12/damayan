@@ -2,7 +2,6 @@
 import { useForm } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import HeaderComponent from "@/Components/dashboard/HeaderComponent.vue";
 import { defineProps, watch, ref } from "vue";
 
 const props = defineProps({
@@ -70,7 +69,6 @@ const submit = () => {
 <template>
     <Head title="Add Contribution" />
     <AdminLayout>
-        <HeaderComponent />
         <div class="contri-container py-1">
             <div class="row justify-content-center">
                 <div class="col-md-8">

@@ -1,37 +1,30 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
-import { toggleNav } from '@/piniaStore/toggleNav'
+import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue'
 
-const logoFunc = () => {
-  router.push(route('dashboard'))
-}
-
-const navStore = toggleNav()
-
-// Always initialize the store from localStorage
+const toggleSidebar = ref(true)
+const isSmallScreen = ref(false)
 onMounted(() => {
-  navStore.init()
-  window.addEventListener('resize', handleResize)
   handleResize()
+  window.addEventListener('resize', handleResize)
 })
 
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
 })
 
-const isSmallScreen = ref(false)
 const handleResize = () => {
   isSmallScreen.value = window.innerWidth < 768
-  if (!isSmallScreen.value && navStore.value) {
-    // ensure sidebar always open on large screens
-    navStore.change()
+  // If on large screen always keep sidebar open
+  if (!isSmallScreen.value) {
+    toggleSidebar.value = false
   }
 }
 
 const closeSidebar = () => {
-  if (isSmallScreen.value) {
-    navStore.change()
+  if (isSmallScreen.value && !toggleSidebar.value) {
+    toggleSidebar.value = true
   }
 }
 
@@ -40,12 +33,12 @@ const sidebarStyles = computed(() => {
     return {
       position: 'absolute',
       top: 0,
-      left: navStore.value ? '-100%' : '0%',
+      left: toggleSidebar.value ? '-100%' : '0%',
       width: '50%',
       height: '100vh',
       zIndex: 999,
       transition: 'left 0.3s ease-in-out',
-      boxShadow: !navStore.value ? '2px 0 10px rgba(0,0,0,0.5)' : 'none',
+      boxShadow: !toggleSidebar.value ? '2px 0 10px rgba(0,0,0,0.5)' : 'none',
     }
   } else {
     return {
@@ -57,21 +50,13 @@ const sidebarStyles = computed(() => {
   }
 })
 
-const rightContentStyles = computed(() => {
-  if (isSmallScreen.value) {
-    return {
-      width: '100%',
-      position: 'relative',
-    }
-  } else {
-    return {
-      width: '80%',
-    }
-  }
-})
+const rightContentStyles = computed(() => ({
+  width: isSmallScreen.value ? '100%' : '80%',
+  position: 'relative',
+}))
 
 const overlayStyles = computed(() => {
-  if (isSmallScreen.value && !navStore.value) {
+  if (isSmallScreen.value && !toggleSidebar.value) {
     return {
       display: 'block',
       position: 'absolute',
@@ -82,20 +67,18 @@ const overlayStyles = computed(() => {
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
       zIndex: 99,
     }
-  } else {
-    return {
-      display: 'none',
-    }
   }
+  return { display: 'none' }
 })
 </script>
 
 <template>
   <div class="d-flex min-vh-100 main-container">
+    <!-- Sidebar -->
     <div class="sidebar text-white p-3 d-flex flex-column" :style="sidebarStyles">
-      <div class="text-center mb-4 logo-container" @click="logoFunc">
+      <div class="text-center mb-4 logo-container" @click="() => router.push(route('dashboard'))">
         <img src="../../images/logo.png" alt="Logo" class="img-fluid rounded-circle mb-2 logo" />
-        <h5 class="fw-bold text-dark damayan-text">PROTECT DAMAYAN SYSTEM</h5>
+        <h5 class="fw-bold text-dark">PROTECT DAMAYAN SYSTEM</h5>
       </div>
 
       <div class="nav flex-column">
@@ -148,10 +131,10 @@ const overlayStyles = computed(() => {
     </div>
 
     <div class="flex-grow-1 bg-light right" :style="rightContentStyles">
-      <div v-if="isSmallScreen" class="sidebar-overlay" :style="overlayStyles" @click="closeSidebar"></div>
+      <div class="sidebar-overlay" :style="overlayStyles" @click="closeSidebar"></div>
 
-      <div v-if="$slots.header" class="mb-4 bg-white p-3 rounded shadow-sm">
-        <slot name="header" />
+      <div class="mb-4 bg-white">
+        <HeaderComponent v-model:toggle="toggleSidebar" />
       </div>
 
       <slot />
@@ -168,32 +151,23 @@ const overlayStyles = computed(() => {
   background: #7FEAFE;
   color: #333;
 }
+.main-container {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden !important;
+}
+.hr {
+  height: 3px;
+  background: #333;
+  margin: 10px 0;
+}
 .logo {
   position: relative;
   width: 60%;
   height: 120px;
   margin: auto;
 }
-.main-container {
-  width: 100%;
-  height: 100vh;
-  overflow: hidden !important;
-}
-.damayan-text {
-  font-size: medium;
-}
 .logo-container {
   cursor: pointer;
-}
-@media (min-width: 768px) {
-  .sidebar {
-    width: 20%;
-    min-width: 250px;
-    position: relative;
-    left: 0;
-  }
-  .right {
-    width: 80%;
-  }
 }
 </style>

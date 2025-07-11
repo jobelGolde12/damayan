@@ -2,7 +2,6 @@
 import { Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { defineProps, watch, ref } from 'vue';
-import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
 import Purok from '@/Components/dashboard/contribution/Purok.vue';
 const props = defineProps({
   member: {
@@ -45,7 +44,6 @@ function formatAmount(value) {
     <Head title="Member contribution"/>
     <div>
         <AdminLayout>
-          <HeaderComponent />
 
              <div class="container">
     <div class="bg-light  p-2">

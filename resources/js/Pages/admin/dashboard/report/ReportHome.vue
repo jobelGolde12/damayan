@@ -1,6 +1,5 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
-import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { defineProps, ref, watch } from 'vue';
 import ContributionReportForAdmin from '@/Components/dashboard/report/ContributionReportForAdmin.vue';
@@ -23,7 +22,6 @@ watch(() => props.contributions, (newContributions) => {
     <div>
         <Head title="Report" />
         <AdminLayout>
-            <HeaderComponent />
 
                 <div class="head container">
                     <h5 class="mb-0">Report</h5>
