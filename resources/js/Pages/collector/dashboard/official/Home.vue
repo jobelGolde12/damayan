@@ -3,7 +3,6 @@
 import { router, Head } from '@inertiajs/vue3'
 import { defineProps, ref, watch } from 'vue'
 import CollectorLayout from '@/Layouts/CollectorLayout.vue'
-import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue'
 
 const props = defineProps({
   officials: Array,
@@ -46,7 +45,6 @@ const formatDate = (dateString) => {
   <Head title="View officials" />
     <div>
         <CollectorLayout>
-            <HeaderComponent />
             <div class="container mt-4">
     <h4 class="mb-4">Protect Damayan Officials</h4>
     <table class="table table-bordered table-striped" v-if="getOfficials.length > 0">

@@ -1,7 +1,6 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
 import CollectorLayout from '@/Layouts/CollectorLayout.vue';
-import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
 import CurrentMothCard from '@/Components/dashboard/CurrentMothCard.vue';
 import CurrentYearCard from '@/Components/dashboard/CurrentYearCard.vue';
 import MonthlyOverviewCard from '@/Components/dashboard/MonthlyOverviewCard.vue';
@@ -53,7 +52,6 @@ watch(
 
   <CollectorLayout>
     <div class="container-fluid mx-0 px-0 home-container">
-      <HeaderComponent />
       <h2 class="fw-normal fs-5 my-4 ps-3">Analytics Dashboard</h2>
 
       <div class="row g-4">

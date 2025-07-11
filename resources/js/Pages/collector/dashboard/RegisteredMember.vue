@@ -2,7 +2,6 @@
 import { ref, defineProps, watch } from 'vue'
 import { router, Head, Link } from '@inertiajs/vue3'
 import CollectorLayout from '@/Layouts/CollectorLayout.vue'
-import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue'
 
 const props = defineProps({
   members: {
@@ -47,7 +46,6 @@ const toggleMemberStatus = (member) => {
   <Head title="Registered members" />
     <CollectorLayout>
         <div class="main-section bg-light">
-          <HeaderComponent />
 
 
             <div>

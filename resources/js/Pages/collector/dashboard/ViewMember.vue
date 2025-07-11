@@ -2,7 +2,6 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { defineProps, ref, watch } from 'vue';
 import CollectorLayout from '@/Layouts/CollectorLayout.vue';
-import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
 import BeneficiaryComponent from '@/Components/dashboard/BeneficiaryComponent.vue';
 
 const props = defineProps({
@@ -26,7 +25,6 @@ watch(
   <Head title="View Member Info" />
   <div>
     <CollectorLayout>
-      <HeaderComponent />
 
       <div class="container my-4 border p-3 px-0">
         <h6 class="text-center fw-bold mb-2">

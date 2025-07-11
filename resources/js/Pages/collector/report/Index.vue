@@ -1,6 +1,5 @@
 <script setup>
 import CollectorLayout from '@/Layouts/CollectorLayout.vue';
-import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { defineProps, ref, watch } from 'vue';
 import SubHeaderForCollectorReport from '@/Components/dashboard/SubHeaderForCollectorReport.vue';
@@ -16,10 +15,6 @@ const props = defineProps({
     activePurok: {
         type: String,
         default: () => ''
-    },
-    membersCount: {
-        type: Number,
-        default: 0
     },
     activeStatus: {
         type: String,
@@ -38,14 +33,13 @@ watch(() => props.contributions, (newContributions) => {
     getAmmount.value = newContributions.reduce((total, contribution) => total + contribution.amount, 0);
     getPaidMembers.value = newContributions.filter(contribution => contribution.status == 'paid').length;
     getUnpaidMembers.value = newContributions.filter(contribution => !contribution.status != 'paid').length;
-    console.log("Contributions: ", getContributions.value);
+    getMembersCount.value = (getPaidMembers.value + getUnpaidMembers.value)
 }, { immediate: true });
+
 watch(() => props.activePurok, (newPurok) => {
     getActivePurok.value = newPurok;
 }, { immediate: true });
-watch(() => props.membersCount, (newCount) => {
-    getMembersCount.value = newCount;
-}, { immediate: true });
+
 watch(() => props.activeStatus, (newStatus) => {
     getActiveStatus.value = newStatus;
 }, { immediate: true });
@@ -55,7 +49,6 @@ watch(() => props.activeStatus, (newStatus) => {
     <div>
         <Head title="Report" />
         <CollectorLayout>
-            <HeaderComponent />
 
                 <div class="head container">
                     <h5 class="mb-0">Report</h5>

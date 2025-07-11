@@ -2,7 +2,6 @@
 import { Head, Link } from '@inertiajs/vue3';
 import CollectorLayout from '@/Layouts/CollectorLayout.vue';
 import { defineProps, watch, ref } from 'vue';
-import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
 import PurokComponentForCollector from '@/Components/dashboard/contribution/PurokComponentForCollector.vue';
 const props = defineProps({
   member: {
@@ -45,7 +44,6 @@ function formatAmount(value) {
     <Head title="Member contribution"/>
     <div>
         <CollectorLayout>
-          <HeaderComponent />
 
              <div class="container">
     <div class="bg-light  p-2">

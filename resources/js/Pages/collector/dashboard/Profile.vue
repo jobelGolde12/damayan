@@ -2,7 +2,6 @@
 import { Head, Link } from "@inertiajs/vue3";
 import { defineProps, computed } from "vue";
 import CollectorLayout from "@/Layouts/CollectorLayout.vue";
-import HeaderComponent from "@/Components/dashboard/HeaderComponent.vue";
 const props = defineProps({
     user: {
         type: Object,
@@ -32,7 +31,6 @@ const isVerified = computed(() => !!props.user.email_verified_at);
     <div>
         <Head title="Profile Page" />
        <CollectorLayout>
-        <HeaderComponent />
 
          <div class="container my-5">
             <div class="row justify-content-center">
