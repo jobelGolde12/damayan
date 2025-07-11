@@ -49,7 +49,7 @@ const formatDate = (dateString) => {
             <HeaderComponent />
             <div class="container mt-4">
     <h4 class="mb-4">Protect Damayan Officials</h4>
-    <table class="table table-bordered table-striped" v-if="getOfficials.length > 0">
+    <table class="table table-bordered table-striped table-responsive" v-if="getOfficials.length > 0">
       <thead class="table-primary">
         <tr>
           <th>ID</th>

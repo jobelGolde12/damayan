@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 export const toggleNav = defineStore('change', {
   state: () => ({
-    value: localStorage.getItem('toggleNav') === 'true' // always boolean
+    value: false
   }),
   actions: {
     change() {

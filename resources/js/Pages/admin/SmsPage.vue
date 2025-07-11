@@ -76,7 +76,19 @@
                   <label for="deathReport" class="form-label">Death Report</label>
                 </div>
               <textarea v-model="getDeathReport.message" id="deathReport" class="form-control"></textarea>
-              <button class="save-btn" @click="save('deathReport')">SAVE</button>
+
+              <div class="container-fluid d-flex flex-row align-items-center gap-3 justify-content-end mt-3">
+                <div>
+                  <button class="save-btn text-uppercase" @click="save('deathReport')">send to all selected</button>
+                </div>
+
+                <div>
+                  <button class="save-btn text-uppercase" @click="save('deathReport')">send</button>
+                </div>
+              </div>
+
+              //TODO iba dapat ang route name para sa send to all selected sa send
+
             </div>
 
             <!-- Schedule Contribution -->
@@ -85,7 +97,16 @@
                   <label for="scheduleContribution" class="form-label">Schedule Contribution</label>
                 </div>
               <textarea v-model="getScheduleContribution.message" id="scheduleContribution" class="form-control"></textarea>
-              <button class="save-btn" @click="save('scheduleContribution')">SAVE</button>
+
+               <div class="container-fluid d-flex flex-row align-items-center gap-3 justify-content-end mt-3">
+                <div>
+                  <button class="save-btn text-uppercase" @click="save('scheduleContribution')">send to all selected</button>
+                </div>
+                <div>
+                  <button class="save-btn text-uppercase" @click="save('scheduleContribution')">send</button>
+                </div>
+              </div>
+
             </div>
 
             <!-- Reminders -->
@@ -94,7 +115,16 @@
                   <label for="reminders" class="form-label">Reminders</label>
                 </div>
               <textarea v-model="getReminders.message" id="reminders" class="form-control"></textarea>
-              <button class="save-btn" @click="save('reminders')">SAVE</button>
+
+               <div class="container-fluid d-flex flex-row align-items-center gap-3 justify-content-end mt-3">
+                <div>
+                  <button class="save-btn text-uppercase" @click="save('reminders')">send to all selected</button>
+                </div>
+                <div>
+                  <button class="save-btn text-uppercase" @click="save('reminders')">send</button>
+                </div>
+              </div>
+
             </div>
 
             <!-- Fund Updates -->
@@ -103,7 +133,16 @@
                   <label for="fundUpdates" class="form-label">Fund Updates</label>
                 </div>
               <textarea v-model="getFundUpdates.message" id="fundUpdates" class="form-control"></textarea>
-              <button class="save-btn" @click="save('fundUpdates')">SAVE</button>
+
+               <div class="container-fluid d-flex flex-row align-items-center gap-3 justify-content-end mt-3">
+                <div>
+                  <button class="save-btn text-uppercase" @click="save('fundUpdates')">send to all selected</button>
+                </div>
+                <div>
+                  <button class="save-btn text-uppercase" @click="save('fundUpdates')">send</button>
+                </div>
+              </div>
+
             </div>
         <div class="container extra-space w-100"></div>
           </div>
@@ -145,9 +184,8 @@
   }
 
   .save-btn {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+    position: relative;
+    right: 0;
     background-color: #16bd2f;
     border: none;
     color: white;

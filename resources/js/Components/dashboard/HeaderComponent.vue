@@ -5,11 +5,12 @@ import { toggleNav } from '@/piniaStore/toggleNav'
 const navStore = toggleNav()
 
 onMounted(() => {
-  // navStore.init()
+  navStore.init()
 })
 
 const toggleNavAction = () => {
   navStore.change()
+  console.log(navStore.value)
 }
 </script>
 
