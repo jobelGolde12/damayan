@@ -2,7 +2,6 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { defineProps, ref, watch } from 'vue';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
-import HeaderComponent from '@/Components/dashboard/HeaderComponent.vue';
 import BeneficiaryComponent from '@/Components/dashboard/BeneficiaryComponent.vue';
 const props = defineProps({
     member: {
@@ -15,6 +14,7 @@ watch(
     () => props.member,
     (newdata) => {
         getMember.value = newdata;
+    console.log("members: ", getMember.value)
     },
     {immediate: true}
 )
@@ -24,7 +24,6 @@ watch(
     <Head title="View Member Info" />
     <div>
         <AdminLayout>
-            <HeaderComponent />
 
             <div class="container my-4 border p-3">
     <h6 class="text-center fw-bold mb-2">
@@ -57,7 +56,7 @@ watch(
         </tr>
         <tr>
           <th>ADDRESS</th>
-          <td colspan="3">{{ getMember.address }}</td>
+          <td colspan="3" :title="getMember.address || 'Bonga, Bulan, Sorsogon'">{{ getMember.address || 'Bonga, Bu...' }}</td>
           <th>PUROK</th>
           <td>{{ getMember.purok }}</td>
           <th>OCCUPATION</th>
@@ -65,7 +64,7 @@ watch(
         </tr>
         <tr>
           <th>STATUS</th>
-          <td>{{ getMember.status }}</td>
+          <td>{{ getMember.status2 }}</td>
           <td colspan="6"></td>
         </tr>
       </tbody>

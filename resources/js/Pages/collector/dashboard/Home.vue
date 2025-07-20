@@ -4,7 +4,7 @@ import CollectorLayout from '@/Layouts/CollectorLayout.vue';
 import CurrentMothCard from '@/Components/dashboard/CurrentMothCard.vue';
 import CurrentYearCard from '@/Components/dashboard/CurrentYearCard.vue';
 import MonthlyOverviewCard from '@/Components/dashboard/MonthlyOverviewCard.vue';
-import {defineProps,  ref, watch } from 'vue';
+import { defineProps, ref, watch } from 'vue';
 
 const props = defineProps({
   currentMonthData: {
@@ -20,6 +20,7 @@ const props = defineProps({
     default: () => ({})
   }
 });
+
 let getCurrentMonthData = ref([]);
 let getYearData = ref([]);
 let getMothlyOverview = ref([]);
@@ -29,22 +30,22 @@ watch(
   (newData) => {
     getCurrentMonthData.value = newData ? Object.values(newData) : [];
   },
-  {immediate: true}
-)
+  { immediate: true }
+);
 watch(
   () => props.yearData,
   (newData) => {
     getYearData.value = newData ? Object.values(newData) : [];
   },
-  {immediate: true}
-)
+  { immediate: true }
+);
 watch(
   () => props.monthlyOverview,
   (newData) => {
     getMothlyOverview.value = newData ? Object.values(newData) : [];
   },
-  {immediate: true}
-)
+  { immediate: true }
+);
 </script>
 
 <template>
@@ -56,24 +57,22 @@ watch(
 
       <div class="row g-4">
         <!-- Bar Chart -->
-        <div class="col-md-8">
-          <CurrentMothCard :data="getCurrentMonthData"/>
+        <div class="col-md-8 responsive-card">
+          <CurrentMothCard :data="getCurrentMonthData" />
         </div>
 
         <!-- Pie Chart -->
-        <div class="col-md-4">
-          <CurrentYearCard :data="getYearData"/>
+        <div class="col-md-4 responsive-card">
+          <CurrentYearCard :data="getYearData" />
         </div>
       </div>
 
       <!-- Monthly Line Chart -->
       <div class="row mt-4">
         <div class="col-12">
-          <MonthlyOverviewCard :data="getMothlyOverview"/>
+          <MonthlyOverviewCard :data="getMothlyOverview" />
         </div>
       </div>
-
-      
     </div>
   </CollectorLayout>
 </template>
@@ -84,5 +83,15 @@ watch(
   height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
+  padding-bottom: 3rem;
+}
+
+/* Custom responsive stacking under 1204px */
+@media (max-width: 1204px) {
+  .responsive-card {
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
 }
 </style>

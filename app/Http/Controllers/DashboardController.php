@@ -111,7 +111,7 @@ class DashboardController extends Controller
       
     }
     public function registeredMember(){
-      $members = memberModel::all();
+     $members = memberModel::orderBy('first_name', 'asc')->get();
       return Inertia::render('admin/dashboard/RegisteredMember', [
         'members' => $members
       ]);

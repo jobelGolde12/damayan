@@ -141,7 +141,7 @@ onUnmounted(() => {
             <tbody>
               <tr v-for="(member, index) in getMembers" :key="index">
                 <td>{{ index + 1 }}</td>  
-                <td>{{ member?.first_name }} {{ member?.middle_name }} {{ member?.last_name }}</td>
+                <td class="text-start">{{ member?.first_name }} {{ member?.middle_name }} {{ member?.last_name }}</td>
                 <td>{{ member.gender || 'N/A' }}</td>
                 <td>{{ member.age }}</td>
                 <td>{{ member.contact_number }}</td>
@@ -220,6 +220,7 @@ onUnmounted(() => {
   height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
+  padding-bottom: 2rem;
 }
 
 .table th,

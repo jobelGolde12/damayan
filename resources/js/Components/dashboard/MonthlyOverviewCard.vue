@@ -48,16 +48,22 @@ const updateChart = () => {
         type: 'bar',
         data: collected,
         itemStyle: { color: '#0000ff', borderWidth: 1 },
-        label: { show: false }, 
+        label: { show: false },
       },
       {
         name: 'Disbursed',
         type: 'bar',
         data: disbursed,
         itemStyle: { color: '#00cc00', borderWidth: 1 },
-        label: { show: false }, 
+        label: { show: false },
       },
     ],
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '8%',
+      containLabel: true,
+    },
   });
 
   chartInstance.resize();
@@ -78,10 +84,14 @@ onMounted(async () => {
 
   chartInstance = echarts.init(chartRef.value);
   updateChart();
+
+  // Resize on window resize
+  window.addEventListener('resize', chartInstance.resize);
 });
 
 onUnmounted(() => {
   if (chartInstance) {
+    window.removeEventListener('resize', chartInstance.resize);
     chartInstance.dispose();
     chartInstance = null;
   }
@@ -89,5 +99,25 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="chartRef" style="height: 300px;" class="bg-white rounded shadow-sm p-3"></div>
+  <div
+    ref="chartRef"
+    class="bg-white rounded shadow-sm p-3 responsive-overview-chart"
+  ></div>
 </template>
+
+<style scoped>
+.responsive-overview-chart {
+  width: 100%;
+  height: 300px;
+}
+@media (max-width: 768px) {
+  .responsive-overview-chart {
+    height: 250px;
+  }
+}
+@media (max-width: 480px) {
+  .responsive-overview-chart {
+    height: 220px;
+  }
+}
+</style>

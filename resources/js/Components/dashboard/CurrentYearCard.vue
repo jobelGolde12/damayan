@@ -64,7 +64,8 @@ onMounted(() => {
 <template>
   <div
     id="pieChart"
+    class="bg-white rounded shadow-sm p-3 d-flex justify-content-center align-items-center"
     style="height: 300px;"
-    class="bg-white rounded shadow-sm p-3"
   ></div>
 </template>
+

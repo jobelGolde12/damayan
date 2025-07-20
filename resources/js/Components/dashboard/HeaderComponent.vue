@@ -12,7 +12,7 @@ const toggleSidebar = () => {
       <button class="me-2" @click="toggleSidebar">
         <i class="bi bi-list fs-2"></i>
       </button>
-      <h4 class="mb-0 fw-bold">PROTECT DAMAYAN SYSTEM</h4>
+      <h4 class="mb-0 title">PROTECT DAMAYAN SYSTEM</h4>
     </div>
   </div>
 </template>
@@ -20,5 +20,14 @@ const toggleSidebar = () => {
 <style scoped>
 .header {
   background: #D4F3F9;
+}
+.title{
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+}
+@media screen and (max-width: 413px){
+  .title{
+  font-size: 1rem;
+}
 }
 </style>

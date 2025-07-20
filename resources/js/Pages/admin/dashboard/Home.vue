@@ -57,12 +57,12 @@ watch(
 
              <div class="row g-4">
         <!-- Bar Chart -->
-        <div class="col-md-8">
+        <div class="col-md-8 responsive-card">
           <CurrentMothCard :data="getCurrentMonthData"/>
         </div>
 
         <!-- Pie Chart -->
-        <div class="col-md-4">
+        <div class="col-md-4 responsive-card">
           <CurrentYearCard :data="getYearData"/>
         </div>
       </div>
@@ -95,6 +95,14 @@ watch(
 @media screen and (max-width: 756px){
   .add-space-at-bottom{
     display: block;
+  }
+}
+/* Custom responsive stacking under 1204px */
+@media (max-width: 1204px) {
+  .responsive-card {
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
   }
 }
 </style>
