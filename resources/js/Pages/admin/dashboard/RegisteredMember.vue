@@ -2,7 +2,8 @@
 import { ref, defineProps, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import { router, Head, Link } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-
+import Header from '@/Components/dashboard/admin/registeredMember/Header.vue'
+import Alert from '@/Components/dashboard/admin/registeredMember/Alert.vue'
 const props = defineProps({
   members: {
     type: Array,
@@ -15,7 +16,8 @@ const showActionsPopup = ref(false);
 const popupPosition = ref({ top: '0px', left: '0px' });
 const activeMemberId = ref(null);
 const actionButtonRefs = ref({}); 
-
+const statusChangeAlert = ref(false);
+const passNameToAlert = ref('');
 watch(
   () => props.members,
   (newMember) => {
@@ -28,7 +30,7 @@ const trashMember = (id) => {
   if (confirm('Are you sure you want to trash this member?')) {
     router.delete(route('deleteMember', { id: id }), {
       onSuccess: () => {
-        console.log('Member trashed');
+        alert('Member trashed');
         showActionsPopup.value = false; 
       },
     })
@@ -37,13 +39,13 @@ const trashMember = (id) => {
 
 const toggleMemberStatus = (member) => {
   const newStatus = member.status === 'active' ? 'inactive' : 'active'
-
   router.put(route('toggleMemberStatus', { id: member.id }), {
     status: newStatus
   }, {
     onSuccess: () => {
-      member.status = newStatus
-      console.log(`Member ${member.id} status changed to ${newStatus}`)
+      member.status = newStatus;
+      statusChangeAlert.value = newStatus === 'active' ? true : false;
+      passNameToAlert.value = `${member.first_name} ${member.middle_name} ${member.last_name}`;
     }
   })
 }
@@ -112,16 +114,12 @@ onUnmounted(() => {
   <AdminLayout>
     <div class="main-section bg-light">
 
-      <div class="container-fluid d-flex flex-row justify-content-between align-items-center mb-2">
-        <div>
-          <h5 class=" ms-3 fw-light">Registered Members</h5>
-        </div>
-        <div>
-          <Link :href="route('addNewMember')" class="btn btn-primary d-flex align-items-center">
-            <i class="bi bi-person-plus me-2 fs-5"></i> Add Member
-          </Link>
-        </div>
-      </div>
+      <Header />
+      <!-- Alert for status changes -->
+      <Alert 
+      :status="statusChangeAlert"
+      :name="passNameToAlert"
+      />
 
       <div class="container table-container">
         <div class="table-responsive">
@@ -155,13 +153,13 @@ onUnmounted(() => {
                 </td>
                 <td class="actions-column">
                   <div class="action-buttons-large">
-                    <Link :href="route('viewMemberInfo', {id: member?.id})" class="btn btn-sm btn-outline-dark me-1">
+                    <Link :href="route('viewMemberInfo', {id: member?.id})" class=" me-1">
                       <i class="bi bi-eye"></i>
                     </Link>
-                    <Link :href="route('editMember', {id: member?.id})" class="btn btn-sm btn-outline-dark me-1">
+                    <Link :href="route('editMember', {id: member?.id})" class=" me-1">
                       <i class="bi bi-pencil"></i>
                     </Link>
-                    <button class="btn btn-sm btn-outline-dark" @click="trashMember(member.id)">
+                    <button class="" @click="trashMember(member.id)">
                       <i class="bi bi-trash"></i>
                     </button>
                   </div>
