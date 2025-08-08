@@ -28,7 +28,7 @@ const togglePurok = (purok) => {
     <div>
         <div class="d-flex justify-content-between text-muted small">
             <span
-                class="purok"
+                class="purok all-members-text"
                 :class="{ 'fw-bold active': getActivePurok == 'all' }"
                 @click="togglePurok('all')"
                 >ALL MEMBERS</span
@@ -56,5 +56,10 @@ const togglePurok = (purok) => {
 }
 .active {
     color: #28a745;
+}
+@media screen and (max-width: 605px) {
+  .all-members-text {
+    font-size: .8rem;
+  }
 }
 </style>
