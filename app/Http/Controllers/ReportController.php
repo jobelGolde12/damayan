@@ -33,9 +33,6 @@ class ReportController extends Controller
     ];
 });
 
-
-
-
         return Inertia::render('admin/dashboard/report/ReportHome', [
             'contributions' => $collectorStats,
         ]);

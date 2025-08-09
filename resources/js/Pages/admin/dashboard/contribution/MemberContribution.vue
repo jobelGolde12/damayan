@@ -28,7 +28,6 @@ watch(
   () => props.member,
   (newData) => {
     getMember.value = newData;
-    console.log('Member data updated:', getMember.value);
   },
   { immediate: true }
 )
@@ -102,7 +101,7 @@ function formatAmount(value) {
                   <td>{{ mem?.purok || 'N/A' }}</td>
                   <td>
                     <span v-if="mem?.contributions[0]?.status === 'paid'" class="badge bg-success">Paid</span>
-                    <span v-else class="">...</span>
+                    <span v-else class="">Unpaid</span>
                   </td>
                 </tr>
               </tbody>
