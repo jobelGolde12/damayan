@@ -3,7 +3,8 @@ import { Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { defineProps, watch, ref } from 'vue';
 import Purok from '@/Components/dashboard/contribution/Purok.vue';
-import Add from '@/Components/dashboard/contribution/AddContribution.vue';
+import Header from '@/Components/dashboard/contribution/Header.vue';
+import Collector from '@/Components/dashboard/contribution/Collector.vue';
 const props = defineProps({
   member: {
     type: Array,
@@ -12,16 +13,22 @@ const props = defineProps({
   selectedPurok: {
     type: String,
     default: () => ''
-  }
+  },  
+    collectors: {
+        type: Array,
+        default: () => [],
+    },
 })
 
 let getMember = ref([]);
 let getSelectedPurok = ref('');
+let getCollectors = ref([]);
 
 watch(
   () => props.member,
   (newData) => {
     getMember.value = newData;
+    console.log('Member data updated:', getMember.value);
   },
   { immediate: true }
 )
@@ -33,7 +40,13 @@ watch(
   },
   { immediate: true }
 )
-
+watch(
+    () => props.collectors,
+    (newCollectors) => {
+        getCollectors.value = newCollectors;
+    },
+    { immediate: true }
+);
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
   return new Date(dateString).toLocaleDateString(undefined, options);
@@ -51,15 +64,7 @@ function formatAmount(value) {
     <AdminLayout>
       <div class="container">
         <div class="bg-light p-2">
-          <div class="container-fluid d-flex flex-row justify-content-between align-items-center px-0 mb-2">
-            <div>
-              <h6 class="mt-4 payment-contribution-text">Payment Contribution</h6>
-            </div>
-            <div>
-              <!-- Add contribution Component -->
-              <Add />
-            </div>
-          </div>
+         <Header />
 
           <Purok :activePurok="getSelectedPurok" />
 
@@ -88,8 +93,13 @@ function formatAmount(value) {
                     </span>
                     <span v-else class="text-muted">...</span>
                   </td>
-                  <td>{{ mem?.contributions[0]?.collector || 'N/A' }}</td>
-                  <td>{{ mem?.contributions[0]?.purok || 'N/A' }}</td>
+                  <td>
+                    <Collector 
+                    :collectors="getCollectors"
+                    :purok="mem.purok"
+                    />
+                  </td>
+                  <td>{{ mem?.purok || 'N/A' }}</td>
                   <td>
                     <span v-if="mem?.contributions[0]?.status === 'paid'" class="badge bg-success">Paid</span>
                     <span v-else class="">...</span>
@@ -134,10 +144,5 @@ thead tr {
   display: table;
   width: 100%;
   table-layout: fixed;
-}
-@media screen and (max-width: 605px) {
-  .payment-contribution-text {
-    font-size: .8rem;
-  }
 }
 </style>

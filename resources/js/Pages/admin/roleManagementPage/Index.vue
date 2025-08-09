@@ -1,7 +1,6 @@
 <script setup>
 import { Head, Link, router } from "@inertiajs/vue3";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import HeaderComponent from "@/Components/dashboard/HeaderComponent.vue";
 import { defineProps, ref, watch } from "vue";
 import RoleAndPermissionTable from "@/Components/dashboard/role/RoleAndPermissionTable.vue";
 const props = defineProps({
@@ -56,7 +55,6 @@ const deleteFunc = () => {
     <div>
         <Head title="Role Management" />
         <AdminLayout>
-            <HeaderComponent />
 
             <div class="container mt-4 role-container">
                 <h5 class="fw-bold">User and Role Management</h5>

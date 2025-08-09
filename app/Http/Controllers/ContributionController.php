@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CollectorModel;
 use App\Models\ContributionModel;
 use App\Models\memberModel;
 use App\Models\User;
@@ -14,11 +13,17 @@ use Inertia\Inertia;
 class ContributionController extends Controller
 {
     public function index(){
-        $mem = memberModel::with('contributions')->get();
+        $mem = memberModel::with('contributions')
+        ->orderBy('first_name', 'asc')
+        ->get();
         $selectedPurok = 'all';
+        $collectors = User::select('id', 'name', 'purok')
+        ->where('role', 'collector')
+        ->get();
         return Inertia::render('admin/dashboard/contribution/MemberContribution', [
             'member' => $mem,
             'selectedPurok' => $selectedPurok,
+            'collectors' => $collectors,
         ]);
     }
 
@@ -34,9 +39,13 @@ class ContributionController extends Controller
         }
         
         $selectedPurok = $purok;
+        $collectors = User::select('id', 'name', 'purok')
+        ->where('role', 'collector')
+        ->get();
         return Inertia::render('admin/dashboard/contribution/MemberContribution', [
             'member' => $mem,
             'selectedPurok' => $selectedPurok,
+            'collectors' => $collectors,
         ]);
     }
 

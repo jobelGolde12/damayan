@@ -3,8 +3,6 @@ import { useForm } from '@inertiajs/vue3';
 import { Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 
-
-
 const form = useForm({
   name: '',
   email: '',
@@ -33,13 +31,11 @@ const submit = () => {
 <template>
   <AdminLayout>
     <Head title="Edit User" />
-
     <div class="container py-5">
-      <div class="card rounded-4 p-4 border-0">
+      <div class="card rounded-4 border-0">
         <h4 class="mb-4 text-primary">Add User</h4>
-
         <form @submit.prevent="submit">
-          <div class="mb-3">
+          <div class="form-group mb-3">
             <label for="name" class="form-label">Name</label>
             <input
               id="name"
@@ -51,8 +47,7 @@ const submit = () => {
             />
             <div class="invalid-feedback">{{ form.errors.name }}</div>
           </div>
-
-          <div class="mb-3">
+          <div class="form-group mb-3">
             <label for="email" class="form-label">Email</label>
             <input
               id="email"
@@ -64,8 +59,7 @@ const submit = () => {
             />
             <div class="invalid-feedback">{{ form.errors.email }}</div>
           </div>
-
-          <div class="mb-3">
+          <div class="form-group mb-3">
             <label for="role" class="form-label">Role</label>
             <select
               id="role"
@@ -82,13 +76,11 @@ const submit = () => {
               <option value="purok-leader">Purok Leader</option>
               <option value="member">Member</option>
               <option value="collector">Collector</option>
-
             </select>
             <div class="invalid-feedback">{{ form.errors.role }}</div>
           </div>
-
-          <div class="mb-3">
-            <label for="role" class="form-label">Purok</label>
+          <div class="form-group mb-3">
+            <label for="purok" class="form-label">Purok</label>
             <select
               id="purok"
               v-model="form.purok"
@@ -99,13 +91,11 @@ const submit = () => {
               <option value="1">Purok 1</option>  
               <option value="2">Purok 2</option>
               <option value="3">Purok 3</option>
-              <option value="4">Purok 3</option>
-
+              <option value="4">Purok 4</option>
             </select>
             <div class="invalid-feedback">{{ form.errors.role }}</div>
           </div>
-
-          <div class="mb-3">
+          <div class="form-group mb-3">
             <label for="password" class="form-label">Password</label>
             <input
               id="password"
@@ -117,7 +107,6 @@ const submit = () => {
             />
             <div class="invalid-feedback">{{ form.errors.password }}</div>
           </div>
-
           <div class="d-flex justify-content-end gap-2 mt-4">
             <Link :href="route('role.index')" class="btn btn-secondary">Back</Link>
             <button type="submit" class="btn btn-primary" :disabled="form.processing">
@@ -134,11 +123,34 @@ const submit = () => {
 input,
 select {
   border-radius: 0.5rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .form-group {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .form-group label {
+    width: 150px;
+    flex-shrink: 0;
+  }
 }
 
 .card {
   max-width: 700px;
   margin: auto;
   background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 1rem;
 }
 </style>
