@@ -69,11 +69,17 @@ public function toggleContributionPurok($purok)
 
 
     public function add(){
-        $members = memberModel::select('id', 'first_name', 'last_name', 'middle_name')->get();
-        $users = User::select('id', 'name')->get(); 
+        $members = memberModel::select('id', 'first_name', 'last_name', 'middle_name', 'purok')
+        ->orderBy('first_name', 'asc')
+        ->get();
+        $users = User::select('id', 'name', 'role')
+        ->orderBy('name', 'asc')
+        ->get(); 
+        $paidMembersId = ContributionModel::pluck('member_id')->toArray();
         return Inertia::render('admin/dashboard/contribution/AddContribution', [
             'members' => $members,
             'users' => $users,
+            'paidMembersId' => $paidMembersId,
         ]);
     }
 

@@ -14,38 +14,42 @@ const props = defineProps({
         default: () => [],
     },
 });
-
 let getMembers = ref([]);
 let getFullName = ref([]);
 const getCollectors = ref([]);
 const getUsers = ref([]);
+
 // Create a full name from first, middle, and last name || pero ang hali sa users full name na
 watch(
-  [() => props.members, () => props.users],
-  ([membersData, usersData]) => {
-    // Map members
-    const memberFullNames = (membersData || []).map((member) => ({
-      id: member.id,
-      fullName: `${member.first_name} ${member.middle_name ?? ""} ${member.last_name}`
-        .replace(/\s+/g, " ")
-        .trim(),
-    }));
+    [() => props.members, () => props.users],
+    ([membersData, usersData]) => {
+        // Keep raw members
+        getMembers.value = membersData || [];
 
-    // Map users
-    const userFullNames = (usersData || []).map((user) => ({
-      id: user.id,
-      fullName: user.name,
-    }));
+        // Map members
+        const memberFullNames = (membersData || []).map((member) => ({
+            id: member.id,
+            fullName: `${member.first_name} ${member.middle_name ?? ""} ${member.last_name}`
+                .replace(/\s+/g, " ")
+                .trim(),
+        }));
 
-    // Combine
-    getFullName.value = [...memberFullNames, ...userFullNames];
+        // Map users
+        const userFullNames = (usersData || []).map((user) => ({
+            id: user.id,
+            fullName: user.name,
+        }));
 
-    getUsers.value = usersData || [];
-    getCollectors.value = (usersData || []).filter((user) => user.role === 'collector');
-  },
-  { immediate: true }
+        // Combine
+        getFullName.value = [...memberFullNames, ...userFullNames];
+
+        getUsers.value = usersData || [];
+        getCollectors.value = (getUsers.value || []).filter(
+            (user) => user.role === "collector"
+        );
+    },
+    { immediate: true }
 );
-
 
 const form = useForm({
     member_id: "",
@@ -57,8 +61,6 @@ const form = useForm({
 });
 
 const submit = () => {
-    // console.log("form data: " , form);
-    // return;
     form.post(route("contributions.store"), {
         onSuccess: () => alert("Contribution created!"),
         onError: (err) => console.log("An error occured: ", err),
@@ -76,20 +78,17 @@ const submit = () => {
                         <div class="card-header text-center">
                             <h4 class="mb-0">Create Contribution</h4>
                         </div>
+
                         <div class="card-body p-4">
                             <form @submit.prevent="submit">
                                 <!-- Member Name Dropdown -->
                                 <div class="mb-3">
-                                    <label for="member_id" class="form-label"
-                                        >Member Name</label
-                                    >
+                                    <label for="member_id" class="form-label">Member Name</label>
                                     <select
                                         v-model="form.member_id"
                                         id="member_id"
                                         class="form-select"
-                                        :class="{
-                                            'is-invalid': form.errors.member_id,
-                                        }"
+                                        :class="{ 'is-invalid': form.errors.member_id }"
                                     >
                                         <option disabled value="">
                                             -- Select Member --
@@ -102,109 +101,82 @@ const submit = () => {
                                             {{ member.fullName }}
                                         </option>
                                     </select>
-                                    <div
-                                        v-if="form.errors.member_id"
-                                        class="invalid-feedback"
-                                    >
+                                    <div v-if="form.errors.member_id" class="invalid-feedback">
                                         {{ form.errors.member_id }}
                                     </div>
                                 </div>
 
                                 <!-- Amount -->
                                 <div class="mb-3">
-                                    <label for="amount" class="form-label"
-                                        >Amount</label
-                                    >
+                                    <label for="amount" class="form-label">Amount</label>
                                     <input
                                         v-model="form.amount"
                                         type="number"
                                         step="0.01"
                                         id="amount"
                                         class="form-control"
-                                        :class="{
-                                            'is-invalid': form.errors.amount,
-                                        }"
+                                        :class="{ 'is-invalid': form.errors.amount }"
                                         placeholder="Enter amount"
                                     />
-                                    <div
-                                        v-if="form.errors.amount"
-                                        class="invalid-feedback"
-                                    >
+                                    <div v-if="form.errors.amount" class="invalid-feedback">
                                         {{ form.errors.amount }}
                                     </div>
                                 </div>
 
                                 <!-- Payment Date -->
                                 <div class="mb-3">
-                                    <label for="payment_date" class="form-label"
-                                        >Payment Date</label
-                                    >
+                                    <label for="payment_date" class="form-label">Payment Date</label>
                                     <input
                                         v-model="form.payment_date"
                                         type="datetime-local"
                                         id="payment_date"
                                         class="form-control"
-                                        :class="{
-                                            'is-invalid':
-                                                form.errors.payment_date,
-                                        }"
+                                        :class="{ 'is-invalid': form.errors.payment_date }"
                                     />
-                                    <div
-                                        v-if="form.errors.payment_date"
-                                        class="invalid-feedback"
-                                    >
+                                    <div v-if="form.errors.payment_date" class="invalid-feedback">
                                         {{ form.errors.payment_date }}
                                     </div>
                                 </div>
 
+                                <!-- Collector Dropdown (new placement after Payment Date) -->
                                 <div class="mb-3">
-                                    <label for="amount" class="form-label"
-                                        >Collector</label
-                                    >
+                                    <label for="collector" class="form-label">Collector</label>
                                     <select
-                                        id="collector"
-                                        class="select form-control"
                                         v-model="form.collector"
-                                        v-if="getCollectors.length > 0"
+                                        id="collector"
+                                        class="form-control"
+                                        :class="{ 'is-invalid': form.errors.collector }"
                                     >
+                                        <option disabled value="">
+                                            -- Select Collector --
+                                        </option>
                                         <option
-                                            :value="data.name"
-                                            v-for="data in getCollectors"
-                                            :key="data.index"
+                                            v-for="collector in getCollectors"
+                                            :key="collector.id"
+                                            :value="collector.name"
                                         >
-                                            {{ data.name }}
+                                            {{ collector.name }}
                                         </option>
                                     </select>
-
-                                    <div class="text-center text-muted" v-else>
-                                        No collector found, leave it blank.
+                                    <div v-if="form.errors.collector" class="invalid-feedback">
+                                        {{ form.errors.collector }}
                                     </div>
                                 </div>
 
+                                <!-- Status -->
                                 <div class="mb-3">
-                                    <label for="amount" class="form-label"
-                                        >Status</label
-                                    >
-                                    <select
-                                        v-model="form.status"
-                                        class="form-control"
-                                    >
-                                        <option value="" disabled>
-                                            Paid or Not
-                                        </option>
+                                    <label for="status" class="form-label">Status</label>
+                                    <select v-model="form.status" class="form-control">
+                                        <option value="" disabled>Paid or Not</option>
                                         <option value="paid">Paid</option>
                                         <option value="not_paid">Not</option>
                                     </select>
                                 </div>
 
+                                <!-- Purok -->
                                 <div class="mb-3">
-                                    <label for="amount" class="form-label"
-                                        >Purok</label
-                                    >
-                                    <select
-                                        v-model="form.purok"
-                                        class="form-control"
-                                    >
+                                    <label for="purok" class="form-label">Purok</label>
+                                    <select v-model="form.purok" class="form-control">
                                         <option value="purok1">1</option>
                                         <option value="purok2">2</option>
                                         <option value="purok3">3</option>
@@ -212,6 +184,7 @@ const submit = () => {
                                     </select>
                                 </div>
 
+                                <!-- Submit Button -->
                                 <div class="d-flex justify-content-end">
                                     <button
                                         type="submit"
@@ -237,6 +210,7 @@ const submit = () => {
     height: 100%;
     overflow-y: scroll;
 }
+
 .container-bottom {
     width: 50%;
     height: 30%;

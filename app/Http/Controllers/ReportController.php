@@ -21,11 +21,15 @@ class ReportController extends Controller
     $collectorStats = $collectors->map(function ($collector) use ($contributions) {
         // Filter contributions by matching collector name
         $matchedContributions = $contributions->where('collector', $collector->name);
+        $assignedMembers = memberModel::whereRaw(
+            'RIGHT(purok, 1) = ?',
+            [substr($collector->purok, -1)]
+        )->get();
 
     return [
         'collector' => $collector->name,
         'purok' => $collector->purok,
-        'members' => $matchedContributions->count(),
+        'members' => $assignedMembers->count(),
         'paid' => $matchedContributions->where('status', 'paid')->count(),
         'not_paid' => $matchedContributions->where('status', 'not_paid')->count(),
         'total_amount' => $matchedContributions->sum('amount'),

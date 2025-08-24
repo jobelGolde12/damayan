@@ -86,6 +86,7 @@ watch(
     height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
+    padding-bottom: 8rem;
 }
 .add-space-at-bottom{
   display: none;

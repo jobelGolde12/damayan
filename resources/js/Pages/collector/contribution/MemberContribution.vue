@@ -1,108 +1,162 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import CollectorLayout from '@/Layouts/CollectorLayout.vue';
 import { defineProps, watch, ref } from 'vue';
+import { useForm } from '@inertiajs/vue3';
 import PurokComponentForCollector from '@/Components/dashboard/contribution/PurokComponentForCollector.vue';
+
 const props = defineProps({
-  member: {
-    type: Array,
-    default: () => []
-  },
-  selectedPurok: {
-    type: String,
-    default: () => ''
-  }
+  member: Array,
+  selectedPurok: String,
+  collectors: Array,
+  paidMembersId: Array,
 })
+
 let getMember = ref([]);
 let getSelectedPurok = ref('');
-watch(
-  () => props.member,
-  (newData) => {
-    getMember.value = newData;
-    // console.log("member: " , getMembers.value)
-  },
-  {immediate: true}
-)
-watch(
-  () => props.selectedPurok,
-  (newData) => {
-    getSelectedPurok.value = newData;
-  },
-  {immediate: true}
-)
-const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+let getCollectors = ref([]);
+let getPaidMembersId = ref([]);
+let selectedMemberId = ref(null);
+let selectedMemberPurok = ref('');
+let selectedCollector = ref('');
+
+watch(() => props.member, (newData) => getMember.value = newData, { immediate: true });
+watch(() => props.selectedPurok, (newData) => getSelectedPurok.value = newData, { immediate: true });
+watch(() => props.collectors, (newData) => getCollectors.value = newData, { immediate: true });
+watch(() => props.paidMembersId, (newData) => getPaidMembersId.value = newData, { immediate: true });
+
+const form = useForm({
+  member_id: null,
+  amount: 100,
+  payment_date: new Date().toISOString().split("T")[0],
+  collector: null,
+  purok: '',
+  status: 'paid',
+});
+
+// normalize member purok ("Purok 1") → enum ("purok1")
+const normalizePurok = (purok) => {
+  if (!purok) return '';
+  return purok.toLowerCase().replace(/\s+/g, ''); // "Purok 1" → "purok1"
 };
-function formatAmount(value) {
-  if (value == null) return 'N/A';
-  return parseFloat(value); 
-}
 
+// assign member before opening modal
+const preparePayment = (memberId, memberPurok) => {
+  selectedMemberId.value = memberId;
+  selectedMemberPurok.value = memberPurok;
+  selectedCollector.value = ''; // reset
+};
+
+// confirm when Done clicked
+const confirmPayment = () => {
+  form.member_id = selectedMemberId.value;
+  form.purok = normalizePurok(selectedMemberPurok.value);
+  form.collector = selectedCollector.value;
+
+  form.post(route('contributions.store'), {
+    onSuccess: () => {
+      const member = getMember.value.find(m => m.id === selectedMemberId.value);
+      if (member) member.paid = true;
+      // Bootstrap auto closes modal (since we used data-bs-dismiss)
+    }
+  });
+};
 </script>
+
 <template>
-    <Head title="Member contribution"/>
-    <div>
-        <CollectorLayout>
+  <Head title="Member contribution"/>
+  <CollectorLayout>
+    <div class="container">
+      <div class="bg-light p-2">
+        <h6 class="mt-4 ms-2">Payment Contribution</h6>
 
-             <div class="container">
-    <div class="bg-light  p-2">
-         <div>
-          <h6 class="mt-4 ms-2">Payment Contribution</h6>
+        <PurokComponentForCollector :activePurok="getSelectedPurok"/>
+
+        <div class="table-wrapper mt-3" v-if="getMember.length > 0">
+          <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+            <table class="table table-bordered table-hover align-middle text-center mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>NAME</th>
+                  <th>CONTACT NO.</th>
+                  <th>PUROK</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(mem, index) in getMember" :key="index">
+                  <td>{{ mem?.id }}</td>
+                  <td class="text-start">{{ mem?.first_name }} {{ mem?.middle_name }} {{ mem?.last_name }}</td>
+                  <td>{{ mem?.contact_number || 'undefined' }}</td>
+                  <td>{{ mem?.purok || 'N/A' }}</td>
+                  <td>
+                    <button 
+                      v-if="!(getPaidMembersId || []).includes(mem?.id)"
+                      class="btn btn-success"
+                      data-bs-toggle="modal"
+                      data-bs-target="#collectorModal"
+                      @click="preparePayment(mem.id, mem.purok)">
+                      Paid
+                    </button>
+                    <button v-else class="btn btn-success">
+                      <i class="bi bi-check-lg"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div>
-          <PurokComponentForCollector :activePurok="getSelectedPurok"/>
+
+        <div class="container mt-4 text-center" v-else>
+          <img src="../../../../images/not_found.svg" alt="No Data" class="not-found-image image-rounded">
+          <h5 class="fw-light">No contribution found in 
+            <span class="text-success"> {{ getSelectedPurok || 'N/A' }}</span>.
+          </h5>
         </div>
-
-      <div class="table-responsive mt-3" v-if="getMember.length > 0">
-        <table class="table table-bordered table-hover align-middle text-center">
-          <thead class="table-light">
-            <tr>
-              <th>ID</th>
-              <th>NAME</th>
-              <th>CONTACT NO.</th>
-              <th>PUROK</th>
-              <th>STATUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(mem, index) in getMember" :key="index">
-              <td>{{ mem?.id }}</td>
-              <td class="text-start">{{ mem?.first_name }} {{ mem?.middle_name }} {{ mem?.last_name }}</td>
-              <td>{{ mem?.contact_number || 'undefined' }}</td>
-              <td>
-                {{ mem?.purok || 'N/A' }}
-              </td>
-              <td>
-                <button class="status-button">Paid</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="container mt-4 text-center" v-else>
-        <img src="../../../../images/not_found.svg" alt="No Data" class="not-found-image image-rounded">
-        <h5 class="fw-light">No contribution found in <span class="text-success"> {{ getSelectedPurok || 'N/A' }}</span>.</h5>
       </div>
     </div>
-  </div>
-        </CollectorLayout>
+
+    <!-- Collector Modal -->
+    <div class="modal fade" id="collectorModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Select Collector</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <select v-model="selectedCollector" class="form-select">
+              <option value="" disabled>Select collector</option>
+              <option v-for="col in getCollectors" :key="col.id" :value="col.name">
+                {{ col.name }}
+              </option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button 
+              type="button" 
+              class="btn btn-primary" 
+              @click="confirmPayment" 
+              :disabled="!selectedCollector"
+              data-bs-dismiss="modal">
+              Done
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+  </CollectorLayout>
 </template>
 
 <style scoped>
-.not-found-image{
-  width: 200px;
-  margin: auto;
-  margin-bottom: 2rem;
-}
-.status-button {
-  background-color: #0CF32F;
-  color: #333;
-  border: none;
-  padding: 0.3rem .7rem;
-  border-radius: 0.25rem;
-  cursor: pointer;
+.not-found-image {
+  width: 250px;
+  height: auto;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto 15px;
 }
 </style>
