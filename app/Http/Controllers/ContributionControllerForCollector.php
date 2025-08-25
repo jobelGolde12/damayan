@@ -26,20 +26,41 @@ class ContributionControllerForCollector extends Controller
     }
 
   public function toggleContributionPurok($purok){
-        $mem = memberModel::whereHas('contributions', function ($query) use ($purok){
-            $query->where('purok', $purok);
-        })->with('contributions')->get();
+        switch ($purok) {
+        case 'all':
+            $formatPurok = 'all';
+            break;
+        case 'purok1':
+            $formatPurok = 'Purok 1';
+            break;
+        case 'purok2':
+            $formatPurok = 'Purok 2';
+            break;
+        case 'purok3':
+            $formatPurok = 'Purok 3';
+            break;
+        case 'purok4':
+            $formatPurok = 'Purok 4';
+            break;
+        default:
+            $formatPurok = '';
+    }
 
-        if($mem->empty()){
-            if($purok == 'all'){
-                $mem = memberModel::with('contributions')->get();
-            }
-        }
-        $selectedPurok = $purok;
+    $mem = memberModel::where('purok', $formatPurok)
+    ->with('contributions')->get();
+
+    if ($mem->isEmpty() && $purok === 'all') {
+        $mem = memberModel::with('contributions')->get();
+    }
+
+    $collectors = User::select('id', 'name', 'purok')
+        ->where('role', 'collector')
+        ->get();
+
         $paidMembersId = ContributionModel::pluck('member_id')->toArray();
         return Inertia::render('collector/contribution/MemberContribution', [
             'member' => $mem,
-            'selectedPurok' => $selectedPurok,
+            'selectedPurok' => $purok,
             'paidMembersId' => $paidMembersId,
         ]);
     }

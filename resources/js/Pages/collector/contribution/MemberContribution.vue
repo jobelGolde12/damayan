@@ -34,7 +34,8 @@ const form = useForm({
   status: 'paid',
 });
 
-// normalize member purok ("Purok 1") → enum ("purok1")
+// convert ("Purok 1") to enum ("purok1")
+//since nag ka conflict sa database
 const normalizePurok = (purok) => {
   if (!purok) return '';
   return purok.toLowerCase().replace(/\s+/g, ''); // "Purok 1" → "purok1"

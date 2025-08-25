@@ -30,10 +30,15 @@ let getUnpaidMembers = ref(0);
 let getActiveStatus = ref('paid');
 watch(() => props.contributions, (newContributions) => {
     getContributions.value = newContributions;
-    getAmmount.value = newContributions.reduce((total, contribution) => total + contribution.amount, 0);
+
+    getAmmount.value = parseInt(
+        newContributions.reduce((total, con) => total + parseFloat(con.amount), 0)
+    );
+
     getPaidMembers.value = newContributions.filter(contribution => contribution.status == 'paid').length;
-    getUnpaidMembers.value = newContributions.filter(contribution => !contribution.status != 'paid').length;
-    getMembersCount.value = (getPaidMembers.value + getUnpaidMembers.value)
+    getUnpaidMembers.value = newContributions.filter(contribution => contribution.status != 'paid').length;
+    getMembersCount.value = (getPaidMembers.value + getUnpaidMembers.value);
+
 }, { immediate: true });
 
 watch(() => props.activePurok, (newPurok) => {

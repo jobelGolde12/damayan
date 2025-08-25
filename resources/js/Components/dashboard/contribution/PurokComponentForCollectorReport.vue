@@ -17,7 +17,6 @@ watch(
     () => props.activePurok,
     (newData) => {
         getActivePurok.value = newData;
-        console.log("Active Purok: ", getActivePurok.value);
     },
     {immediate: true}
 )

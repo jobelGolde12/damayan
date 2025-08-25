@@ -53,7 +53,7 @@ const updateChart = () => {
       {
         name: 'Disbursed',
         type: 'bar',
-        data: disbursed,
+        data: collected,
         itemStyle: { color: '#00cc00', borderWidth: 1 },
         label: { show: false },
       },
