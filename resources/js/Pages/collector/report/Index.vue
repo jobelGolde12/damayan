@@ -1,7 +1,7 @@
 <script setup>
+import { defineProps, ref, watch } from 'vue';
 import CollectorLayout from '@/Layouts/CollectorLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
-import { defineProps, ref, watch } from 'vue';
 import SubHeaderForCollectorReport from '@/Components/dashboard/SubHeaderForCollectorReport.vue';
 import TogglePaidOrUnPaid from '@/Components/dashboard/TogglePaidOrUnPaid.vue';
 import ReportTable from '@/Components/dashboard/ReportTable.vue';
@@ -19,6 +19,14 @@ const props = defineProps({
     activeStatus: {
         type: String,
         default: () => 'paid'
+    },
+    contributionsIds: {
+        type: Array,
+        default: () => []
+    },
+    members: {
+        type: Array,
+        default: () => []
     }
 });
 let getContributions = ref([]);
@@ -28,9 +36,10 @@ let getAmmount = ref(0);
 let getPaidMembers = ref(0);
 let getUnpaidMembers = ref(0);
 let getActiveStatus = ref('paid');
+let getContributionsIds = ref([]);
+const getMembers = ref([]);
 watch(() => props.contributions, (newContributions) => {
     getContributions.value = newContributions;
-
     getAmmount.value = parseInt(
         newContributions.reduce((total, con) => total + parseFloat(con.amount), 0)
     );
@@ -48,6 +57,17 @@ watch(() => props.activePurok, (newPurok) => {
 watch(() => props.activeStatus, (newStatus) => {
     getActiveStatus.value = newStatus;
 }, { immediate: true });
+import { toRaw } from 'vue';
+
+watch(() => props.contributionsIds, (newContributionsIds) => {
+    console.log("Raw contributionsIds:", toRaw(newContributionsIds));
+    getContributionsIds.value = Array.isArray(newContributionsIds) ? [...newContributionsIds] : [];
+}, { immediate: true });
+
+watch(() => props.members, (newMembers) => {
+    getMembers.value = newMembers;
+}, { immediate: true });
+
 </script>
 
 <template>
@@ -74,11 +94,14 @@ watch(() => props.activeStatus, (newStatus) => {
                       :unpaidMembers="getUnpaidMembers"
                       />
 
-                      <TogglePaidOrUnPaid 
+
+                      <ReportTable 
                       :activeStatus="getActiveStatus"
                       :activePurok="getActivePurok"
+                      :contributions="getContributions"
+                      :contributionsIds="getContributionsIds"
+                      :members="getMembers"
                       />
-                      <ReportTable :contributions="getContributions"/>
         </CollectorLayout>
     </div>
 </template>

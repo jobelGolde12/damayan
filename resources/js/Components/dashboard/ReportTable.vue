@@ -1,24 +1,82 @@
-
 <script setup>
-import { defineProps, ref, watch } from 'vue';
+import { defineProps, ref, watch, computed } from 'vue';
+
 const props = defineProps({
-    contributions: {
+    activeStatus: {
+        type: String,
+        default: 'paid' // ✅ default to paid
+    },
+    contributionsIds: {
+        type: Array,
+        default: () => []
+    },
+    members: {
         type: Array,
         default: () => []
     }
 });
-let getContributions = ref([]);
-watch(() => props.contributions, (newContributions) => {
-    getContributions.value = newContributions;
-    console.log("Contributions from table:  ", getContributions.value);
+
+let getActiveStatus = ref('paid'); 
+let getContributionsIds = ref([]);
+let getMembers = ref([]);
+
+// Watchers
+watch(() => props.activeStatus, (newStatus) => {
+    getActiveStatus.value = newStatus;
 }, { immediate: true });
+
+watch(() => props.contributionsIds, (newIds) => {
+    getContributionsIds.value = newIds;
+}, { immediate: true });
+
+watch(() => props.members, (newMembers) => {
+    getMembers.value = newMembers;
+}, { immediate: true });
+
+// Toggle Status
+const toggleStatusFunc = (status) => {
+    getActiveStatus.value = status;
+};
+
+// Computed filtered members
+const filteredMembers = computed(() => {
+    if (getActiveStatus.value === 'paid') {
+        // Show only members with contribution IDs (paid)
+        return getMembers.value.filter(m => 
+            getContributionsIds.value.includes(m.id)
+        );
+    } else if (getActiveStatus.value === 'not_paid') {
+        // Show only members NOT in contribution IDs (unpaid)
+        return getMembers.value.filter(m => 
+            !getContributionsIds.value.includes(m.id)
+        );
+    }
+    return getMembers.value;
+});
 </script>
 
 <template>
     <div>
-        <div class="container">
-            <table class="table" v-if="getContributions.length > 0">
-                <thead class="thead">
+        <!-- STATUS TOGGLE -->
+        <div class="container-fluid d-flex gap-3 align-items-center mb-3">
+            <h5 
+                class="choice" 
+                :class="{'text-success': getActiveStatus == 'paid'}"
+                @click="toggleStatusFunc('paid')">
+                PAID
+            </h5>
+            <h5 
+                class="choice" 
+                :class="{'text-success': getActiveStatus == 'not_paid'}"
+                @click="toggleStatusFunc('not_paid')">
+                UNPAID
+            </h5>
+        </div>
+
+        <!-- MEMBERS TABLE -->
+        <div class="table-responsive table-container">
+            <table class="table" v-if="filteredMembers.length > 0">
+                <thead>
                     <tr>
                         <th class="bg-light">ID</th>
                         <th class="bg-light">NAME</th>
@@ -29,34 +87,49 @@ watch(() => props.contributions, (newContributions) => {
                 </thead>
 
                 <tbody>
-                    <tr v-for="contribution in getContributions" :key="contribution.id">
-                        <td class="bg-light">{{ contribution.id }}</td>
+                    <tr v-for="member in filteredMembers" :key="member.id">
+                        <td class="bg-light">{{ member.id }}</td>
                         <td class="bg-light">
-                            {{ contribution?.member_contribution.first_name }}
-                            {{ contribution?.member_contribution.middle_name }}
-                            {{ contribution?.member_contribution.last_name }}
+                            {{ member.first_name }} {{ member.middle_name }} {{ member.last_name }}
                         </td>
                         <td class="bg-light">
-                            {{ contribution?.member_contribution.contact_number }}
+                            {{ member.contact_number }}
                         </td>
                         <td class="bg-light">
-                            {{ contribution?.member_contribution.purok }}
+                            {{ member.purok }}
                         </td>
-                        <td class="bg-light">
-                            <i class="bi bi-check-circle text-success fs-5 text-center" v-if="contribution?.status == 'paid'"></i>
-                            <i class="bi bi-ban text-danger fs-5 text-center" v-else></i>
+                        <td class="bg-light text-center">
+                            <i class="bi bi-check-circle text-success fs-5" v-if="getContributionsIds.includes(member.id)"></i>
+                            <i class="bi bi-ban text-danger fs-5" v-else></i>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <div v-else class="text-center">
-                <p class="text-muted">No contributions found.</p>   
-                </div>
+
+            <div v-else class="text-center p-3">
+                <p class="text-muted">No members found.</p>
+            </div>
         </div>
     </div>
 </template>
 
-
 <style lang="css" scoped>
+.choice {
+    font-size: 1rem;
+    cursor: pointer;
+}
+.choice:hover {
+    color: #007bff;
+    text-decoration: underline;
+}
+.choice.active {
+    color: #0CF32F;
+    font-weight: bold;
+}
 
+.table-container {
+    max-height: 400px; 
+    overflow-y: auto;
+    overflow-x: auto;
+}
 </style>
