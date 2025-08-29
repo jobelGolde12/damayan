@@ -23,4 +23,7 @@ class AdminSeeder extends Seeder
             'role' => 'admin',
         ]);
     }
+    //collector (already in database)
+    // jiji_protectdamayan@gmail.org 
+    // iamjiji123
 }

@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import CollectorLayout from '@/Layouts/CollectorLayout.vue';
 import { defineProps, watch, ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
@@ -62,6 +62,22 @@ const confirmPayment = () => {
     }
   });
 };
+
+const unPaidFunc = (memberId) => {
+  // Logic to mark a member as unpaid
+  const member = getMember.value.find(m => m.id === memberId);
+  if (member){
+     member.paid = false;
+    router.delete(route('collectorContribution.deleteContribution', memberId), {
+      onSuccess: () => {
+        alert('Member marked as unpaid successfully.');
+      },
+      onError: () => {
+        alert("An error occured, please try again.");
+      }
+    });
+    };
+};
 </script>
 
 <template>
@@ -97,10 +113,12 @@ const confirmPayment = () => {
                       class="btn btn-success"
                       data-bs-toggle="modal"
                       data-bs-target="#collectorModal"
-                      @click="preparePayment(mem.id, mem.purok)">
+                      @click="preparePayment(mem.id, mem.purok)"
+                      title="Mark member as paid"
+                      >
                       Paid
                     </button>
-                    <button v-else class="btn btn-success">
+                    <button v-else class="btn btn-success" @click="unPaidFunc(mem.id)" title="Mark member as unpaid">
                       <i class="bi bi-check-lg"></i>
                     </button>
                   </td>

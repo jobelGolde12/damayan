@@ -64,4 +64,12 @@ class ContributionControllerForCollector extends Controller
             'paidMembersId' => $paidMembersId,
         ]);
     }
+
+    public function deleteContribution($id){
+        $contribution = ContributionModel::where('member_id', $id)->first();
+        if ($contribution) {
+            $contribution->delete();
+        }
+        return redirect()->back()->with(['success' => 'Contribution deleted successfully.']);
+    }
 }

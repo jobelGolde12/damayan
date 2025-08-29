@@ -111,7 +111,8 @@ Route::prefix('collector')->name('collector.')->middleware('auth')->group(functi
 Route::prefix('collector-contribution')->name('collectorContribution.')->middleware('auth')->group(function (){
     Route::get('/view-contribution-as-collector', [ContributionControllerForCollector::class, 'index'])->name('index');
     Route::get('/toggle-purok-as-collector/{purok}', [ContributionControllerForCollector::class, 'toggleContributionPurok'])->name('togglePurok');
-}); 
+    Route::delete('/delete-contribution/{id}', [ContributionControllerForCollector::class, 'deleteContribution'])->name('deleteContribution');
+});
 Route::prefix('collectorProfile')->name('collectorProfile.')->middleware('auth')->group(function (){
     Route::get('/view-profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/edit-profile-page', [ProfileController::class, 'editRoute'])->name('editRoute');
