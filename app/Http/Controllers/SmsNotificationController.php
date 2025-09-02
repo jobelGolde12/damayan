@@ -68,4 +68,17 @@ class SmsNotificationController extends Controller
         
     return redirect()->back()->with('success', 'Notification data saved.');
     }
+
+    public function selectMembers(Request $request)
+    {
+        $type = $request->input('type');
+        $message = $request->input('message');
+        $members = $request->input('members');
+
+        return Inertia::render('SelectMemberForSms', [
+            'members' => $members,
+            'message' => $message,
+            'type' => $type
+        ]);
+    }
 }

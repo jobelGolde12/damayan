@@ -130,5 +130,6 @@ Route::prefix('smsNotification')->name('smsNotification.')->middleware('auth')->
     Route::get('/sms-notification', [SmsNotificationController::class, 'index'])->name('index'); // Para sa settings > sms notifications
     Route::get('/sms-page', [SmsNotificationController::class, 'smsPage'])->name('smsPage'); // Para sms na route (yung sa sidenav)
     Route::post('/add-death-report', [SmsNotificationController::class, 'addDeathReport'])->name('addDeathReport');
+    Route::get('/select-members', [SmsNotificationController::class, 'selectMembers'])->name('selectMembers');
 });
 require __DIR__.'/auth.php';
